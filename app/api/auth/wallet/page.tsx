@@ -23,7 +23,7 @@ export default function Home() {
     if (user) {
       console.log("user exists");
 
-      redirect("/");
+      // redirect("/");
     }
   }, [user]);
 
