@@ -17,30 +17,30 @@ export async function middleware(request: any) {
     return NextResponse.next();
   }
 
-//   if (
-//     !privyToken &&
-//     request.nextUrl.pathname !== twitterAuthUrl &&
-//     request.nextUrl.pathname !== twitterCallbackUrl &&
-//     request.nextUrl.pathname !== privyAuthUrl
-//   ) {
-//     // User is not authenticated
-//     const url = request.nextUrl.clone();
-//     url.pathname = privyAuthUrl;
-//     return NextResponse.redirect(url);
-//   }
+  if (
+    !privyToken &&
+    request.nextUrl.pathname !== twitterAuthUrl &&
+    request.nextUrl.pathname !== twitterCallbackUrl &&
+    request.nextUrl.pathname !== privyAuthUrl
+  ) {
+    // User is not authenticated
+    const url = request.nextUrl.clone();
+    url.pathname = privyAuthUrl;
+    return NextResponse.redirect(url);
+  }
 
-//   if (
-//     !nextAuthToken &&
-//     request.nextUrl.pathname !== twitterAuthUrl &&
-//     request.nextUrl.pathname !== twitterCallbackUrl &&
-//     request.nextUrl.pathname !== privyAuthUrl
-//   ) {
-//     console.log("here");
-//     // User is not authenticated
-//     const url = request.nextUrl.clone();
-//     url.pathname = twitterAuthUrl;
-//     return NextResponse.redirect(url);
-//   }
+  if (
+    !nextAuthToken &&
+    request.nextUrl.pathname !== twitterAuthUrl &&
+    request.nextUrl.pathname !== twitterCallbackUrl &&
+    request.nextUrl.pathname !== privyAuthUrl
+  ) {
+    console.log("here");
+    // User is not authenticated
+    const url = request.nextUrl.clone();
+    url.pathname = twitterAuthUrl;
+    return NextResponse.redirect(url);
+  }
 
   return NextResponse.next();
 }
