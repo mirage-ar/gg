@@ -23,7 +23,6 @@ export async function middleware(request: any) {
     request.nextUrl.pathname !== twitterCallbackUrl &&
     request.nextUrl.pathname !== privyAuthUrl
   ) {
-    // User is not authenticated
     const url = request.nextUrl.clone();
     url.pathname = privyAuthUrl;
     return NextResponse.redirect(url);
@@ -32,11 +31,8 @@ export async function middleware(request: any) {
   if (
     !nextAuthToken &&
     request.nextUrl.pathname !== twitterAuthUrl &&
-    request.nextUrl.pathname !== twitterCallbackUrl &&
-    request.nextUrl.pathname !== privyAuthUrl
+    request.nextUrl.pathname !== twitterCallbackUrl
   ) {
-    console.log("here");
-    // User is not authenticated
     const url = request.nextUrl.clone();
     url.pathname = twitterAuthUrl;
     return NextResponse.redirect(url);
