@@ -114,6 +114,14 @@ a {
   z-index: 1000;
 }
 
+.user-marker {
+  background-color: lightblue;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  z-index: 1000;
+}
+
 .box {
   background-color: lightgreen;
   width: 20px;

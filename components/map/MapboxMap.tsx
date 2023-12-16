@@ -7,7 +7,7 @@ import { usePrivy } from "@privy-io/react-auth";
 import { calculateDistance } from "@/utils";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-import type { MarkerData, BoxData } from "@/types";
+import type { MarkerData, BoxData, User } from "@/types";
 import { LOCATION_SOCKET_URL, GET_BOXES_URL, COLLECT_BOX_URL } from "@/utils";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN as string;
@@ -24,14 +24,15 @@ const MapboxMap: React.FC = () => {
   const boxesRef = useRef<MarkersObject>({});
   const [boxes, setBoxes] = useState<BoxData[]>([]);
   const [boxCollect, setBoxCollect] = useState<BoxData | null>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   const [showCollectButton, setShowCollectButton] = useState(false);
 
-  const { user } = usePrivy();
-  const router = useRouter();
-
   // SETUP MAP
   useEffect(() => {
+    const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user") as string) : null;
+    setUser(user);
+
     const map = new mapboxgl.Map({
       container: mapContainerRef.current as HTMLElement,
       // TODO: update to NYC or user location
@@ -67,16 +68,9 @@ const MapboxMap: React.FC = () => {
         (position) => {
           console.log("position", position);
           // TODO: if user is within box location radius, redirect to collect page
-          checkProximityToBoxes(
-            position.coords.latitude,
-            position.coords.longitude
-          );
+          checkProximityToBoxes(position.coords.latitude, position.coords.longitude);
 
-          if (
-            markersSocket.current &&
-            markersSocket.current.readyState === WebSocket.OPEN &&
-            user?.id
-          ) {
+          if (markersSocket.current && markersSocket.current.readyState === WebSocket.OPEN && user?.id) {
             sendCurrentLocation(position, user.id, markersSocket.current);
           }
         },
@@ -128,11 +122,7 @@ const MapboxMap: React.FC = () => {
   }, []);
 
   // SEND CURRENT LOCATION
-  const sendCurrentLocation = (
-    position: GeolocationPosition,
-    id: string,
-    webSocket: WebSocket
-  ) => {
+  const sendCurrentLocation = (position: GeolocationPosition, id: string, webSocket: WebSocket) => {
     const location = {
       id: id,
       latitude: position.coords.latitude,
@@ -148,12 +138,7 @@ const MapboxMap: React.FC = () => {
   const checkProximityToBoxes = (userLat: number, userLng: number) => {
     boxes.forEach((box) => {
       if (box.collected) return;
-      const distance = calculateDistance(
-        userLat,
-        userLng,
-        box.latitude,
-        box.longitude
-      );
+      const distance = calculateDistance(userLat, userLng, box.latitude, box.longitude);
       // TODO: update to 9 meters
       if (distance <= 500) {
         console.log(`User is within 9 meters of box with id: ${box.id}`);
@@ -176,15 +161,25 @@ const MapboxMap: React.FC = () => {
         // Marker exists, update its position
         existingMarker.setLngLat([message.longitude, message.latitude]);
       } else {
-        // Marker doesn't exist, create a new one
-        const el = document.createElement("div");
-        el.className = "marker";
+        if (message.id === user?.id) {
+          // User marker
+          const el = document.createElement("img");
+          el.className = "user-marker";
+          console.log(user.pfp);
+          el.src = user.pfp;
 
-        const newMarker = new mapboxgl.Marker(el)
-          .setLngLat([message.longitude, message.latitude])
-          .addTo(map);
+          const newMarker = new mapboxgl.Marker(el).setLngLat([message.longitude, message.latitude]).addTo(map);
 
-        markersRef.current[message.id] = newMarker;
+          markersRef.current[message.id] = newMarker;
+        } else {
+          // Marker doesn't exist, create a new one
+          const el = document.createElement("div");
+          el.className = "marker";
+
+          const newMarker = new mapboxgl.Marker(el).setLngLat([message.longitude, message.latitude]).addTo(map);
+
+          markersRef.current[message.id] = newMarker;
+        }
       }
     }
   };
@@ -204,9 +199,7 @@ const MapboxMap: React.FC = () => {
         const el = document.createElement("div");
         el.className = "box";
 
-        const newMarker = new mapboxgl.Marker(el)
-          .setLngLat([box.longitude, box.latitude])
-          .addTo(map);
+        const newMarker = new mapboxgl.Marker(el).setLngLat([box.longitude, box.latitude]).addTo(map);
 
         boxesRef.current[box.id] = newMarker;
       }
@@ -217,7 +210,7 @@ const MapboxMap: React.FC = () => {
   const handleCollectClick = async () => {
     if (user?.id && boxCollect?.id) {
       try {
-        console.log("Collecting box...")
+        console.log("Collecting box...");
         const response = await fetch(`${COLLECT_BOX_URL}`, {
           method: "POST",
           headers: {
@@ -255,13 +248,11 @@ const MapboxMap: React.FC = () => {
           position: "absolute",
           top: 0,
           left: 0,
-          zIndex: "-1000"
+          zIndex: "-1000",
         }}
       />
       {showCollectButton && (
-        <div
-          style={{ position: "fixed", left: "50%", top: "50%", zIndex: 100 }}
-        >
+        <div style={{ position: "fixed", left: "50%", top: "50%", zIndex: 100 }}>
           <button onClick={handleCollectClick}>Collect Box</button>
         </div>
       )}

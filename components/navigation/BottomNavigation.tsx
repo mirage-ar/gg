@@ -6,22 +6,22 @@ const BottomNavigation: React.FC = () => {
     <nav className={styles.bottomNav}>
       <ul className={styles.navList}>
         <li className={styles.navItem}>
-          <Link href="/" className={styles.navLink}>
+          <Link href="/hunt" className={styles.navLink}>
             Map
           </Link>
         </li>
         <li className={styles.navItem}>
-          <Link href="/chat" className={styles.navLink}>
+          <Link href="/hunt/chat" className={styles.navLink}>
             Chat
           </Link>
         </li>
         <li className={styles.navItem}>
-          <Link href="/leaderboard" className={styles.navLink}>
+          <Link href="/hunt/leaderboard" className={styles.navLink}>
             Leaderboard
           </Link>
         </li>
         <li className={styles.navItem}>
-          <Link href="/profile" className={styles.navLink}>
+          <Link href="/hunt/profile" className={styles.navLink}>
             Profile
           </Link>
         </li>

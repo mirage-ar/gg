@@ -1,3 +1,10 @@
+export type User = {
+  id: string;
+  username: string;
+  wallet: string;
+  pfp: string;
+};
+
 export type LocationData = {
   id: string;
   latitude: number;

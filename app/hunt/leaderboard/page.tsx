@@ -5,6 +5,7 @@ import styles from "./page.module.css";
 import { usePrivy } from "@privy-io/react-auth";
 import MapboxMap from "@/components/map/MapboxMap";
 import { useEffect } from "react";
+import Leaderboard from "@/components/leaderboard/Leaderboard";
 
 export default function Home() {
   useEffect(() => {
@@ -12,7 +13,7 @@ export default function Home() {
   });
   return (
     <main>
-      <h1>Leaderboard</h1>
+      <Leaderboard />
     </main>
   );
 }
