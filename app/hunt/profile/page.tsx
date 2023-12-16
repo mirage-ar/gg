@@ -1,12 +1,8 @@
 "use client";
 
-import Image from "next/image";
-import styles from "./page.module.css";
-import { usePrivy } from "@privy-io/react-auth";
-import MapboxMap from "@/components/map/MapboxMap";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
-export default function Home() {
+const ProfilePage: React.FC = () => {
   useEffect(() => {
     console.log("profile page");
   });
@@ -15,4 +11,6 @@ export default function Home() {
       <h1>Profile</h1>
     </main>
   );
-}
+};
+
+export default ProfilePage;

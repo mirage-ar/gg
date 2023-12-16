@@ -1,10 +1,7 @@
 "use client";
 
-import Image from "next/image";
-import styles from "./page.module.css";
+import React, { useEffect } from "react";
 import { usePrivy } from "@privy-io/react-auth";
-import MapboxMap from "@/components/map/MapboxMap";
-import { useEffect } from "react";
 
 function LogoutButton() {
   const { logout } = usePrivy();
@@ -16,7 +13,7 @@ function LoginButton() {
     return <button onClick={login}>Log In</button>;
   }
 
-export default function Home() {
+const ChatPage: React.FC = () => {
   const { user } = usePrivy();
   useEffect(() => {
     console.log("chat page");
@@ -29,3 +26,5 @@ export default function Home() {
     </main>
   );
 }
+
+export default ChatPage;

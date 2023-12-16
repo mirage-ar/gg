@@ -1,14 +1,24 @@
 "use client";
 
-import Image from "next/image";
-import styles from "./page.module.css";
+import React, { useEffect } from "react";
 import { usePrivy } from "@privy-io/react-auth";
-import MapboxMap from "@/components/map/MapboxMap";
+import { useRouter } from "next/navigation";
 
-export default function Home() {
+const Home: React.FC = () => {
+  // const { user } = usePrivy();
+  const router = useRouter();
+
+  // useEffect(() => {
+  //   if (!user) {
+  //     router.push("/api/auth/login");
+  //   }
+  // });
+
   return (
     <main>
       <h1>Home</h1>
     </main>
   );
-}
+};
+
+export default Home;

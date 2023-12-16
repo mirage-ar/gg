@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { usePrivy } from "@privy-io/react-auth";
 
@@ -41,7 +41,7 @@ async function createUser(id: string, username: string, wallet: string): Promise
   return user;
 }
 
-export default function Home() {
+const LoginPage: React.FC = () => {
   const { user } = usePrivy();
   const router = useRouter();
 
@@ -53,8 +53,8 @@ export default function Home() {
 
           localStorage.setItem("user", JSON.stringify(createdUser));
 
-          router.push("/hunt");
-          // TODO: check if user has wallet balance and redirect to wallet page
+          // Move user to wallet page
+          router.push("/api/auth/wallet");
         } else {
           // TODO: log messages to LOGGING service
           console.error("User object not created");
@@ -72,4 +72,6 @@ export default function Home() {
       <div>{user && <LogoutButton />}</div>
     </main>
   );
-}
+};
+
+export default LoginPage;

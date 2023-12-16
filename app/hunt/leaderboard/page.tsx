@@ -1,13 +1,9 @@
 "use client";
 
-import Image from "next/image";
-import styles from "./page.module.css";
-import { usePrivy } from "@privy-io/react-auth";
-import MapboxMap from "@/components/map/MapboxMap";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import Leaderboard from "@/components/leaderboard/Leaderboard";
 
-export default function Home() {
+const LeaderboardPage: React.FC = () => {
   useEffect(() => {
     console.log("leaderboard page");
   });
@@ -16,4 +12,6 @@ export default function Home() {
       <Leaderboard />
     </main>
   );
-}
+};
+
+export default LeaderboardPage;

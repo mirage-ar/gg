@@ -11,6 +11,7 @@ export const CREATE_USER_URL = "https://z76xnh7p6a.execute-api.us-east-1.amazona
 
 // TODO: update this to a constants file
 
+// TODO: move this to a utils file
 export const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
   const R = 6371e3; // metres
   const φ1 = (lat1 * Math.PI) / 180; // φ, λ in radians

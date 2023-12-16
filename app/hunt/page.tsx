@@ -1,13 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
-import styles from "./page.module.css";
-import MapboxMap from "@/components/map/MapboxMap";
-import { User } from "@/types";
 import Chat from "@/components/chat/Chat";
 
-export default function Home() {
+import type { User } from "@/types";
+
+const MapPage: React.FC = () => {
   const [userData, setUserData] = useState<User | null>(null);
 
   useEffect(() => {
@@ -22,4 +20,6 @@ export default function Home() {
       <Chat />
     </main>
   );
-}
+};
+
+export default MapPage;

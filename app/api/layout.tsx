@@ -2,10 +2,8 @@
 
 import React from "react";
 import { PrivyProvider } from "@privy-io/react-auth";
-import MapboxMap from "@/components/map/MapboxMap";
-import BottomNavigation from "@/components/navigation/BottomNavigation";
 
-export default function HuntLayout({ children }: { children: React.ReactNode }) {
+export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <PrivyProvider
@@ -20,8 +18,6 @@ export default function HuntLayout({ children }: { children: React.ReactNode }) 
         }}
       >
         {children}
-        <MapboxMap />
-        <BottomNavigation />
       </PrivyProvider>
     </>
   );
