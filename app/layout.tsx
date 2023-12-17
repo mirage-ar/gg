@@ -8,8 +8,8 @@ import MapboxMap from "@/components/map/MapboxMap";
 import BottomNavigation from "@/components/navigation/BottomNavigation";
 
 const APP_NAME = "GG";
-const APP_DEFAULT_TITLE = "GG App";
-const APP_TITLE_TEMPLATE = "%s - App";
+const APP_DEFAULT_TITLE = "GG";
+const APP_TITLE_TEMPLATE = "%s | GG";
 const APP_DESCRIPTION = "May the odds be ever in your favor.";
 
 export const metadata: Metadata = {

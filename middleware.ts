@@ -4,6 +4,10 @@ import { NextResponse } from "next/server";
 export async function middleware(request: any) {
   const privyToken = request.cookies.get("privy-token");
 
+  const userId = request.cookies.get("user-id");
+
+  console.log(userId)
+
   const nextAuthToken = await getToken({
     req: request,
     secret: process.env.NEXT_AUTH_SECRET,
@@ -17,7 +21,8 @@ export async function middleware(request: any) {
     return NextResponse.next();
   }
 
-  if (!privyToken && request.nextUrl.pathname !== privyAuthUrl) {
+  if (!userId && request.nextUrl.pathname !== privyAuthUrl) {
+    console.log('here')
     const url = request.nextUrl.clone();
     url.pathname = privyAuthUrl;
     return NextResponse.redirect(url);

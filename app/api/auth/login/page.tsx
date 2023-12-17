@@ -49,12 +49,17 @@ const LoginPage: React.FC = () => {
     if (user) {
       const setupUser = async () => {
         if (user.wallet?.address && user.twitter?.username) {
-          const createdUser = await createUser(user.id, user.twitter?.username, user.wallet.address);
+          try {
+            const createdUser = await createUser(user.id, user.twitter?.username, user.wallet.address);
 
-          localStorage.setItem("user", JSON.stringify(createdUser));
+            localStorage.setItem("user", JSON.stringify(createdUser));
+            document.cookie = `user-id=${createdUser.id}`;
 
-          // Move user to wallet page
-          router.push("/api/auth/wallet");
+            // Move user to wallet page
+            router.push("/api/auth/wallet");
+          } catch (error) {
+            console.error("Error creating user:", error);
+          }
         } else {
           // TODO: log messages to LOGGING service
           console.error("User object not created");

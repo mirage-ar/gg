@@ -9,7 +9,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       <PrivyProvider
         appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID as string}
         config={{
-          loginMethods: ["twitter", "wallet"],
+          loginMethods: ["twitter", "wallet", "google"],
 
           appearance: {
             theme: "dark",
