@@ -31,7 +31,7 @@ const MapboxMap: React.FC = () => {
   useEffect(() => {
     const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user") as string) : null;
     if (!user) {
-      // router.push("/hunt/auth/login");
+      // router.push("/auth/login");
       console.error("User not found");
     }
     setUser(user);
@@ -164,11 +164,13 @@ const MapboxMap: React.FC = () => {
       } else {
         if (message.id === user?.id) {
           // User marker
-          const el = document.createElement("img");
-          el.className = "user-marker";
-          el.src = user.pfp;
+          const div = document.createElement("div");
+          const img = document.createElement("img");
+          div.className = "user-marker";
+          img.src = user.pfp;
+          div.appendChild(img);
 
-          const newMarker = new mapboxgl.Marker(el).setLngLat([message.longitude, message.latitude]).addTo(map);
+          const newMarker = new mapboxgl.Marker(div).setLngLat([message.longitude, message.latitude]).addTo(map);
 
           markersRef.current[message.id] = newMarker;
         } else {
@@ -243,7 +245,7 @@ const MapboxMap: React.FC = () => {
       <div
         ref={mapContainerRef}
         style={{
-          height: "110vh",
+          height: "100vh",
           width: "100vw",
           position: "absolute",
           top: 0,

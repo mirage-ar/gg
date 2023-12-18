@@ -10,7 +10,7 @@ const Home: React.FC = () => {
 
   // useEffect(() => {
   //   if (!user) {
-  //     router.push("/api/auth/login");
+  //     router.push("/auth/login");
   //   }
   // });
 

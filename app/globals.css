@@ -123,11 +123,23 @@ a {
 }
 
 .user-marker {
-  background-color: lightblue;
-  width: 30px;
-  height: 30px;
+  background-image: url('/icons/user-marker.svg');
+  background-size: cover;
+  background-position: center;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-marker img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid #42FF60;
 }
 
 .box {

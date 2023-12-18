@@ -56,7 +56,7 @@ const LoginPage: React.FC = () => {
             document.cookie = `user-id=${user.id}; path=/; max-age=31536000; samesite=strict;`;
             localStorage.setItem("user", JSON.stringify(createdUser));
 
-            router.push("/hunt/auth/wallet");
+            router.push("/auth/wallet");
           } catch (error) {
             console.error("Error creating user:", error);
           }
@@ -71,7 +71,7 @@ const LoginPage: React.FC = () => {
   }, [router, user]);
 
   return (
-    <main>
+    <main style={{width: "100vh", height: "100vh", backgroundColor: "#000", zIndex: 1000}}>
       <h1>Login</h1>
       <div>{!user && <LoginButton />}</div>
       <div>{user && <LogoutButton />}</div>
