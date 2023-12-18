@@ -11,7 +11,7 @@ export default function HuntLayout({ children }: { children: React.ReactNode }) 
       <PrivyProvider
         appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID as string}
         config={{
-          loginMethods: ["twitter", "wallet", "google"],
+          loginMethods: ["twitter"],
 
           appearance: {
             theme: "dark",

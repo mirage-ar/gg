@@ -1,17 +1,6 @@
-export const LOCATION_SOCKET_URL = "wss://mv61i03v62.execute-api.us-east-1.amazonaws.com/dev";
-export const CHAT_SOCKET_URL = "wss://dczlq0q7ie.execute-api.us-east-1.amazonaws.com/dev";
+// UTILS
 
-// TODO: match names in server
-export const GET_MESSAGES_URL = "https://1x0fu0o94f.execute-api.us-east-1.amazonaws.com/";
-export const GET_POINTS_URL = "https://7evfvjybr9.execute-api.us-east-1.amazonaws.com/";
-export const GET_BOXES_URL = "https://d7lhpppvu6.execute-api.us-east-1.amazonaws.com";
-
-export const COLLECT_BOX_URL = "https://cgt2ejkk93.execute-api.us-east-1.amazonaws.com/collect";
-export const CREATE_USER_URL = "https://z76xnh7p6a.execute-api.us-east-1.amazonaws.com";
-
-// TODO: update this to a constants file
-
-// TODO: move this to a utils file
+/* Calculate distance between two points in meters */
 export const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
   const R = 6371e3; // metres
   const φ1 = (lat1 * Math.PI) / 180; // φ, λ in radians

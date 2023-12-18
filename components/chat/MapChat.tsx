@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import styles from "./Chat.module.css";
+import * as DateFNS from "date-fns";
+import styles from "./MapChat.module.css";
 
 import { ChatMessage, User } from "@/types";
-import { GET_MESSAGES_URL, CHAT_SOCKET_URL } from "@/utils";
+import { GET_MESSAGES_URL, CHAT_SOCKET_URL } from "@/utils/constants";
 import { usePrivy } from "@privy-io/react-auth";
 
 const Chat: React.FC = () => {
@@ -54,8 +55,9 @@ const Chat: React.FC = () => {
     if (inputMessage !== "" && webSocket.current) {
       const messageData: ChatMessage = {
         message: inputMessage,
-        name: user?.username || "Anonymous",
-        imageUrl: user?.pfp || "",
+        timestamp: Date.now(),
+        username: user?.username || "Anonymous",
+        pfp: user?.pfp || "",
       };
       webSocket.current.send(JSON.stringify({ action: "sendmessage", data: messageData }));
       setInputMessage("");
@@ -76,32 +78,29 @@ const Chat: React.FC = () => {
     }
   };
 
-  // Update input field
-  const handleMessageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputMessage(event.target.value);
-  };
-
   return (
     <div className={styles.chatContainer}>
       <div className={styles.chatMessages}>
-        {messages.map((msg, index) => (
+        {messages.map((message, index) => (
           <div key={index} className={styles.chatMessageContainer}>
             <div className={styles.chatMessageInfo}>
-              <Image src={msg.imageUrl} alt={msg.name} width={20} height={20} className={styles.chatMessageImage} />
-              <p className={styles.chatMessageName}>{msg.name}</p>
+              <Image
+                src={message.pfp}
+                alt={message.username}
+                width={20}
+                height={20}
+                className={styles.chatMessageImage}
+              />
+              <p className={styles.chatMessageName}>{message.username}</p>
+              <p className={styles.chatMessageTimestamp}>
+                {DateFNS.formatDistance(new Date(message.timestamp), new Date(), { addSuffix: true })}
+              </p>
             </div>
-            <p className={styles.chatMessage}>{msg.message}</p>
+            <p className={styles.chatMessage}>{message.message}</p>
           </div>
         ))}
         <div ref={messagesEndRef} />
       </div>
-      <div className={styles.chatInput}>
-        <input type="text" value={inputMessage} onChange={handleMessageChange} placeholder="Type a message..." />
-        <button className={styles.button} onClick={sendMessage}>
-          Send
-        </button>
-      </div>
-      <div style={{ width: "100vw", height: "70px", backgroundColor: "#000" }} />
     </div>
   );
 };

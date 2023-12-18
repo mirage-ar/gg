@@ -35,6 +35,7 @@ export type BoxData = {
 
 export type ChatMessage = {
   message: string;
-  name: string;
-  imageUrl: string;
+  timestamp: number;
+  username: string;
+  pfp: string;
 };

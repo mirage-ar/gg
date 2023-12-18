@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from "react";
 
-import { GET_POINTS_URL } from "@/utils";
+import { GET_POINTS_URL } from "@/utils/constants";
 
 interface LeaderboardItem {
   id: number;
@@ -38,15 +38,15 @@ const Leaderboard: React.FC = () => {
   return (
     <div>
       <ul>
-        {leaderboard
-          .sort((a, b) => b.points - a.points) // Sorts in descending order of points
+        {leaderboard.length > 0 && leaderboard
+          .sort((a, b) => b.points - a.points)
           .map((player) => (
             <div key={player.id}>
-              {player.points > 0 && (
+              {/* {player.points > 0 && ( */}
                 <li>
                   {player.username} - {player.points}
                 </li>
-              )}
+              {/* )} */}
             </div>
           ))}
       </ul>

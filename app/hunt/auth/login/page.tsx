@@ -2,9 +2,10 @@
 
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
+// import { cookies } from "next/headers";
 import { usePrivy } from "@privy-io/react-auth";
 
-import { CREATE_USER_URL } from "@/utils";
+import { CREATE_USER_URL } from "@/utils/constants";
 import type { User } from "@/types";
 
 function LoginButton() {
@@ -51,12 +52,11 @@ const LoginPage: React.FC = () => {
         if (user.wallet?.address && user.twitter?.username) {
           try {
             const createdUser = await createUser(user.id, user.twitter?.username, user.wallet.address);
-
+            // cookies().set("user-id", user.id);
+            document.cookie = `user-id=${user.id}; path=/; max-age=31536000; samesite=strict;`;
             localStorage.setItem("user", JSON.stringify(createdUser));
-            document.cookie = `user-id=${createdUser.id}`;
 
-            // Move user to wallet page
-            router.push("/api/auth/wallet");
+            router.push("/hunt/auth/wallet");
           } catch (error) {
             console.error("Error creating user:", error);
           }

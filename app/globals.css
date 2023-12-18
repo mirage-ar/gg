@@ -73,6 +73,14 @@
   }
 }
 
+@font-face {
+  font-family: "Diatype-Mono";
+  src: url("/fonts/Diatype/ABCDiatypeMono-Regular.otf");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;

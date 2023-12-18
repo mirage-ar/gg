@@ -2,13 +2,12 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
-import { useRouter } from "next/navigation";
-import { usePrivy } from "@privy-io/react-auth";
 import { calculateDistance } from "@/utils";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 import type { MarkerData, BoxData, User } from "@/types";
-import { LOCATION_SOCKET_URL, GET_BOXES_URL, COLLECT_BOX_URL } from "@/utils";
+import { LOCATION_SOCKET_URL, GET_BOXES_URL, COLLECT_BOX_URL } from "@/utils/constants";
+// import router from "next/router";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN as string;
 
@@ -31,6 +30,10 @@ const MapboxMap: React.FC = () => {
   // SETUP MAP
   useEffect(() => {
     const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user") as string) : null;
+    if (!user) {
+      // router.push("/hunt/auth/login");
+      console.error("User not found");
+    }
     setUser(user);
 
     const map = new mapboxgl.Map({
@@ -140,10 +143,8 @@ const MapboxMap: React.FC = () => {
       if (box.collected) return;
       const distance = calculateDistance(userLat, userLng, box.latitude, box.longitude);
       // TODO: update to 9 meters
-      if (distance <= 500) {
+      if (distance <= 1000) {
         console.log(`User is within 9 meters of box with id: ${box.id}`);
-        // router.push(`/collect?id=${box.id}&userId=${user?.id}`);
-        // router.push("/");
         setBoxCollect(box);
         setShowCollectButton(true);
       }
@@ -165,7 +166,6 @@ const MapboxMap: React.FC = () => {
           // User marker
           const el = document.createElement("img");
           el.className = "user-marker";
-          console.log(user.pfp);
           el.src = user.pfp;
 
           const newMarker = new mapboxgl.Marker(el).setLngLat([message.longitude, message.latitude]).addTo(map);
@@ -243,7 +243,7 @@ const MapboxMap: React.FC = () => {
       <div
         ref={mapContainerRef}
         style={{
-          height: "100vh",
+          height: "110vh",
           width: "100vw",
           position: "absolute",
           top: 0,

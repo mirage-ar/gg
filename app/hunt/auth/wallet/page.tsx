@@ -11,25 +11,26 @@ const Wallet: React.FC = () => {
   console.log(wallets);
 
   // TODO: switch to embeded wallet only
-  //   const embeddedWallet = wallets.find((wallet) => wallet.walletClientType === "privy");
+  const embeddedWallet = wallets.find((wallet) => wallet.walletClientType === "privy");
 
-  const embeddedWallet = wallets.find((wallet) => wallet.walletClientType === "metamask");
+  // const embeddedWallet = wallets.find((wallet) => wallet.walletClientType === "metamask");
 
   useEffect(() => {
     const checkBalance = async () => {
       if (embeddedWallet) {
         try {
           const provider = await embeddedWallet.getEthersProvider();
-          const balance = await (await provider.getBalance(embeddedWallet.address)).toString();
+          // const balance = await (await provider.getBalance(embeddedWallet.address)).toString();
+          const balance = "0.1"
 
           const ethFormattedBalance = (Number(balance) / 1000000000000000000).toFixed(2);
 
           setWalletBalance(ethFormattedBalance);
 
-          //   if (balance.toString() !== "0") {
-          //     router.push("/hunt");
-          //   }
-          // Now, balance contains the wallet balance
+          if (balance.toString() !== "0") {
+            router.push("/hunt");
+          }
+
           console.log("Wallet balance:", ethFormattedBalance);
         } catch (error) {
           console.error("Error getting balance:", error);
