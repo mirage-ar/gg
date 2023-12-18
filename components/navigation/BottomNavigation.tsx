@@ -13,17 +13,17 @@ const BottomNavigation: React.FC = () => {
         </li>
         <li className={styles.navItem}>
           <Link href="/hunt/chat">
-            <Image src="/icons/chat.svg" alt="chat" width={24} height={24} />
+            <Image src="icons/chat.svg" alt="chat" width={24} height={24} />
           </Link>
         </li>
         <li className={styles.navItem}>
           <Link href="/hunt/leaderboard">
-          <Image src="/icons/leaderboard.svg" alt="chat" width={24} height={24} />
+          <Image src="icons/leaderboard.svg" alt="chat" width={24} height={24} />
           </Link>
         </li>
         <li className={styles.navItem}>
           <Link href="/hunt/profile">
-          <Image src="/icons/face.svg" alt="chat" width={24} height={24} />
+          <Image src="icons/face.svg" alt="chat" width={24} height={24} />
           </Link>
         </li>
       </ul>
