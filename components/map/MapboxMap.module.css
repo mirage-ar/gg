@@ -1,0 +1,12 @@
+.collectButton {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 80px;
+    background-color: greenyellow;
+    border: none;
+    outline: none;
+    z-index: 1001;
+    color: black
+}

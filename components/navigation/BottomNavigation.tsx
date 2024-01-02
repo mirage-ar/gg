@@ -7,22 +7,22 @@ const BottomNavigation: React.FC = () => {
     <nav className={styles.bottomNav}>
       <ul className={styles.navList}>
         <li className={styles.navItem}>
-          <Link href="/hunt">
+          <Link href="/">
             <span className={styles.icon}>🗺️</span>
           </Link>
         </li>
         <li className={styles.navItem}>
-          <Link href="/hunt/chat">
+          <Link href="/chat">
             <Image src="/icons/chat.svg" alt="chat" width={24} height={24} />
           </Link>
         </li>
         <li className={styles.navItem}>
-          <Link href="/hunt/leaderboard">
+          <Link href="/leaderboard">
           <Image src="/icons/leaderboard.svg" alt="chat" width={24} height={24} />
           </Link>
         </li>
         <li className={styles.navItem}>
-          <Link href="/hunt/profile">
+          <Link href="/profile">
           <Image src="/icons/face.svg" alt="chat" width={24} height={24} />
           </Link>
         </li>

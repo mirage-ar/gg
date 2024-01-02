@@ -7,7 +7,6 @@ import styles from "./MapChat.module.css";
 
 import { ChatMessage, User } from "@/types";
 import { GET_MESSAGES_URL, CHAT_SOCKET_URL } from "@/utils/constants";
-import { usePrivy } from "@privy-io/react-auth";
 
 const Chat: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -57,7 +56,7 @@ const Chat: React.FC = () => {
         message: inputMessage,
         timestamp: Date.now(),
         username: user?.username || "Anonymous",
-        pfp: user?.pfp || "",
+        pfp: user?.image || "",
       };
       webSocket.current.send(JSON.stringify({ action: "sendmessage", data: messageData }));
       setInputMessage("");

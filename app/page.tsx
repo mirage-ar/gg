@@ -1,24 +1,17 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { usePrivy } from "@privy-io/react-auth";
-import { useRouter } from "next/navigation";
+import React, { useState, useEffect } from "react";
+import MapChat from "@/components/chat/MapChat";
 
-const Home: React.FC = () => {
-  // const { user } = usePrivy();
-  const router = useRouter();
+import type { User } from "@/types";
 
-  // useEffect(() => {
-  //   if (!user) {
-  //     router.push("/auth/login");
-  //   }
-  // });
+const MapPage: React.FC = () => {
 
   return (
     <main>
-      <h1>Home</h1>
+      <MapChat />
     </main>
   );
 };
 
-export default Home;
+export default MapPage;

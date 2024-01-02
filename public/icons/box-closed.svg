@@ -1,0 +1,8 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="icons-24/closed box">
+<path id="Subtract" fill-rule="evenodd" clip-rule="evenodd" d="M3 8H21V23H17.4H12H6.6H3V8ZM10.5 12.75C10.5 13.9926 9.49264 15 8.25 15C7.00736 15 6 13.9926 6 12.75C6 11.5074 7.00736 10.5 8.25 10.5C9.49264 10.5 10.5 11.5074 10.5 12.75ZM15.75 15C16.9926 15 18 13.9926 18 12.75C18 11.5074 16.9926 10.5 15.75 10.5C14.5074 10.5 13.5 11.5074 13.5 12.75C13.5 13.9926 14.5074 15 15.75 15Z" fill="#42FF60"/>
+<path id="Vector 145" d="M7 18V18C10.0776 19.8466 13.9224 19.8466 17 18V18" stroke="black" stroke-width="2" stroke-linecap="round"/>
+<path id="Union" d="M13 0H17.5L21 6H16.5L13 0Z" fill="#42FF60"/>
+<path id="Union_2" d="M11 0H6.5L3 6H7.5L11 0Z" fill="#42FF60"/>
+</g>
+</svg>

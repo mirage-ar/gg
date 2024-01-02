@@ -1,81 +1,50 @@
-// "use client";
-
-import type { Metadata, Viewport } from "next";
+import React from "react";
+import type { Metadata } from "next";
 import "./globals.css";
-import { PrivyProvider } from "@privy-io/react-auth";
-import { Suspense } from "react";
+import { getServerSession } from "next-auth";
+import SessionProvider from "@/components/SessionProvider";
 import MapboxMap from "@/components/map/MapboxMap";
 import BottomNavigation from "@/components/navigation/BottomNavigation";
 
-const APP_NAME = "GG";
-const APP_DEFAULT_TITLE = "GG";
-const APP_TITLE_TEMPLATE = "%s | GG";
-const APP_DESCRIPTION = "May the odds be ever in your favor.";
-
 export const metadata: Metadata = {
-  applicationName: APP_NAME,
-  title: {
-    default: APP_DEFAULT_TITLE,
-    template: APP_TITLE_TEMPLATE,
-  },
-  description: APP_DESCRIPTION,
-  manifest: "/manifest.json",
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "default",
-    title: APP_DEFAULT_TITLE,
-    // startUpImage: [],
-  },
-  formatDetection: {
-    telephone: false,
-  },
+  title: "GG",
+  description: "May the odds be ever in your favor",
   openGraph: {
-    type: "website",
-    siteName: APP_NAME,
-    title: {
-      default: APP_DEFAULT_TITLE,
-      template: APP_TITLE_TEMPLATE,
-    },
-    description: APP_DESCRIPTION,
+    title: "GG",
+    description: "May the odds be ever in your favor",
+    url: "https://gg.zip",
+    images: [
+      {
+        url: "https://gg.zip/og.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
   twitter: {
     card: "summary",
-    title: {
-      default: APP_DEFAULT_TITLE,
-      template: APP_TITLE_TEMPLATE,
-    },
-    description: APP_DESCRIPTION,
+    title: "GG",
+    description: "May the odds be ever in your favor",
+    images: [
+      {
+        url: "https://gg.zip/og.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
 };
 
-export const viewport: Viewport = {
-  themeColor: "#000000",
-  width: "device-width",
-  initialScale: 1,
-  minimumScale: 1,
-  userScalable: false,
-};
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const session = await getServerSession();
   return (
     <html lang="en">
       <body>
-        <>
-          {/* <PrivyProvider
-            appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID as string}
-            config={{
-              loginMethods: ["twitter", "wallet"],
-              
-              appearance: {
-                theme: "dark",
-                showWalletLoginFirst: false,
-              },
-            }}
-          > */}
-          {/* <h4>Application context (if needed)</h4> */}
-          <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
-          {/* </PrivyProvider> */}
-        </>
+        <SessionProvider session={session}>
+          {children}
+          <MapboxMap />
+          <BottomNavigation />
+        </SessionProvider>
       </body>
     </html>
   );

@@ -2,8 +2,10 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
+import { useSession } from "next-auth/react";
 import { calculateDistance } from "@/utils";
 import "mapbox-gl/dist/mapbox-gl.css";
+import styles from "./MapboxMap.module.css";
 
 import type { MarkerData, BoxData, User } from "@/types";
 import { LOCATION_SOCKET_URL, GET_BOXES_URL, COLLECT_BOX_URL } from "@/utils/constants";
@@ -23,24 +25,19 @@ const MapboxMap: React.FC = () => {
   const boxesRef = useRef<MarkersObject>({});
   const [boxes, setBoxes] = useState<BoxData[]>([]);
   const [boxCollect, setBoxCollect] = useState<BoxData | null>(null);
-  const [user, setUser] = useState<User | null>(null);
+
+  const { data: session } = useSession();
+  const user = session?.user as User;
 
   const [showCollectButton, setShowCollectButton] = useState(false);
 
   // SETUP MAP
   useEffect(() => {
-    const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user") as string) : null;
-    if (!user) {
-      // router.push("/auth/login");
-      console.error("User not found");
-    }
-    setUser(user);
-
     const map = new mapboxgl.Map({
       container: mapContainerRef.current as HTMLElement,
       // TODO: update to NYC or user location
-      center: [-71.07, 42.35],
-      zoom: 10,
+      center: [-71.13637993467633, 42.35611312704494],
+      zoom: 15,
       pitch: 45,
     });
 
@@ -139,6 +136,7 @@ const MapboxMap: React.FC = () => {
   };
 
   const checkProximityToBoxes = (userLat: number, userLng: number) => {
+    console.log("HERE")
     boxes.forEach((box) => {
       if (box.collected) return;
       const distance = calculateDistance(userLat, userLng, box.latitude, box.longitude);
@@ -167,7 +165,7 @@ const MapboxMap: React.FC = () => {
           const div = document.createElement("div");
           const img = document.createElement("img");
           div.className = "user-marker";
-          img.src = user.pfp;
+          img.src = user.image;
           div.appendChild(img);
 
           const newMarker = new mapboxgl.Marker(div).setLngLat([message.longitude, message.latitude]).addTo(map);
@@ -192,16 +190,24 @@ const MapboxMap: React.FC = () => {
 
       console.log(`Updating box: ${box.id}, Collected: ${box.collected}`);
 
-      if (existingBox && box.collected) {
-        // Box is collected, remove it from the map
-        existingBox.remove();
-        delete boxesRef.current[box.id]; // Remove from ref as well
-      } else if (!existingBox && !box.collected) {
+      if (existingBox && box.collected && box.username === user?.username) {
+        // if I have collected a box show pink icon
+        const existingBoxElement = existingBox.getElement() as HTMLImageElement;
+        existingBoxElement.src = "/icons/box-opened.svg";
+      } else if (existingBox && box.collected) {
+        // if someone else has collected a box show grey icon
+        const existingBoxElement = existingBox.getElement() as HTMLImageElement;
+        existingBoxElement.src = "/icons/box-grey.svg";
+      } else if (!existingBox) {
         // Box doesn't exist, create a new one
-        const el = document.createElement("div");
-        el.className = "box";
+        // const el = document.createElement("img");
+        // el.className = "box";
+        const img = document.createElement("img");
+        img.className = "box";
+        img.src = "/icons/box-closed.svg";
+        // el.appendChild(img);
 
-        const newMarker = new mapboxgl.Marker(el).setLngLat([box.longitude, box.latitude]).addTo(map);
+        const newMarker = new mapboxgl.Marker(img).setLngLat([box.longitude, box.latitude]).addTo(map);
 
         boxesRef.current[box.id] = newMarker;
       }
@@ -209,7 +215,7 @@ const MapboxMap: React.FC = () => {
     }
   };
 
-  const handleCollectClick = async () => {
+  const handleCollectBox = async () => {
     if (user?.id && boxCollect?.id) {
       try {
         console.log("Collecting box...");
@@ -219,7 +225,7 @@ const MapboxMap: React.FC = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            data: { userId: user.id, boxId: boxCollect?.id },
+            data: { userId: user.id, boxId: boxCollect?.id, username: user.username, pfp: user.image },
           }),
         });
 
@@ -254,9 +260,7 @@ const MapboxMap: React.FC = () => {
         }}
       />
       {showCollectButton && (
-        <div style={{ position: "fixed", left: "50%", top: "50%", zIndex: 100 }}>
-          <button onClick={handleCollectClick}>Collect Box</button>
-        </div>
+          <button className={styles.collectButton} onClick={handleCollectBox}>Collect Box</button>
       )}
     </>
   );

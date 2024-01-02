@@ -1,8 +1,8 @@
 export type User = {
   id: string;
+  image: string;
+  name: string;
   username: string;
-  wallet: string;
-  pfp: string;
 };
 
 export type LocationData = {
@@ -31,6 +31,8 @@ export type BoxData = {
   latitude: number;
   longitude: number;
   collected: boolean;
+  username: string;
+  pfp: string;
 };
 
 export type ChatMessage = {
