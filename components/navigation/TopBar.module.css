@@ -1,0 +1,98 @@
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 80px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-family: "Connect-Mono", monospace;
+}
+
+.prizeContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: #ff61ef;
+}
+
+.title {
+  padding-bottom: 4px;
+  text-transform: uppercase;
+  font-family: "Diatype-Mono", monospace;
+  text-align: center;
+  font-feature-settings: "ss09" on, "ss08" on, "ss17" on, "ss07" on;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16x; /* 116.667% */
+}
+
+.prizeAmountContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: var(--corner100, 100px);
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow: 0px 0px 4px 0px #ff61ef;
+  backdrop-filter: blur(3px);
+}
+
+.prizeAmount {
+  padding-right: 4px;
+  color: var(--p, #ff61ef);
+  text-align: right;
+  font-feature-settings: "case" on;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 400;
+  /* line-height: 22px; */
+}
+
+.scoreContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: #42ff60;
+}
+
+.scoreAmountContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: var(--corner100, 100px);
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow: 0px 0px 4px 0px #42ff60;
+  backdrop-filter: blur(3px);
+}
+
+.scoreAmount {
+  padding-right: 4px;
+  /* color: var(--supporting-w-40, rgba(250, 245, 233, 0.4)); */
+  text-align: right;
+  font-feature-settings: "case" on;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.boxAmountContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 10px;
+}
+
+.boxAmount {
+  /* color: var(--supporting-w-40, var(--p, rgba(250, 245, 233, 0.40))); */
+  text-align: right;
+  font-feature-settings: "case" on;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 400;
+}

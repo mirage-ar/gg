@@ -1,0 +1,137 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  margin-top: 40px;
+  width: 100vw;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.userMarker {
+  background-image: url("/icons/user-marker.svg");
+  background-size: cover;
+  background-position: center;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.userImage {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 1px solid #42ff60;
+}
+
+.scoreContainer {
+  padding-bottom: 52px;
+}
+
+.scoreRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100vw;
+  padding: 0 20px;
+  color: #42ff60;
+  font-feature-settings: "case" on;
+  font-family: "Connect-Mono", "Courier New", Courier, monospace;
+  font-size: 28px;
+  font-style: normal;
+  /* font-weight: 400; */
+  line-height: 28px; /* 100% */
+  text-transform: uppercase;
+}
+
+.scoreValue {
+  color: #fff;
+}
+
+.leaderboardContainer {
+  width: 100vw;
+  padding: 0 20px;
+}
+
+.leaderboardHeader {
+  color: #23ee43;
+  font-feature-settings: "case" on;
+  font-family: "Connect-Mono", "Courier New", Courier, monospace;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px; /* 100% */
+
+  border-bottom: 1px solid #292929;
+  margin-bottom: 20px;
+}
+
+.leaderboardRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  /* font-weight: 400; */
+  line-height: 28px; /* 100% */
+  text-transform: uppercase;
+}
+
+.playerInfo {
+  display: flex;
+  align-items: center;
+}
+
+.playerRank {
+  color: #42ff60;
+  text-align: right;
+  font-feature-settings: "ss09" on, "ss08" on, "ss17" on, "ss07" on;
+  font-family: "Connect-Mono", "Courier New", Courier, monospace;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px; /* 100% */
+
+  margin-right: 20px;
+}
+
+.playerImage {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.playerName {
+  color: var(--w, #faf5e9);
+  font-feature-settings: "ss09" on, "ss08" on, "ss17" on, "ss07" on;
+
+  /* uppercase/body-upper 14—16 */
+  font-family: "Diatype Mono", "Courier New", Courier, monospace;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px; /* 114.286% */
+  text-transform: uppercase;
+}
+
+.playerScore {
+  color: var(--w, #faf5e9);
+  text-align: right;
+  font-feature-settings: "ss09" on, "ss08" on, "ss17" on, "ss07" on;
+  font-family: "Connect-Mono", "Courier New", Courier, monospace;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px; /* 100% */
+}

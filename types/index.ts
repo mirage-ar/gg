@@ -30,9 +30,18 @@ export type BoxData = {
   id: string;
   latitude: number;
   longitude: number;
+  points: number;
   collected: boolean;
   username: string;
   pfp: string;
+};
+
+export type UsersData = {
+  id: string;
+  username: string;
+  pfp: string;
+  points: number;
+  boxes: number;
 };
 
 export type ChatMessage = {

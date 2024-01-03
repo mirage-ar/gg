@@ -43,7 +43,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <SessionProvider session={session}>
           {children}
           <MapboxMap />
-          <BottomNavigation />
         </SessionProvider>
       </body>
     </html>

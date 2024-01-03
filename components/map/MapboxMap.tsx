@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
+import { useRouter } from 'next/navigation'
 import { useSession } from "next-auth/react";
 import { calculateDistance } from "@/utils";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -9,7 +10,6 @@ import styles from "./MapboxMap.module.css";
 
 import type { MarkerData, BoxData, User } from "@/types";
 import { LOCATION_SOCKET_URL, GET_BOXES_URL, COLLECT_BOX_URL } from "@/utils/constants";
-// import router from "next/router";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN as string;
 
@@ -18,6 +18,10 @@ type MarkersObject = {
 };
 
 const MapboxMap: React.FC = () => {
+  const router = useRouter()
+  const { data: session } = useSession();
+  const user = session?.user as User;
+
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const markersSocket = useRef<WebSocket | null>(null);
@@ -25,17 +29,12 @@ const MapboxMap: React.FC = () => {
   const boxesRef = useRef<MarkersObject>({});
   const [boxes, setBoxes] = useState<BoxData[]>([]);
   const [boxCollect, setBoxCollect] = useState<BoxData | null>(null);
-
-  const { data: session } = useSession();
-  const user = session?.user as User;
-
   const [showCollectButton, setShowCollectButton] = useState(false);
 
   // SETUP MAP
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: mapContainerRef.current as HTMLElement,
-      // TODO: update to NYC or user location
       center: [-71.13637993467633, 42.35611312704494],
       zoom: 15,
       pitch: 45,
@@ -67,7 +66,7 @@ const MapboxMap: React.FC = () => {
       watchId = navigator.geolocation.watchPosition(
         (position) => {
           console.log("position", position);
-          // TODO: if user is within box location radius, redirect to collect page
+          console.log("boxes", boxes);
           checkProximityToBoxes(position.coords.latitude, position.coords.longitude);
 
           if (markersSocket.current && markersSocket.current.readyState === WebSocket.OPEN && user?.id) {
@@ -96,12 +95,15 @@ const MapboxMap: React.FC = () => {
     };
   }, [user]);
 
-  // Fetch Boxes
+  // GET BOXES
   useEffect(() => {
+    let isMounted = true;
+
     const fetchBoxes = async () => {
       try {
         const response = await fetch(GET_BOXES_URL);
         const boxesData: BoxData[] = await response.json();
+
         const map = mapRef.current;
         setBoxes(boxesData);
         if (map) {
@@ -109,15 +111,17 @@ const MapboxMap: React.FC = () => {
         }
       } catch (error) {
         console.error("Error fetching boxes:", error);
+      } finally {
+        if (isMounted) {
+          setTimeout(fetchBoxes, 5000);
+        }
       }
     };
 
-    // Fetch boxes every 5 seconds
     fetchBoxes();
-    const intervalId = setInterval(fetchBoxes, 5000);
 
     return () => {
-      clearInterval(intervalId);
+      isMounted = false;
     };
   }, []);
 
@@ -136,7 +140,6 @@ const MapboxMap: React.FC = () => {
   };
 
   const checkProximityToBoxes = (userLat: number, userLng: number) => {
-    console.log("HERE")
     boxes.forEach((box) => {
       if (box.collected) return;
       const distance = calculateDistance(userLat, userLng, box.latitude, box.longitude);
@@ -188,8 +191,9 @@ const MapboxMap: React.FC = () => {
     if (map && box.id && box.latitude && box.longitude) {
       const existingBox = boxesRef.current[box.id];
 
-      console.log(`Updating box: ${box.id}, Collected: ${box.collected}`);
+      // console.log(`Updating box: ${box.id}, Collected: ${box.collected}`);
 
+      // TODO: user object only has name and image, not id
       if (existingBox && box.collected && box.username === user?.username) {
         // if I have collected a box show pink icon
         const existingBoxElement = existingBox.getElement() as HTMLImageElement;
@@ -238,7 +242,8 @@ const MapboxMap: React.FC = () => {
         if (data.message) {
           setBoxCollect(null);
           setShowCollectButton(false);
-          // router.push("/leaderboard");
+          
+          router.push(`/claim/${boxCollect.points}`);
         }
       } catch (error) {
         console.error("Error collecting box:", error);
@@ -260,7 +265,9 @@ const MapboxMap: React.FC = () => {
         }}
       />
       {showCollectButton && (
-          <button className={styles.collectButton} onClick={handleCollectBox}>Collect Box</button>
+        <button className={styles.collectButton} onClick={handleCollectBox}>
+          Collect Box
+        </button>
       )}
     </>
   );

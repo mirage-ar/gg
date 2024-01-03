@@ -2,18 +2,30 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import { useSession } from "next-auth/react";
+
+import styles from "./Leaderboard.module.css";
 
 import { GET_POINTS_URL } from "@/utils/constants";
+import { User } from "@/types";
 
 interface LeaderboardItem {
   id: number;
   username: string;
+  pfp: string;
   walletAddress: number;
   points: number;
 }
 
 const Leaderboard: React.FC = () => {
+  const { data: session } = useSession();
+  const user = session?.user as User;
+
   const [leaderboard, setLeaderboard] = useState<LeaderboardItem[]>([]);
+
+  const sortedLeaderboard = [...leaderboard].sort((a, b) => b.points - a.points);
+  const userRank = sortedLeaderboard.findIndex((player) => player.id.toString() === user.id) + 1;
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
@@ -21,6 +33,7 @@ const Leaderboard: React.FC = () => {
         const response = await fetch(GET_POINTS_URL);
         const data: LeaderboardItem[] = await response.json();
         setLeaderboard(data);
+        console.log(data);
       } catch (error) {
         console.error("Error fetching leaderboard:", error);
       }
@@ -36,20 +49,51 @@ const Leaderboard: React.FC = () => {
   }, []);
 
   return (
-    <div>
-      <ul>
-        {leaderboard.length > 0 && leaderboard
-          .sort((a, b) => b.points - a.points)
-          .map((player) => (
-            <div key={player.id}>
-              {/* {player.points > 0 && ( */}
-                <li>
-                  {player.username} - {player.points}
-                </li>
-              {/* )} */}
-            </div>
-          ))}
-      </ul>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <div className={styles.userMarker}>
+          <Image className={styles.userImage} src={user.image} alt="User Image" width={150} height={150} />
+        </div>
+      </div>
+      <div className={styles.scoreContainer}>
+        {/* ------ USER RANK ------ */}
+        <div className={styles.scoreRow}>
+          <div className={styles.scoreLabel}>Rank</div>
+          <div className={styles.scoreValue}>
+            {userRank}/{sortedLeaderboard.length}
+          </div>
+        </div>
+        {/* ------ USER SCORE ------ */}
+        <div className={styles.scoreRow}>
+          <div className={styles.scoreLabel}>Score</div>
+          <div className={styles.scoreValue}>{leaderboard.find((item) => item.id.toString() == user.id)?.points}</div>
+        </div>
+        {/* ------ PRIZE POOL ------ */}
+        <div className={styles.scoreRow}>
+          <div className={styles.scoreLabel}>Prize Pool</div>
+          <div className={styles.scoreValue}>${10000}</div>
+        </div>
+      </div>
+
+      {/* ------ LEADERBOARD ------ */}
+      <div className={styles.leaderboardContainer}>
+        <div className={styles.leaderboardHeader}>Leaderboard</div>
+        <div className={styles.leaderboardScores}>
+          {leaderboard.length > 0 &&
+            sortedLeaderboard.map((player, index) => (
+              <div className={styles.leaderboardRow} key={player.id}>
+                <div className={styles.playerInfo}>
+                  <div className={styles.playerRank}>{index + 1}</div>
+                  {/* <div className={styles.playerMarker}> */}
+                  <Image className={styles.playerImage} src={player.pfp} alt="User Image" width={150} height={150} />
+                  {/* </div> */}
+                  <div className={styles.playerName}>@{player.username}</div>
+                </div>
+                <div className={styles.playerScore}>{player.points}</div>
+              </div>
+            ))}
+        </div>
+      </div>
     </div>
   );
 };
