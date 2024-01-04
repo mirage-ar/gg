@@ -47,6 +47,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       const session = await getServerSession();
       setSession(session);
     };
+
+    setTimeout(() => {
+      getSession();
+    }, 1000);
+    
     getSession();
   });
 
