@@ -8,7 +8,7 @@
   border: none;
   outline: none;
   display: flex;
-  z-index: 1001;
+  z-index: 1000;
   color: black;
   padding: 15px 24px 13px 24px;
   justify-content: center;

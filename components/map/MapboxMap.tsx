@@ -172,7 +172,7 @@ const MapboxMap: React.FC = () => {
       if (box.collected) return;
       const distance = calculateDistance(userLat, userLng, box.latitude, box.longitude);
       // TODO: update to 9 meters
-      if (distance <= 1000) {
+      if (distance <= 9) {
         console.log(`User is within 9 meters of box with id: ${box.id}`);
         setBoxCollect(box);
         setShowCollectButton(true);
