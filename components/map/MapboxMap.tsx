@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { calculateDistance } from "@/utils";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -18,10 +18,10 @@ type MarkersObject = {
 };
 
 const MapboxMap: React.FC = () => {
-  const router = useRouter()
+  const router = useRouter();
   const { data: session } = useSession();
-  const user = session?.user as User;
 
+  const [user, setUser] = useState<User | null>(null);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const markersSocket = useRef<WebSocket | null>(null);
@@ -30,6 +30,13 @@ const MapboxMap: React.FC = () => {
   const [boxes, setBoxes] = useState<BoxData[]>([]);
   const [boxCollect, setBoxCollect] = useState<BoxData | null>(null);
   const [showCollectButton, setShowCollectButton] = useState(false);
+
+  useEffect(() => {
+    console.log(session?.user);
+    if (session?.user) {
+      setUser(session.user as User);
+    }
+  }, [session]);
 
   // SETUP MAP
   useEffect(() => {
@@ -113,7 +120,7 @@ const MapboxMap: React.FC = () => {
         console.error("Error fetching boxes:", error);
       } finally {
         if (isMounted) {
-          setTimeout(fetchBoxes, 5000);
+          setTimeout(fetchBoxes, 1000);
         }
       }
     };
@@ -123,7 +130,7 @@ const MapboxMap: React.FC = () => {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [user]);
 
   // SEND CURRENT LOCATION
   const sendCurrentLocation = (position: GeolocationPosition, id: string, webSocket: WebSocket) => {
@@ -190,7 +197,7 @@ const MapboxMap: React.FC = () => {
   const updateBoxes = (map: mapboxgl.Map, box: BoxData) => {
     if (map && box.id && box.latitude && box.longitude) {
       const existingBox = boxesRef.current[box.id];
-
+      
       // console.log(`Updating box: ${box.id}, Collected: ${box.collected}`);
 
       // TODO: user object only has name and image, not id
@@ -242,7 +249,7 @@ const MapboxMap: React.FC = () => {
         if (data.message) {
           setBoxCollect(null);
           setShowCollectButton(false);
-          
+
           router.push(`/claim/${boxCollect.points}`);
         }
       } catch (error) {
@@ -266,7 +273,7 @@ const MapboxMap: React.FC = () => {
       />
       {showCollectButton && (
         <button className={styles.collectButton} onClick={handleCollectBox}>
-          Collect Box
+          Claim
         </button>
       )}
     </>

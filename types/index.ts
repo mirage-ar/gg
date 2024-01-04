@@ -50,3 +50,12 @@ export type ChatMessage = {
   username: string;
   pfp: string;
 };
+
+
+export type LeaderboardItem = {
+  id: number;
+  username: string;
+  pfp: string;
+  walletAddress: number;
+  points: number;
+}

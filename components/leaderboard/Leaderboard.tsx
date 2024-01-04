@@ -8,15 +8,7 @@ import { useSession } from "next-auth/react";
 import styles from "./Leaderboard.module.css";
 
 import { GET_POINTS_URL } from "@/utils/constants";
-import { User } from "@/types";
-
-interface LeaderboardItem {
-  id: number;
-  username: string;
-  pfp: string;
-  walletAddress: number;
-  points: number;
-}
+import { User, LeaderboardItem } from "@/types";
 
 const Leaderboard: React.FC = () => {
   const { data: session } = useSession();

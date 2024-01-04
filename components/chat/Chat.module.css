@@ -4,7 +4,7 @@
   margin-bottom: 35px;
   display: flex;
   flex-direction: column;
-  height: 200px;
+  height: 90%;
   width: 100vw;
   position: fixed;
   bottom: 0;
@@ -18,13 +18,13 @@
 .chatMessages {
   overflow-y: auto;
   height: 100%;
-  width: 80%;
+  width: 100%;
   padding: 10px;
   position: relative;
 
   /* Apply a mask for the fade effect */
-  -webkit-mask-image: linear-gradient(to bottom, transparent, black 30%);
-  mask-image: linear-gradient(to bottom, transparent, black 30%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%);
+  mask-image: linear-gradient(to bottom, transparent, black 10%);
 }
 
 .chatMessageContainer {
@@ -71,4 +71,33 @@
   font-style: normal;
   font-weight: 400;
   line-height: 12px; /* 100% */
+}
+
+.chatForm {
+    /* margin: 0 10px; */
+}
+
+.chatInput {
+    width: 80%;
+    height: 40px;
+    padding: 0 12px;
+    border: none;
+    outline: none;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
+    color: #fff;
+    font-feature-settings: "ss09" on, "ss08" on, "ss17" on, "ss07" on;
+    font-family: "Diatype-Mono", monospace;
+}
+
+.chatSendButton {
+    width: 20%;
+    height: 40px;
+    border: none;
+    outline: none;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
+    color: #42FF60;
+    font-feature-settings: "ss09" on, "ss08" on, "ss17" on, "ss07" on;
+    font-family: "Diatype-Mono", monospace;
 }

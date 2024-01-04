@@ -1,0 +1,66 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  margin-top: 40px;
+  margin-bottom: 32px;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.userMarker {
+  background-image: url("/icons/user-marker.svg");
+  background-size: cover;
+  background-position: center;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.userImage {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 1px solid #42ff60;
+}
+
+.userName {
+  color: var(--g, #42FF60);
+  font-feature-settings: 'ss09' on, 'ss08' on, 'ss17' on, 'ss07' on;
+  font-family: 'Connect-Mono', 'Courier New', Courier, monospace;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.scoreRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100vw;
+  padding: 0 20px;
+  color: #42ff60;
+  font-feature-settings: "case" on;
+  font-family: "Connect-Mono", "Courier New", Courier, monospace;
+  font-size: 28px;
+  font-style: normal;
+  /* font-weight: 400; */
+  line-height: 28px; /* 100% */
+  text-transform: uppercase;
+}
+
+.scoreValue {
+  color: #fff;
+}

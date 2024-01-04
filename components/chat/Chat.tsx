@@ -2,14 +2,17 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 import * as DateFNS from "date-fns";
-import styles from "./MapChat.module.css";
+import styles from "./Chat.module.css";
 
 import { ChatMessage, User } from "@/types";
 import { GET_MESSAGES_URL, CHAT_SOCKET_URL } from "@/utils/constants";
 
-const MapChat: React.FC = () => {
-  const [user, setUser] = useState<User | null>(null);
+const Chat: React.FC = () => {
+  const { data: session } = useSession();
+  const user = session?.user as User;
+
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputMessage, setInputMessage] = useState<string>("");
   const webSocket = useRef<WebSocket | null>(null);
@@ -17,9 +20,6 @@ const MapChat: React.FC = () => {
 
   // Connect to WebSocket
   useEffect(() => {
-    const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user") as string) : null;
-    setUser(user);
-
     fetchInitialMessages();
 
     webSocket.current = new WebSocket(CHAT_SOCKET_URL);
@@ -77,6 +77,11 @@ const MapChat: React.FC = () => {
     }
   };
 
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    sendMessage();
+  };
+
   return (
     <div className={styles.chatContainer}>
       <div className={styles.chatMessages}>
@@ -100,8 +105,20 @@ const MapChat: React.FC = () => {
         ))}
         <div ref={messagesEndRef} />
       </div>
+      <form onSubmit={handleFormSubmit} className={styles.chatForm}>
+        <input
+          type="text"
+          className={styles.chatInput}
+          value={inputMessage}
+          onChange={(e) => setInputMessage(e.target.value)}
+          placeholder="Type a message..."
+        />
+        <button type="submit" className={styles.chatSendButton}>
+          SEND
+        </button>
+      </form>
     </div>
   );
 };
 
-export default MapChat;
+export default Chat;
