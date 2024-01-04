@@ -16,10 +16,16 @@ interface TopBarProps {
 
 const TopBar: React.FC<TopBarProps> = ({ score: scoreInput = 0, boxes: boxesInput = 0 }) => {
   const { data: session } = useSession();
-  const user = session?.user as User;
+  const [user, setUser] = useState<User | null>(null);
 
   const [score, setScore] = useState<number>(scoreInput);
   const [boxes, setBoxes] = useState<number>(boxesInput);
+
+  useEffect(() => {
+    if (session?.user) {
+      setUser(session.user as User);
+    }
+  }, [session]);
 
   useEffect(() => {
     if (!user?.id) return;
