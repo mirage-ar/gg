@@ -156,3 +156,11 @@ a {
 .box {
   z-index: 1000;
 }
+
+.mapboxgl-ctrl-bottom-right {
+  display: none;
+}
+
+.mapboxgl-ctrl-bottom-left {
+  display: none;
+}

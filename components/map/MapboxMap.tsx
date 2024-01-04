@@ -248,6 +248,7 @@ const MapboxMap: React.FC = () => {
   };
 
   const handleCollectBox = async () => {
+    // TODO: set loading state here and disable button
     if (user?.id && boxCollect?.id) {
       try {
         console.log("Collecting box...");

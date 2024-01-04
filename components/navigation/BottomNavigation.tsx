@@ -6,11 +6,6 @@ const BottomNavigation: React.FC = () => {
   return (
     <nav className={styles.bottomNav}>
       <ul className={styles.navList}>
-        <Link href="/">
-          <li className={styles.navItem}>
-            <span className={styles.icon}>🗺️</span>
-          </li>
-        </Link>
         <Link href="/chat">
           <li className={styles.navItem}>
             <Image src="/icons/chat.svg" alt="chat" width={24} height={24} />
