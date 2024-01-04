@@ -22,6 +22,7 @@ const TopBar: React.FC<TopBarProps> = ({ score: scoreInput = 0, boxes: boxesInpu
   const [boxes, setBoxes] = useState<number>(boxesInput);
 
   useEffect(() => {
+    console.log(session);
     if (session?.user) {
       setUser(session.user as User);
     }
