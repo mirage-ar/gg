@@ -67,15 +67,35 @@ const MapboxMap: React.FC = () => {
 
     let watchId: number;
 
+    const fetchBoxes = async (): Promise<BoxData[] | null> => {
+      try {
+        const response = await fetch(GET_BOXES_URL);
+        const boxesData: BoxData[] = await response.json();
+
+        const map = mapRef.current;
+        setBoxes(boxesData);
+        if (map) {
+          boxesData.forEach((box) => updateBoxes(map, box));
+        }
+        return boxesData;
+      } catch (error) {
+        console.error("Error fetching boxes:", error);
+        return null
+      }
+    };
+
     markersSocket.current.onopen = () => {
       console.log("WebSocket Connected");
       // location tracking
       if (!user) return;
       watchId = navigator.geolocation.watchPosition(
-        (position) => {
+        async (position) => {
+          const boxData = await fetchBoxes();
           console.log("position", position);
-          console.log("boxes", boxes);
-          checkProximityToBoxes(position.coords.latitude, position.coords.longitude);
+          console.log("boxes", boxData);
+          if (boxData) {
+            checkProximityToBoxes(position.coords.latitude, position.coords.longitude, boxData);
+          }
 
           if (markersSocket.current && markersSocket.current.readyState === WebSocket.OPEN && user?.id) {
             sendCurrentLocation(position, user.id, markersSocket.current);
@@ -104,34 +124,34 @@ const MapboxMap: React.FC = () => {
   }, [user]);
 
   // GET BOXES
-  useEffect(() => {
-    let isMounted = true;
+  // useEffect(() => {
+  //   let isMounted = true;
 
-    const fetchBoxes = async () => {
-      try {
-        const response = await fetch(GET_BOXES_URL);
-        const boxesData: BoxData[] = await response.json();
+  //   const fetchBoxes = async () => {
+  //     try {
+  //       const response = await fetch(GET_BOXES_URL);
+  //       const boxesData: BoxData[] = await response.json();
 
-        const map = mapRef.current;
-        setBoxes(boxesData);
-        if (map) {
-          boxesData.forEach((box) => updateBoxes(map, box));
-        }
-      } catch (error) {
-        console.error("Error fetching boxes:", error);
-      } finally {
-        if (isMounted) {
-          setTimeout(fetchBoxes, 5000);
-        }
-      }
-    };
+  //       const map = mapRef.current;
+  //       setBoxes(boxesData);
+  //       if (map) {
+  //         boxesData.forEach((box) => updateBoxes(map, box));
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching boxes:", error);
+  //     } finally {
+  //       if (isMounted) {
+  //         setTimeout(fetchBoxes, 5000);
+  //       }
+  //     }
+  //   };
 
-    fetchBoxes();
+  //   fetchBoxes();
 
-    return () => {
-      isMounted = false;
-    };
-  }, [user]);
+  //   return () => {
+  //     isMounted = false;
+  //   };
+  // }, [user]);
 
   // SEND CURRENT LOCATION
   const sendCurrentLocation = (position: GeolocationPosition, id: string, webSocket: WebSocket) => {
@@ -147,7 +167,7 @@ const MapboxMap: React.FC = () => {
     webSocket.send(JSON.stringify({ action: "sendmessage", data: location }));
   };
 
-  const checkProximityToBoxes = (userLat: number, userLng: number) => {
+  const checkProximityToBoxes = (userLat: number, userLng: number, boxes: BoxData[]) => {
     boxes.forEach((box) => {
       if (box.collected) return;
       const distance = calculateDistance(userLat, userLng, box.latitude, box.longitude);
