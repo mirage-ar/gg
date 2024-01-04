@@ -1,14 +1,13 @@
 import NextAuth from "next-auth";
 import TwitterProvider from "next-auth/providers/twitter";
 
-const OPTIONS = {
+const OPTIONS = {    
   providers: [
     TwitterProvider({
       clientId: process.env.TWITTER_CLIENT_ID as string,
       clientSecret: process.env.TWITTER_CLIENT_SECRET as string,
       version: "2.0", // opt-in to Twitter OAuth 2.0
       profile(profile: any) {
-        console.log(profile);
         return {
           id: profile.data.id,
           name: profile.data.name,
@@ -21,6 +20,7 @@ const OPTIONS = {
 
   callbacks: {
     async session({ session, token }: any) {
+      console.log("token", token);
       if (token) {
         session.user.id = token.sub; // Standard fields
         // Attach custom fields
@@ -42,6 +42,8 @@ const OPTIONS = {
     error: "/error",
   },
 };
+
+
 
 const handler = NextAuth(OPTIONS);
 
