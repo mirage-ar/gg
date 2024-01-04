@@ -70,6 +70,7 @@ const MapboxMap: React.FC = () => {
     markersSocket.current.onopen = () => {
       console.log("WebSocket Connected");
       // location tracking
+      if (!user) return;
       watchId = navigator.geolocation.watchPosition(
         (position) => {
           console.log("position", position);
@@ -197,7 +198,7 @@ const MapboxMap: React.FC = () => {
   const updateBoxes = (map: mapboxgl.Map, box: BoxData) => {
     if (map && box.id && box.latitude && box.longitude) {
       const existingBox = boxesRef.current[box.id];
-      
+
       // console.log(`Updating box: ${box.id}, Collected: ${box.collected}`);
 
       // TODO: user object only has name and image, not id
