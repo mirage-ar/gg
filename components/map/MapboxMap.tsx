@@ -43,7 +43,7 @@ const MapboxMap: React.FC = () => {
     const map = new mapboxgl.Map({
       container: mapContainerRef.current as HTMLElement,
       center: [-71.13637993467633, 42.35611312704494],
-      zoom: 15,
+      zoom: 18,
       pitch: 45,
     });
 
@@ -172,7 +172,7 @@ const MapboxMap: React.FC = () => {
       if (box.collected) return;
       const distance = calculateDistance(userLat, userLng, box.latitude, box.longitude);
       // TODO: update to 9 meters
-      if (distance <= 9) {
+      if (distance <= 50) {
         console.log(`User is within 9 meters of box with id: ${box.id}`);
         setBoxCollect(box);
         setShowCollectButton(true);
