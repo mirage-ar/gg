@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import { calculateDistance } from "@/utils";
 import "mapbox-gl/dist/mapbox-gl.css";
 import styles from "./MapboxMap.module.css";
@@ -19,9 +19,16 @@ type MarkersObject = {
 
 const MapboxMap: React.FC = () => {
   const router = useRouter();
-  const { data: session } = useSession();
-
   const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const session = await getSession();
+      setUser(session?.user as User);
+    };
+    getUser();
+  }, []);
+
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const markersSocket = useRef<WebSocket | null>(null);
@@ -30,13 +37,6 @@ const MapboxMap: React.FC = () => {
   const [boxes, setBoxes] = useState<BoxData[]>([]);
   const [boxCollect, setBoxCollect] = useState<BoxData | null>(null);
   const [showCollectButton, setShowCollectButton] = useState(false);
-
-  useEffect(() => {
-    console.log(session?.user);
-    if (session?.user) {
-      setUser(session.user as User);
-    }
-  }, [session]);
 
   // SETUP MAP
   useEffect(() => {
@@ -121,7 +121,7 @@ const MapboxMap: React.FC = () => {
         console.error("Error fetching boxes:", error);
       } finally {
         if (isMounted) {
-          setTimeout(fetchBoxes, 1000);
+          setTimeout(fetchBoxes, 5000);
         }
       }
     };

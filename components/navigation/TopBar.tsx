@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import type { User, UsersData } from "@/types";
 
 import { GET_POINTS_URL } from "@/utils/constants";
@@ -15,18 +15,19 @@ interface TopBarProps {
 }
 
 const TopBar: React.FC<TopBarProps> = ({ score: scoreInput = 0, boxes: boxesInput = 0 }) => {
-  const { data: session } = useSession();
   const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const session = await getSession();
+      setUser(session?.user as User);
+    };
+    getUser();
+  }, []);
 
   const [score, setScore] = useState<number>(scoreInput);
   const [boxes, setBoxes] = useState<number>(boxesInput);
 
-  useEffect(() => {
-    console.log(session);
-    if (session?.user) {
-      setUser(session.user as User);
-    }
-  }, [session]);
 
   useEffect(() => {
     if (!user?.id) return;

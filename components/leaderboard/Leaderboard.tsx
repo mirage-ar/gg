@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 
 import styles from "./Leaderboard.module.css";
 
@@ -11,13 +11,20 @@ import { GET_POINTS_URL } from "@/utils/constants";
 import { User, LeaderboardItem } from "@/types";
 
 const Leaderboard: React.FC = () => {
-  const { data: session } = useSession();
-  const user = session?.user as User;
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const session = await getSession();
+      setUser(session?.user as User);
+    };
+    getUser();
+  }, []);
 
   const [leaderboard, setLeaderboard] = useState<LeaderboardItem[]>([]);
 
   const sortedLeaderboard = [...leaderboard].sort((a, b) => b.points - a.points);
-  const userRank = sortedLeaderboard.findIndex((player) => player.id.toString() === user.id) + 1;
+  const userRank = sortedLeaderboard.findIndex((player) => player.id.toString() === user?.id) + 1;
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
@@ -25,7 +32,6 @@ const Leaderboard: React.FC = () => {
         const response = await fetch(GET_POINTS_URL);
         const data: LeaderboardItem[] = await response.json();
         setLeaderboard(data);
-        console.log(data);
       } catch (error) {
         console.error("Error fetching leaderboard:", error);
       }
@@ -44,7 +50,7 @@ const Leaderboard: React.FC = () => {
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.userMarker}>
-          <Image className={styles.userImage} src={user?.image} alt="User Image" width={150} height={150} />
+          <Image className={styles.userImage} src={user?.image || ""} alt="User Image" width={150} height={150} />
         </div>
       </div>
       <div className={styles.scoreContainer}>
@@ -58,7 +64,7 @@ const Leaderboard: React.FC = () => {
         {/* ------ USER SCORE ------ */}
         <div className={styles.scoreRow}>
           <div className={styles.scoreLabel}>Score</div>
-          <div className={styles.scoreValue}>{leaderboard.find((item) => item.id.toString() == user.id)?.points}</div>
+          <div className={styles.scoreValue}>{leaderboard.find((item) => item.id.toString() == user?.id)?.points}</div>
         </div>
         {/* ------ PRIZE POOL ------ */}
         <div className={styles.scoreRow}>

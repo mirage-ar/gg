@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import * as DateFNS from "date-fns";
 import styles from "./Chat.module.css";
 
@@ -10,8 +10,15 @@ import { ChatMessage, User } from "@/types";
 import { GET_MESSAGES_URL, CHAT_SOCKET_URL } from "@/utils/constants";
 
 const Chat: React.FC = () => {
-  const { data: session } = useSession();
-  const user = session?.user as User;
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const session = await getSession();
+      setUser(session?.user as User);
+    };
+    getUser();
+  }, []);
 
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputMessage, setInputMessage] = useState<string>("");

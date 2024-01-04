@@ -2,22 +2,29 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import type { User, UsersData, LeaderboardItem } from "@/types";
 import { GET_POINTS_URL } from "@/utils/constants";
 
 import styles from "./Profile.module.css";
 
 const Profile: React.FC = () => {
-  const { data: session } = useSession();
-  const user = session?.user as User;
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const session = await getSession();
+      setUser(session?.user as User);
+    };
+    getUser();
+  }, []);
 
   const [score, setScore] = useState<number>(0);
   const [boxes, setBoxes] = useState<number>(0);
 
   const [leaderboard, setLeaderboard] = useState<LeaderboardItem[]>([]);
   const sortedLeaderboard = [...leaderboard].sort((a, b) => b.points - a.points);
-  const userRank = sortedLeaderboard.findIndex((player) => player.id.toString() === user.id) + 1;
+  const userRank = sortedLeaderboard.findIndex((player) => player.id.toString() === user?.id) + 1;
 
   useEffect(() => {
     if (!user?.id) return;
@@ -55,7 +62,7 @@ const Profile: React.FC = () => {
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.userMarker}>
-          <Image className={styles.userImage} src={user?.image} alt="User Image" width={150} height={150} />
+          <Image className={styles.userImage} src={user?.image || ""} alt="User Image" width={150} height={150} />
         </div>
         <div className={styles.userName}>@{user?.username}</div>
       </div>

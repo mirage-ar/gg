@@ -1,7 +1,10 @@
-import NextAuth from "next-auth";
+import NextAuth, { SessionStrategy } from "next-auth";
 import TwitterProvider from "next-auth/providers/twitter";
 
-const OPTIONS = {    
+const OPTIONS = {
+  session: {
+    strategy: "jwt" as SessionStrategy,
+  },
   providers: [
     TwitterProvider({
       clientId: process.env.TWITTER_CLIENT_ID as string,
@@ -20,7 +23,6 @@ const OPTIONS = {
 
   callbacks: {
     async session({ session, token }: any) {
-      console.log("token", token);
       if (token) {
         session.user.id = token.sub; // Standard fields
         // Attach custom fields
@@ -42,8 +44,6 @@ const OPTIONS = {
     error: "/error",
   },
 };
-
-
 
 const handler = NextAuth(OPTIONS);
 
