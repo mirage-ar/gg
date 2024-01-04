@@ -31,7 +31,7 @@ const OPTIONS = {
     async jwt({ token, user }: any) {
       if (user) {
         // token.id = user.id;
-        token.username = user.username; // Store custom fields in JWT
+        token.username = user?.username; // Store custom fields in JWT
       }
       return token;
     },

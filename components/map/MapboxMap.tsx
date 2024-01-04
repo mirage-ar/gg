@@ -176,7 +176,7 @@ const MapboxMap: React.FC = () => {
           const div = document.createElement("div");
           const img = document.createElement("img");
           div.className = "user-marker";
-          img.src = user.image;
+          img.src = user?.image;
           div.appendChild(img);
 
           const newMarker = new mapboxgl.Marker(div).setLngLat([message.longitude, message.latitude]).addTo(map);
@@ -237,7 +237,7 @@ const MapboxMap: React.FC = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            data: { userId: user.id, boxId: boxCollect?.id, username: user.username, pfp: user.image },
+            data: { userId: user.id, boxId: boxCollect?.id, username: user?.username, pfp: user?.image },
           }),
         });
 

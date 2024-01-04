@@ -22,7 +22,7 @@ const ClaimPage: React.FC = () => {
       <TopBar />
       <div className={styles.content}>
         <div className={styles.userMarker}>
-          <Image className={styles.userImage} src={user.image} alt="User Image" width={150} height={150} />
+          <Image className={styles.userImage} src={user?.image} alt="User Image" width={150} height={150} />
         </div>
         <p>Claimed {points} points</p>
       </div>

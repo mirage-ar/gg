@@ -55,9 +55,9 @@ const Profile: React.FC = () => {
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.userMarker}>
-          <Image className={styles.userImage} src={user.image} alt="User Image" width={150} height={150} />
+          <Image className={styles.userImage} src={user?.image} alt="User Image" width={150} height={150} />
         </div>
-        <div className={styles.userName}>@{user.username}</div>
+        <div className={styles.userName}>@{user?.username}</div>
       </div>
       <div className={styles.scoreContainer}>
         {/* ------ USER RANK ------ */}
