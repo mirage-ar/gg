@@ -1,11 +1,10 @@
 import React from "react";
 import type { Metadata } from "next";
-import "./globals.css";
 import { getServerSession } from "next-auth";
 import SessionProvider from "@/components/SessionProvider";
 import MapboxMap from "@/components/map/MapboxMap";
-import BottomNavigation from "@/components/navigation/BottomNavigation";
-import { User } from "@/types";
+
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "GG",
