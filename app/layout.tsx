@@ -9,6 +9,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "GG",
   description: "May the odds be ever in your favor",
+  manifest: "/manifest.json",
   openGraph: {
     title: "GG",
     description: "May the odds be ever in your favor",
