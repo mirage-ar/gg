@@ -1,0 +1,65 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: #000;
+  z-index: 10000;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--g, #42ff60);
+  text-align: center;
+  font-feature-settings: "case" on;
+  text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.45);
+  font-family: "Connect", Arial, Helvetica, sans-serif;
+  font-size: 76px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 66px; /* 86.842% */
+}
+
+.content img {
+  width: 104px;
+  height: 104px;
+  padding: 10px;
+  border-radius: 20px;
+  background: #000;
+  box-shadow: 0px 0px 44px 0px #ff61ef;
+}
+
+.text {
+  margin-top: 32px;
+}
+
+.bottomContent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 40px;
+}
+
+.bottomText {
+  color: var(--g, #42ff60);
+  text-align: center;
+  font-feature-settings: "ss09" on, "ss08" on, "ss17" on, "ss07" on;
+  font-family: "Diatype Mono", "Courier New", Courier, monospace;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px; /* 114.286% */
+  margin-bottom: 14px;
+}

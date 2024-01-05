@@ -34,9 +34,16 @@ const MapboxMap: React.FC = () => {
   const markersSocket = useRef<WebSocket | null>(null);
   const markersRef = useRef<MarkersObject>({});
   const boxesRef = useRef<MarkersObject>({});
-  const [boxes, setBoxes] = useState<BoxData[]>([]);
   const [boxCollect, setBoxCollect] = useState<BoxData | null>(null);
   const [showCollectButton, setShowCollectButton] = useState(false);
+  const [isStandalone, setIsStandalone] = useState(false);
+
+  useEffect(() => {
+    // Check if running in standalone mode on iOS
+    if ((window.navigator as any).standalone) {
+      setIsStandalone(true);
+    }
+  }, []);
 
   // SETUP MAP
   useEffect(() => {
@@ -63,6 +70,9 @@ const MapboxMap: React.FC = () => {
 
   // Markers Socket
   useEffect(() => {
+    if (!user) return;
+    if (!isStandalone) return;
+
     markersSocket.current = new WebSocket(LOCATION_SOCKET_URL);
 
     let watchId: number;
@@ -73,14 +83,13 @@ const MapboxMap: React.FC = () => {
         const boxesData: BoxData[] = await response.json();
 
         const map = mapRef.current;
-        setBoxes(boxesData);
         if (map) {
           boxesData.forEach((box) => updateBoxes(map, box));
         }
         return boxesData;
       } catch (error) {
         console.error("Error fetching boxes:", error);
-        return null
+        return null;
       }
     };
 
@@ -121,37 +130,7 @@ const MapboxMap: React.FC = () => {
       markersSocket.current?.close();
       navigator.geolocation.clearWatch(watchId);
     };
-  }, [user]);
-
-  // GET BOXES
-  // useEffect(() => {
-  //   let isMounted = true;
-
-  //   const fetchBoxes = async () => {
-  //     try {
-  //       const response = await fetch(GET_BOXES_URL);
-  //       const boxesData: BoxData[] = await response.json();
-
-  //       const map = mapRef.current;
-  //       setBoxes(boxesData);
-  //       if (map) {
-  //         boxesData.forEach((box) => updateBoxes(map, box));
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching boxes:", error);
-  //     } finally {
-  //       if (isMounted) {
-  //         setTimeout(fetchBoxes, 5000);
-  //       }
-  //     }
-  //   };
-
-  //   fetchBoxes();
-
-  //   return () => {
-  //     isMounted = false;
-  //   };
-  // }, [user]);
+  }, [user, isStandalone]);
 
   // SEND CURRENT LOCATION
   const sendCurrentLocation = (position: GeolocationPosition, id: string, webSocket: WebSocket) => {
