@@ -124,8 +124,7 @@ const Chat: React.FC = () => {
         <div ref={messagesEndRef} />
       </div>
       <form onSubmit={handleFormSubmit} className={styles.chatForm}>
-        <input
-          type="text"
+        <textarea
           className={styles.chatInput}
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}

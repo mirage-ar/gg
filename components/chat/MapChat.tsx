@@ -15,6 +15,12 @@ const MapChat: React.FC = () => {
   const webSocket = useRef<WebSocket | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  const [showChat, setShowChat] = useState<boolean>(true);
+
+  useEffect(() => {
+    setShowChat(true);
+  }, []);
+
   // Connect to WebSocket
   useEffect(() => {
     const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user") as string) : null;
@@ -78,7 +84,11 @@ const MapChat: React.FC = () => {
   };
 
   return (
-    <div className={styles.chatContainer}>
+    <div
+      className={styles.chatContainer}
+      onClick={() => setShowChat(false)}
+      style={{ display: showChat ? "block" : "none" }}
+    >
       <div className={styles.chatMessages}>
         {messages.map((message, index) => (
           <div key={index} className={styles.chatMessageContainer}>

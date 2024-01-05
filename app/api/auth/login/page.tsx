@@ -1,31 +1,14 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 import styles from "./page.module.css";
 
 const LoginPage = () => {
-  const { data: session, status } = useSession();
-  const loading = status === "loading";
-
   const handleSignIn = () => {
     signIn("twitter", { callbackUrl: "/" });
   };
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (session) {
-    return (
-      <>
-        <p>Signed in as {session?.user?.name}</p>
-        <button onClick={() => signOut()}>Sign out</button>
-      </>
-    );
-  }
 
   return (
     <main className={styles.container}>
