@@ -84,8 +84,8 @@
 }
 
 @font-face {
-  font-family: "Connect-Mono";
-  src: url("/fonts/Connect/ABCConnectMono-Nail.woff");
+  font-family: "Connect";
+  src: url("/fonts/Connect/ABCConnect-Nail-Trial.otf");
   font-style: normal;
   font-weight: 400;
   font-display: swap;

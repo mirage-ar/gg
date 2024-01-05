@@ -39,7 +39,7 @@
 .userName {
   color: var(--g, #42FF60);
   font-feature-settings: 'ss09' on, 'ss08' on, 'ss17' on, 'ss07' on;
-  font-family: 'Connect-Mono', 'Courier New', Courier, monospace;
+  font-family: "Connect", Arial, Helvetica, sans-serif;
   font-size: 28px;
   font-style: normal;
   font-weight: 400;
@@ -53,7 +53,7 @@
   padding: 0 20px;
   color: #42ff60;
   font-feature-settings: "case" on;
-  font-family: "Connect-Mono", "Courier New", Courier, monospace;
+  font-family: "Connect", Arial, Helvetica, sans-serif;
   font-size: 28px;
   font-style: normal;
   /* font-weight: 400; */

@@ -7,7 +7,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  font-family: "Connect-Mono", monospace;
+  font-family: "Connect", Arial, Helvetica, sans-serif;
 }
 
 .prizeContainer {
