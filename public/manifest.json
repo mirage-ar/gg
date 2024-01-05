@@ -1,6 +1,12 @@
 {
   "name": "GG",
-  "short_name": "GG App",
+  "short_name": "GG",
+  "description": "GG",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#000",
+  "background_color": "#000",
   "icons": [
     {
       "src": "/icons/icon-120.png",
@@ -27,10 +33,5 @@
       "sizes": "any",
       "type": "image/x-icon"
     }
-  ],
-  "theme_color": "#000000",
-  "background_color": "#000000",
-  "start_url": "/",
-  "display": "standalone",
-  "orientation": "portrait"
+  ]
 }

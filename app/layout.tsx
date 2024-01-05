@@ -8,10 +8,11 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "GG",
-  description: "May the odds be ever in your favor",
+  description: "GG",
+  themeColor: "#000000",
   openGraph: {
     title: "GG",
-    description: "May the odds be ever in your favor",
+    description: "GG",
     url: "https://gg.zip",
     images: [
       {
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary",
     title: "GG",
-    description: "May the odds be ever in your favor",
+    description: "GG",
     images: [
       {
         url: "https://gg.zip/og.png",
