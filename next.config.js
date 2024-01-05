@@ -8,11 +8,9 @@ module.exports = {
   images: {
     remotePatterns: [
       {
-        // TODO: remove img from the path
         protocol: "https",
         hostname: "pbs.twimg.com",
         port: "",
-        // pathname: "/account123/**",
       },
     ],
   },
