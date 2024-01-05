@@ -9,6 +9,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "GG",
   description: "GG",
+  appleWebApp: true,
+  manifest: "/manifest.json",
+  viewport: "width=device-width, initial-scale=1.0, user-scalable=no",
   themeColor: "#000000",
   openGraph: {
     title: "GG",
