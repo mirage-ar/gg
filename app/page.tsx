@@ -21,7 +21,7 @@ const MapPage: React.FC = () => {
 
   return (
     <main>
-      {isStandalone ? (
+      {true ? (
         <>
           <MapChat />
           <TopBar />
