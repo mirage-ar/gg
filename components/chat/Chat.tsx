@@ -87,7 +87,18 @@ const Chat: React.FC = () => {
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     sendMessage();
+    resetZoom();
   };
+
+  function resetZoom() {
+    const viewport = document.querySelector('meta[name=viewport]') as HTMLMetaElement;
+    if (viewport) {
+        viewport.content = 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0';
+        setTimeout(() => {
+            viewport.content = 'width=device-width, initial-scale=1';
+        }, 300);
+    }
+}
 
   return (
     <div className={styles.chatContainer}>
