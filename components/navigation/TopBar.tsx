@@ -8,6 +8,7 @@ import type { User, UsersData } from "@/types";
 import { GET_POINTS_URL } from "@/utils/constants";
 
 import styles from "./TopBar.module.css";
+import { withCommas } from "@/utils";
 
 interface TopBarProps {
   score?: number;
@@ -54,17 +55,17 @@ const TopBar: React.FC<TopBarProps> = ({ score: scoreInput = 0, boxes: boxesInpu
       <div className={styles.prizeContainer}>
         <div className={styles.title}>Prize Pool</div>
         <div className={styles.prizeAmountContainer}>
-          <div className={styles.prizeAmount}>{25000}</div>
+          <div className={styles.prizeAmount}>{withCommas(25000)}</div>
           <Image alt="Solana Icon" src="/icons/solana.svg" width={16} height={16} />
         </div>
       </div>
       <div className={styles.scoreContainer}>
         <div className={styles.title}>My Score</div>
         <div className={styles.scoreAmountContainer}>
-          <div className={styles.scoreAmount}>{score}</div>
+          <div className={styles.scoreAmount}>{withCommas(score)}</div>
           <Image alt="G Icon" src="/icons/g-points.svg" width={16} height={16} />
           <div className={styles.boxAmountContainer}>
-            <div className={styles.boxAmount}>({boxes})</div>
+            <div className={styles.boxAmount}><span className={styles.grey}>(</span>{boxes}<span className={styles.grey}>)</span></div>
             <Image alt="Box Icon" src="/icons/box-closed.svg" width={16} height={16} />
           </div>
         </div>

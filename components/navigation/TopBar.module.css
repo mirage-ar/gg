@@ -97,3 +97,7 @@
   font-style: normal;
   font-weight: 400;
 }
+
+.grey {
+  color: var(--supporting-w-40, rgba(250, 245, 233, 0.4));
+}

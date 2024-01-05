@@ -96,10 +96,8 @@ a {
 }
 
 .marker {
-  background-color: lightgreen;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
+  width: 16px;
+  height: 16px;
   z-index: 1000;
 }
 

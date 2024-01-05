@@ -14,6 +14,10 @@ export const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2
   return R * c; // Distance in meters
 };
 
-export const rand = (min: number, max: number ): number => {
-  return Math.floor(Math.random() * (max - min) ) + min;
-}
+export const rand = (min: number, max: number): number => {
+  return Math.floor(Math.random() * (max - min)) + min;
+};
+
+export const withCommas = (x: number): string => {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
