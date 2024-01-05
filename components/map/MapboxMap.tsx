@@ -73,7 +73,7 @@ const MapboxMap: React.FC = () => {
   useEffect(() => {
     if (!user) return;
     // TODO: add standalone check
-    // if (!isStandalone) return;
+    if (!isStandalone) return;
 
     markersSocket.current = new WebSocket(LOCATION_SOCKET_URL);
 
