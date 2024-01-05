@@ -13,3 +13,7 @@ export const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2
 
   return R * c; // Distance in meters
 };
+
+export const rand = (min: number, max: number ): number => {
+  return Math.floor(Math.random() * (max - min) ) + min;
+}

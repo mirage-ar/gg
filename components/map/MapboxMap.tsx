@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import { useRouter } from "next/navigation";
 import { getSession } from "next-auth/react";
-import { calculateDistance } from "@/utils";
+import { calculateDistance, rand } from "@/utils";
 import "mapbox-gl/dist/mapbox-gl.css";
 import styles from "./MapboxMap.module.css";
 
@@ -49,8 +49,9 @@ const MapboxMap: React.FC = () => {
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: mapContainerRef.current as HTMLElement,
+      // TODO: update to new york and zoomed out
       center: [-71.13637993467633, 42.35611312704494],
-      zoom: 18,
+      zoom: 15,
       pitch: 45,
     });
 
@@ -71,7 +72,8 @@ const MapboxMap: React.FC = () => {
   // Markers Socket
   useEffect(() => {
     if (!user) return;
-    if (!isStandalone) return;
+    // TODO: add standalone check
+    // if (!isStandalone) return;
 
     markersSocket.current = new WebSocket(LOCATION_SOCKET_URL);
 
@@ -150,7 +152,6 @@ const MapboxMap: React.FC = () => {
     boxes.forEach((box) => {
       if (box.collected) return;
       const distance = calculateDistance(userLat, userLng, box.latitude, box.longitude);
-      // TODO: update to 9 meters
       if (distance <= 20) {
         console.log(`User is within 9 meters of box with id: ${box.id}`);
         setBoxCollect(box);
@@ -183,46 +184,15 @@ const MapboxMap: React.FC = () => {
           markersRef.current[message.id] = newMarker;
         } else {
           // Marker doesn't exist, create a new one
-          const el = document.createElement("div");
+          const el = document.createElement("img");
           el.className = "marker";
+          el.src = `/icons/markers/${rand(1,5)}.svg`;
 
           const newMarker = new mapboxgl.Marker(el).setLngLat([message.longitude, message.latitude]).addTo(map);
 
           markersRef.current[message.id] = newMarker;
         }
       }
-    }
-  };
-
-  const updateBoxes = (map: mapboxgl.Map, box: BoxData) => {
-    if (map && box.id && box.latitude && box.longitude) {
-      const existingBox = boxesRef.current[box.id];
-
-      // console.log(`Updating box: ${box.id}, Collected: ${box.collected}`);
-
-      // TODO: user object only has name and image, not id
-      if (existingBox && box.collected && box.username === user?.username) {
-        // if I have collected a box show pink icon
-        const existingBoxElement = existingBox.getElement() as HTMLImageElement;
-        existingBoxElement.src = "/icons/box-opened.svg";
-      } else if (existingBox && box.collected) {
-        // if someone else has collected a box show grey icon
-        const existingBoxElement = existingBox.getElement() as HTMLImageElement;
-        existingBoxElement.src = "/icons/box-grey.svg";
-      } else if (!existingBox) {
-        // Box doesn't exist, create a new one
-        // const el = document.createElement("img");
-        // el.className = "box";
-        const img = document.createElement("img");
-        img.className = "box";
-        img.src = "/icons/box-closed.svg";
-        // el.appendChild(img);
-
-        const newMarker = new mapboxgl.Marker(img).setLngLat([box.longitude, box.latitude]).addTo(map);
-
-        boxesRef.current[box.id] = newMarker;
-      }
-      // else the box is already there and not collected, do nothing
     }
   };
 
@@ -256,6 +226,43 @@ const MapboxMap: React.FC = () => {
       } catch (error) {
         console.error("Error collecting box:", error);
       }
+    }
+  };
+
+  const updateBoxes = (map: mapboxgl.Map, box: BoxData) => {
+    if (map && box.id && box.latitude && box.longitude) {
+      const existingBox = boxesRef.current[box.id];
+
+      if (existingBox && box.collected && box.username === user?.username) {
+        // if I have collected a box show pink icon
+        const existingBoxElement = existingBox.getElement();
+        const icon = existingBoxElement.children[1] as HTMLImageElement;
+        icon.src = "/icons/box-opened.svg";
+      } else if (existingBox && box.collected) {
+        // if someone else has collected a box show grey icon
+        const existingBoxElement = existingBox.getElement();
+        const icon = existingBoxElement.children[1] as HTMLImageElement;
+        icon.src = "/icons/box-grey.svg";
+      } else if (!existingBox) {
+        // Box doesn't exist, create a new one
+        const container = document.createElement("div");
+        container.className = "box-container";
+        const user = document.createElement("div");
+        user.className = "box-user";
+        const pfp = document.createElement("img");
+        pfp.src = box.pfp;
+        user.appendChild(pfp);
+        const icon = document.createElement("img");
+        icon.className = "box";
+        icon.src = "/icons/box-closed.svg";
+        container.appendChild(user);
+        container.appendChild(icon);
+
+        const newMarker = new mapboxgl.Marker(container).setLngLat([box.longitude, box.latitude]).addTo(map);
+
+        boxesRef.current[box.id] = newMarker;
+      }
+      // else the box is already there and not collected, do nothing
     }
   };
 

@@ -4,7 +4,7 @@ import MapboxMap from "@/components/map/MapboxMap";
 
 import "./globals.css";
 
-export const viewport: Viewport = {
+const viewport: Viewport = {
   themeColor: '#000',
   initialScale: 1,
   maximumScale: 1,
@@ -15,12 +15,12 @@ export const viewport: Viewport = {
   colorScheme: 'dark',
 };
 
-const metadata: Metadata = {
+export const metadata: Metadata = {
   title: "GG",
   description: "GG",
   appleWebApp: true,
   manifest: "/manifest.json",
-  viewport: "width=device-width, initial-scale=1.0, user-scalable=no",
+  viewport: viewport,
   themeColor: "#000000",
   openGraph: {
     title: "GG",
