@@ -1,7 +1,7 @@
 import { PointstData } from "@/types";
 import { useState, useEffect } from "react";
 
-export default function useUser(userId?: string) {
+export default function usePoints(userId?: string) {
   const [points, setPoints] = useState<number>(0);
   const [boxes, setBoxes] = useState<number>(0);
 

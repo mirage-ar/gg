@@ -6,33 +6,11 @@ import Image from "next/image";
 import styles from "./Leaderboard.module.css";
 
 import { LeaderboardItem } from "@/types";
-import { useUser } from "@/hooks";
+import { useLeaderboard, useUser } from "@/hooks";
 
 const Leaderboard: React.FC = () => {
   const user = useUser();
-  const [leaderboard, setLeaderboard] = useState<LeaderboardItem[]>([]);
-
-  const userRank = leaderboard.findIndex((player) => player.id.toString() === user?.id) + 1;
-
-  useEffect(() => {
-    const fetchLeaderboard = async () => {
-      try {
-        const response = await fetch("/api/leaderboard");
-        const data: LeaderboardItem[] = await response.json();
-        setLeaderboard(data);
-      } catch (error) {
-        console.error("Error fetching leaderboard:", error);
-      }
-    };
-
-    fetchLeaderboard();
-
-    const intervalId = setInterval(fetchLeaderboard, 5000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
+  const { leaderboard, userRank } = useLeaderboard(user?.id);
 
   return (
     <div className={styles.container}>
