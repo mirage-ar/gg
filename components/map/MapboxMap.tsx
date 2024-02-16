@@ -96,9 +96,9 @@ const MapboxMap: React.FC = () => {
     try {
       const userGeoHash = encodeGeoHash(latitude, longitude);
       const response = await fetch(`api/boxes`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ userId: user?.id, geoHash: userGeoHash }),
       });
@@ -158,6 +158,10 @@ const MapboxMap: React.FC = () => {
         },
         (error) => {
           console.error("Error getting location", error);
+        },
+        {
+          enableHighAccuracy: true,
+          maximumAge: 0,
         }
       );
     };
