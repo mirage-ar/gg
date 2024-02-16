@@ -62,7 +62,7 @@ const MapChat: React.FC = () => {
         message: inputMessage,
         timestamp: Date.now(),
         username: user?.username || "Anonymous",
-        pfp: user?.image || "",
+        image: user?.image || "",
       };
       webSocket.current.send(JSON.stringify({ action: "sendmessage", data: messageData }));
       setInputMessage("");
@@ -94,7 +94,7 @@ const MapChat: React.FC = () => {
           <div key={index} className={styles.chatMessageContainer}>
             <div className={styles.chatMessageInfo}>
               <Image
-                src={message.pfp}
+                src={message.image}
                 alt={message.username}
                 width={20}
                 height={20}

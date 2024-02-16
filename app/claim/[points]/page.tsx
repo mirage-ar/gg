@@ -1,24 +1,15 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
-import { getSession } from "next-auth/react";
 import TopBar from "@/components/navigation/TopBar";
 
 import styles from "./page.module.css";
-import { User } from "@/types";
+import { useUser } from "@/hooks";
 
 const ClaimPage: React.FC = () => {
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    const getUser = async () => {
-      const session = await getSession();
-      setUser(session?.user as User);
-    };
-    getUser();
-  }, []);
+  const user = useUser();
 
   const params = useParams();
   const router = useRouter();

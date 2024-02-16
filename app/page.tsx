@@ -6,10 +6,8 @@ import BottomNavigation from "@/components/navigation/BottomNavigation";
 import MapChat from "@/components/chat/MapChat";
 import TopBar from "@/components/navigation/TopBar";
 
-import type { User } from "@/types";
-
 const MapPage: React.FC = () => {
-  const [isStandalone, setIsStandalone] = useState(false);
+  const [isStandalone, setIsStandalone] = useState(true);
   console.log("isStandalone", isStandalone);
 
   // TODO: update to use standalone - map too

@@ -1,5 +1,6 @@
 import NextAuth, { SessionStrategy } from "next-auth";
 import TwitterProvider from "next-auth/providers/twitter";
+import prisma from "@/utils/prisma";
 
 const OPTIONS = {
   session: {
@@ -22,10 +23,30 @@ const OPTIONS = {
   ],
 
   callbacks: {
+    async signIn({ user, account, profile}: any) {
+      console.log("SIGN IN");
+
+      const userExists = await prisma.user.findFirst({
+        where: {
+          twitterId: user.id,
+        },
+      });
+
+      if (userExists) {
+        return true;
+      } else {
+        return '/api/auth/error?error=UserNotFound'
+      }
+    },
     async session({ session, token }: any) {
       if (token) {
-        session.user.id = token.sub; // Standard fields
-        // Attach custom fields
+        const user = await prisma.user.findFirst({
+          where: {
+            twitterId: token.sub,
+          },
+        });
+        session.user.id = user?.id;
+        session.user.twitterId = token.sub;
         session.user.username = token.username;
       }
       return session;
@@ -41,7 +62,7 @@ const OPTIONS = {
   pages: {
     signIn: "/api/auth/login",
     callback: "/",
-    error: "/error",
+    error: "/api/auth/error",
   },
 };
 

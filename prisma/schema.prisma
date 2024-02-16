@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  twitterId String   @unique
+  username  String   @unique
+  wallet    String   @unique
+  image     String?
+  points    Int      @default(0) // Calculated field based on Box.points
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Box       Box[]
+  // Card      Card[]
+
+  @@index([points])
+}
+
+model Box {
+  id          String   @id @default(uuid())
+  latitude    Float
+  longitude   Float
+  geoHash     String
+  points      Int
+  collectorId String?
+  collector   User?    @relation(fields: [collectorId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+    @@index([geoHash])
+}
+
+// model Sponsor {
+//   id        String   @id @default(uuid())
+//   wallet    String   @unique
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   Card      Card[]
+// }
+
+// model Card {
+//   id        String   @id @default(uuid())
+//   price     Int // price in lamports
+//   userId    String
+//   user      User     @relation(fields: [userId], references: [id])
+//   sponsorId String
+//   sponsor   Sponsor  @relation(fields: [sponsorId], references: [id])
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }

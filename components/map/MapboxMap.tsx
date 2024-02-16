@@ -3,13 +3,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import { useRouter } from "next/navigation";
-import { getSession } from "next-auth/react";
-import { calculateDistance, rand } from "@/utils";
-import "mapbox-gl/dist/mapbox-gl.css";
-import styles from "./MapboxMap.module.css";
+import { useUser } from "@/hooks";
+import { encodeGeoHash } from "@/utils/geoHash";
+import { rand } from "@/utils";
 
-import type { MarkerData, BoxData, User } from "@/types";
-import { LOCATION_SOCKET_URL, GET_BOXES_URL, COLLECT_BOX_URL } from "@/utils/constants";
+import styles from "./MapboxMap.module.css";
+import "mapbox-gl/dist/mapbox-gl.css";
+
+import type { MarkerData, BoxData } from "@/types";
+import { LOCATION_SOCKET_URL } from "@/utils/constants";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN as string;
 
@@ -19,15 +21,7 @@ type MarkersObject = {
 
 const MapboxMap: React.FC = () => {
   const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    const getUser = async () => {
-      const session = await getSession();
-      setUser(session?.user as User);
-    };
-    getUser();
-  }, []);
+  const user = useUser();
 
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
@@ -36,14 +30,6 @@ const MapboxMap: React.FC = () => {
   const boxesRef = useRef<MarkersObject>({});
   const [boxCollect, setBoxCollect] = useState<BoxData | null>(null);
   const [showCollectButton, setShowCollectButton] = useState(false);
-  const [isStandalone, setIsStandalone] = useState(false);
-
-  useEffect(() => {
-    // Check if running in standalone mode on iOS
-    if ((window.navigator as any).standalone) {
-      setIsStandalone(true);
-    }
-  }, []);
 
   // SETUP MAP
   useEffect(() => {
@@ -62,6 +48,43 @@ const MapboxMap: React.FC = () => {
       map.setConfigProperty("basemap", "showPointOfInterestLabels", false);
     });
 
+    map.on("load", function () {
+      map.addSource("boxes-source", {
+        type: "geojson",
+        data: {
+          type: "FeatureCollection",
+          features: [],
+        },
+      });
+
+      map.loadImage("/icons/map/box-closed.png", (error, image) => {
+        if (error) throw error;
+        map.addImage("boxClosed", image as HTMLImageElement);
+      });
+
+      map.loadImage("/icons/map/box-opened.png", (error, image) => {
+        if (error) throw error;
+        map.addImage("boxOpened", image as HTMLImageElement);
+      });
+
+      map.addLayer({
+        id: "boxes-layer",
+        type: "symbol", // Change the type to symbol to use images
+        source: "boxes-source",
+        layout: {
+          "icon-image": [
+            "match",
+            ["get", "boxType"], // Use the 'boxType' property
+            "opened",
+            "boxOpened", // If 'boxType' is 'opened', use 'boxOpened'
+            "closed",
+            "boxClosed", // If 'boxType' is 'closed', use 'boxClosed'
+            "boxClosed", // Default image if 'boxType' doesn't match
+          ],
+        },
+      });
+    });
+
     mapRef.current = map;
 
     return () => {
@@ -69,31 +92,43 @@ const MapboxMap: React.FC = () => {
     };
   }, []);
 
+  const fetchAndUpdateBoxes = async (latitude: number, longitude: number) => {
+    try {
+      const userGeoHash = encodeGeoHash(latitude, longitude);
+      const response = await fetch(`api/boxes`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId: user?.id, geoHash: userGeoHash }),
+      });
+      const data = await response.json();
+      console.log(data);
+      // check if user can collect box
+      if (data.collect) {
+        router.push(`/claim/${data.collect.points}`);
+      }
+
+      // update box markers
+      const map = mapRef.current;
+      if (map && map.getSource("boxes-source")) {
+        const boxesSource = map.getSource("boxes-source") as mapboxgl.GeoJSONSource;
+        if (boxesSource) {
+          boxesSource.setData(data.boxes);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching boxes:", error);
+    }
+  };
+
   // Markers Socket
   useEffect(() => {
     if (!user) return;
-    // TODO: add standalone check
-    if (!isStandalone) return;
 
-    markersSocket.current = new WebSocket(LOCATION_SOCKET_URL);
-
+    // location tracking
     let watchId: number;
-
-    const fetchBoxes = async (): Promise<BoxData[] | null> => {
-      try {
-        const response = await fetch(GET_BOXES_URL);
-        const boxesData: BoxData[] = await response.json();
-
-        const map = mapRef.current;
-        if (map) {
-          boxesData.forEach((box) => updateBoxes(map, box));
-        }
-        return boxesData;
-      } catch (error) {
-        console.error("Error fetching boxes:", error);
-        return null;
-      }
-    };
+    markersSocket.current = new WebSocket(LOCATION_SOCKET_URL);
 
     markersSocket.current.onopen = () => {
       console.log("WebSocket Connected");
@@ -101,15 +136,24 @@ const MapboxMap: React.FC = () => {
       if (!user) return;
       watchId = navigator.geolocation.watchPosition(
         async (position) => {
-          const boxData = await fetchBoxes();
-          console.log("position", position);
-          console.log("boxes", boxData);
-          if (boxData) {
-            checkProximityToBoxes(position.coords.latitude, position.coords.longitude, boxData);
-          }
+          // if (boxData) {
+          //   checkProximityToBoxes(position.coords.latitude, position.coords.longitude, boxData);
+          // }
 
+          fetchAndUpdateBoxes(position.coords.latitude, position.coords.longitude);
+
+          // SEND USER LOCATION
           if (markersSocket.current && markersSocket.current.readyState === WebSocket.OPEN && user?.id) {
-            sendCurrentLocation(position, user.id, markersSocket.current);
+            const location = {
+              id: user.id,
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              accuracy: position.coords.accuracy,
+              altitude: position.coords.altitude,
+              altitudeAccuracy: position.coords.altitudeAccuracy,
+              timestamp: position.timestamp,
+            };
+            markersSocket.current.send(JSON.stringify({ action: "sendmessage", data: location }));
           }
         },
         (error) => {
@@ -132,33 +176,8 @@ const MapboxMap: React.FC = () => {
       markersSocket.current?.close();
       navigator.geolocation.clearWatch(watchId);
     };
-  }, [user, isStandalone]);
-
-  // SEND CURRENT LOCATION
-  const sendCurrentLocation = (position: GeolocationPosition, id: string, webSocket: WebSocket) => {
-    const location = {
-      id: id,
-      latitude: position.coords.latitude,
-      longitude: position.coords.longitude,
-      accuracy: position.coords.accuracy,
-      altitude: position.coords.altitude,
-      altitudeAccuracy: position.coords.altitudeAccuracy,
-      timestamp: position.timestamp,
-    };
-    webSocket.send(JSON.stringify({ action: "sendmessage", data: location }));
-  };
-
-  const checkProximityToBoxes = (userLat: number, userLng: number, boxes: BoxData[]) => {
-    boxes.forEach((box) => {
-      if (box.collected) return;
-      const distance = calculateDistance(userLat, userLng, box.latitude, box.longitude);
-      if (distance <= 20) {
-        console.log(`User is within 9 meters of box with id: ${box.id}`);
-        setBoxCollect(box);
-        setShowCollectButton(true);
-      }
-    });
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   // UPDATE PLAYER MARKERS
   const updateMarkers = (map: mapboxgl.Map, message: MarkerData) => {
@@ -186,83 +205,13 @@ const MapboxMap: React.FC = () => {
           // Marker doesn't exist, create a new one
           const el = document.createElement("img");
           el.className = "marker";
-          el.src = `/icons/markers/${rand(1,5)}.svg`;
+          el.src = `/icons/markers/${rand(1, 5)}.svg`;
 
           const newMarker = new mapboxgl.Marker(el).setLngLat([message.longitude, message.latitude]).addTo(map);
 
           markersRef.current[message.id] = newMarker;
         }
       }
-    }
-  };
-
-  const handleCollectBox = async () => {
-    // TODO: set loading state here and disable button
-    if (user?.id && boxCollect?.id) {
-      try {
-        console.log("Collecting box...");
-        const response = await fetch(`${COLLECT_BOX_URL}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            data: { userId: user.id, boxId: boxCollect?.id, username: user?.username, pfp: user?.image },
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status}`);
-        }
-
-        const data = await response.json();
-        console.log(data);
-        if (data.message) {
-          setBoxCollect(null);
-          setShowCollectButton(false);
-
-          router.push(`/claim/${boxCollect.points}`);
-        }
-      } catch (error) {
-        console.error("Error collecting box:", error);
-      }
-    }
-  };
-
-  const updateBoxes = (map: mapboxgl.Map, box: BoxData) => {
-    if (map && box.id && box.latitude && box.longitude) {
-      const existingBox = boxesRef.current[box.id];
-
-      if (existingBox && box.collected && box.username === user?.username) {
-        // if I have collected a box show pink icon
-        const existingBoxElement = existingBox.getElement();
-        const icon = existingBoxElement.children[1] as HTMLImageElement;
-        icon.src = "/icons/box-opened.svg";
-      } else if (existingBox && box.collected) {
-        // if someone else has collected a box show grey icon
-        const existingBoxElement = existingBox.getElement();
-        const icon = existingBoxElement.children[1] as HTMLImageElement;
-        icon.src = "/icons/box-grey.svg";
-      } else if (!existingBox) {
-        // Box doesn't exist, create a new one
-        const container = document.createElement("div");
-        container.className = "box-container";
-        const user = document.createElement("div");
-        user.className = "box-user";
-        const pfp = document.createElement("img");
-        pfp.src = box.pfp;
-        user.appendChild(pfp);
-        const icon = document.createElement("img");
-        icon.className = "box";
-        icon.src = "/icons/box-closed.svg";
-        container.appendChild(user);
-        container.appendChild(icon);
-
-        const newMarker = new mapboxgl.Marker(container).setLngLat([box.longitude, box.latitude]).addTo(map);
-
-        boxesRef.current[box.id] = newMarker;
-      }
-      // else the box is already there and not collected, do nothing
     }
   };
 
@@ -279,11 +228,7 @@ const MapboxMap: React.FC = () => {
           zIndex: "-1000",
         }}
       />
-      {showCollectButton && (
-        <button className={styles.collectButton} onClick={handleCollectBox}>
-          Claim
-        </button>
-      )}
+      {showCollectButton && <button className={styles.collectButton}>Claim</button>}
     </>
   );
 };

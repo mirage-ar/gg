@@ -3,33 +3,21 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { getSession } from "next-auth/react";
-
 import styles from "./Leaderboard.module.css";
 
-import { GET_POINTS_URL } from "@/utils/constants";
-import { User, LeaderboardItem } from "@/types";
+import { LeaderboardItem } from "@/types";
+import { useUser } from "@/hooks";
 
 const Leaderboard: React.FC = () => {
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    const getUser = async () => {
-      const session = await getSession();
-      setUser(session?.user as User);
-    };
-    getUser();
-  }, []);
-
+  const user = useUser();
   const [leaderboard, setLeaderboard] = useState<LeaderboardItem[]>([]);
 
-  const sortedLeaderboard = [...leaderboard].sort((a, b) => b.points - a.points);
-  const userRank = sortedLeaderboard.findIndex((player) => player.id.toString() === user?.id) + 1;
+  const userRank = leaderboard.findIndex((player) => player.id.toString() === user?.id) + 1;
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
-        const response = await fetch(GET_POINTS_URL);
+        const response = await fetch("/api/leaderboard");
         const data: LeaderboardItem[] = await response.json();
         setLeaderboard(data);
       } catch (error) {
@@ -58,7 +46,7 @@ const Leaderboard: React.FC = () => {
         <div className={styles.scoreRow}>
           <div className={styles.scoreLabel}>Rank</div>
           <div className={styles.scoreValue}>
-            {userRank}/{sortedLeaderboard.length}
+            {userRank}/{leaderboard.length}
           </div>
         </div>
         {/* ------ USER SCORE ------ */}
@@ -69,7 +57,7 @@ const Leaderboard: React.FC = () => {
         {/* ------ PRIZE POOL ------ */}
         <div className={styles.scoreRow}>
           <div className={styles.scoreLabel}>Prize Pool</div>
-          <div className={styles.scoreValue}>${10000}</div>
+          <div className={styles.scoreValue}>{150}</div>
         </div>
       </div>
 
@@ -78,12 +66,12 @@ const Leaderboard: React.FC = () => {
         <div className={styles.leaderboardHeader}>Leaderboard</div>
         <div className={styles.leaderboardScores}>
           {leaderboard.length > 0 &&
-            sortedLeaderboard.map((player, index) => (
+            leaderboard.map((player, index) => (
               <div className={styles.leaderboardRow} key={player.id}>
                 <div className={styles.playerInfo}>
                   <div className={styles.playerRank}>{index + 1}</div>
                   {/* <div className={styles.playerMarker}> */}
-                  <Image className={styles.playerImage} src={player.pfp} alt="User Image" width={150} height={150} />
+                  <Image className={styles.playerImage} src={player.image} alt="User Image" width={150} height={150} />
                   {/* </div> */}
                   <div className={styles.playerName}>@{player.username}</div>
                 </div>

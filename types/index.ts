@@ -31,15 +31,10 @@ export type BoxData = {
   latitude: number;
   longitude: number;
   points: number;
-  collected: boolean;
-  username: string;
-  pfp: string;
 };
 
-export type UsersData = {
+export type PointstData = {
   id: string;
-  username: string;
-  pfp: string;
   points: number;
   boxes: number;
 };
@@ -48,14 +43,13 @@ export type ChatMessage = {
   message: string;
   timestamp: number;
   username: string;
-  pfp: string;
+  image: string;
 };
-
 
 export type LeaderboardItem = {
   id: number;
   username: string;
-  pfp: string;
-  walletAddress: number;
+  image: string;
+  wallet: number;
   points: number;
-}
+};

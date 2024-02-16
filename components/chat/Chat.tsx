@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { getSession } from "next-auth/react";
+import { useUser } from "@/hooks";
 import * as DateFNS from "date-fns";
 import styles from "./Chat.module.css";
 
@@ -10,15 +10,7 @@ import { ChatMessage, User } from "@/types";
 import { GET_MESSAGES_URL, CHAT_SOCKET_URL } from "@/utils/constants";
 
 const Chat: React.FC = () => {
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    const getUser = async () => {
-      const session = await getSession();
-      setUser(session?.user as User);
-    };
-    getUser();
-  }, []);
+  const user = useUser();
 
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputMessage, setInputMessage] = useState<string>("");
@@ -63,7 +55,7 @@ const Chat: React.FC = () => {
         message: inputMessage,
         timestamp: Date.now(),
         username: user?.username || "Anonymous",
-        pfp: user?.image || "",
+        image: user?.image || "",
       };
       webSocket.current.send(JSON.stringify({ action: "sendmessage", data: messageData }));
       setInputMessage("");
@@ -107,7 +99,7 @@ const Chat: React.FC = () => {
           <div key={index} className={styles.chatMessageContainer}>
             <div className={styles.chatMessageInfo}>
               <Image
-                src={message.pfp}
+                src={message.image}
                 alt={message.username}
                 width={20}
                 height={20}
@@ -115,6 +107,7 @@ const Chat: React.FC = () => {
               />
               <p className={styles.chatMessageName}>{message.username}</p>
               <p className={styles.chatMessageTimestamp}>
+              
                 {DateFNS.formatDistance(new Date(message.timestamp), new Date(), { addSuffix: true })}
               </p>
             </div>
