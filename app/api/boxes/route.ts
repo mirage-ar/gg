@@ -26,7 +26,7 @@ export async function POST(request: Request) {
   };
 
   // substring length calculates area of geohash to search for boxes
-  const geohashPrefix = geoHash.substring(0, 7);
+  const geohashPrefix = geoHash.substring(0, 8);
 
   const collectableBoxes = await prisma.box.findMany({
     where: {
