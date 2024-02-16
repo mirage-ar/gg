@@ -40,7 +40,7 @@ export async function POST(request: Request) {
 
   for (const box of collectableBoxes) {
     const distance = calculateDistance(latitude, longitude, box.latitude, box.longitude);
-    if (distance <= 20) {
+    if (distance <= 5) {
       const collected = await prisma.box.update({
         where: {
           id: box.id,
