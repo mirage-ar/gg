@@ -1,16 +1,14 @@
 // utils/prisma.js
 
-// utils/prisma.js
+import { PrismaClient } from "@prisma/client/edge";
+import { withAccelerate } from "@prisma/extension-accelerate";
 
-// import { PrismaClient } from "@prisma/client/edge";
-// import { withAccelerate } from "@prisma/extension-accelerate";
+const prisma = new PrismaClient().$extends(withAccelerate());
 
-// const prisma = new PrismaClient().$extends(withAccelerate());
-
-// export default prisma;
+export default prisma;
 
 
-import { PrismaClient } from '@prisma/client';
+// import { PrismaClient } from '@prisma/client';
 
 // declare const global: NodeJS.Global;
 
@@ -25,6 +23,6 @@ import { PrismaClient } from '@prisma/client';
 //   prisma = global.prisma;
 // }
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
 
-export default prisma;
+// export default prisma;
