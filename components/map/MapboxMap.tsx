@@ -100,7 +100,7 @@ const MapboxMap: React.FC = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userId: user?.id, geoHash: userGeoHash }),
+        body: JSON.stringify({ userId: user?.id, geoHash: userGeoHash, latitude, longitude }),
       });
       const data = await response.json();
       console.log(data);

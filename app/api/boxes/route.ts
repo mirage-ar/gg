@@ -1,8 +1,9 @@
 // GET BOXES
+import { calculateDistance } from "@/utils";
 import prisma from "@/utils/prisma";
 
 export async function POST(request: Request) {
-  const { userId, geoHash } = await request.json();
+  const { userId, geoHash, latitude, longitude } = await request.json();
 
   // get all boxes within a certain area
   const boxes = await prisma.box.findMany();
@@ -26,7 +27,7 @@ export async function POST(request: Request) {
   };
 
   // substring length calculates area of geohash to search for boxes
-  const geohashPrefix = geoHash.substring(0, 8);
+  const geohashPrefix = geoHash.substring(0, 7);
 
   const collectableBoxes = await prisma.box.findMany({
     where: {
@@ -38,37 +39,40 @@ export async function POST(request: Request) {
   });
 
   for (const box of collectableBoxes) {
-    const collected = await prisma.box.update({
-      where: {
-        id: box.id,
-      },
-      data: {
-        collectorId: userId,
-      },
-    });
-
-    if (collected) {
-      await prisma.user.update({
+    const distance = calculateDistance(latitude, longitude, box.latitude, box.longitude);
+    if (distance <= 20) {
+      const collected = await prisma.box.update({
         where: {
-          id: userId,
+          id: box.id,
         },
         data: {
-          points: {
-            increment: collected.points,
-          },
+          collectorId: userId,
         },
       });
 
-      geoJSON.features.filter((feature) => {
-        if (feature.properties.id === box.id) {
-          feature.properties.boxType = "opened";
-        }
-      });
+      if (collected) {
+        await prisma.user.update({
+          where: {
+            id: userId,
+          },
+          data: {
+            points: {
+              increment: collected.points,
+            },
+          },
+        });
 
-      return Response.json({
-        collect: collected,
-        boxes: geoJSON,
-      });
+        geoJSON.features.filter((feature) => {
+          if (feature.properties.id === box.id) {
+            feature.properties.boxType = "opened";
+          }
+        });
+
+        return Response.json({
+          collect: collected,
+          boxes: geoJSON,
+        });
+      }
     }
   }
 
