@@ -25,12 +25,12 @@ const MapboxMap: React.FC = () => {
 
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
+  const mapCenteredRef = useRef(false);
   const markersSocket = useRef<WebSocket | null>(null);
   const markersRef = useRef<MarkersObject>({});
   const boxesRef = useRef<MarkersObject>({});
   const [boxCollect, setBoxCollect] = useState<BoxData | null>(null);
   const [showCollectButton, setShowCollectButton] = useState(false);
-  const [mapCentered, setMapCentered] = useState(false);
 
   // SETUP MAP
   useEffect(() => {
@@ -39,7 +39,7 @@ const MapboxMap: React.FC = () => {
       // TODO: update to new york and zoomed out
       center: [-71.13637993467633, 42.35611312704494],
       zoom: 18,
-      pitch: 45,
+      pitch: 15,
     });
 
     map.on("style.load", () => {
@@ -138,10 +138,10 @@ const MapboxMap: React.FC = () => {
       watchId = navigator.geolocation.watchPosition(
         async (position) => {
           // center map on user
-          if (!mapCentered) {
+          if (!mapCenteredRef.current) {
             const map = mapRef.current;
             if (map) {
-              setMapCentered(true);
+              mapCenteredRef.current = true;
               map.setCenter([position.coords.longitude, position.coords.latitude]);
             }
           }
