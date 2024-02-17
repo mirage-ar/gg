@@ -127,60 +127,87 @@ const MapboxMap: React.FC = () => {
   useEffect(() => {
     if (!user) return;
 
-    // location tracking
     let watchId: number;
-    markersSocket.current = new WebSocket(LOCATION_SOCKET_URL);
+    let reconnectAttempts = 0;
 
-    markersSocket.current.onopen = () => {
-      console.log("WebSocket Connected");
-      // location tracking
-      if (!user) return;
-      watchId = navigator.geolocation.watchPosition(
-        async (position) => {
-          // center map on user
-          if (!mapCenteredRef.current) {
-            const map = mapRef.current;
-            if (map) {
-              mapCenteredRef.current = true;
-              map.setCenter([position.coords.longitude, position.coords.latitude]);
+    const connectWebSocket = () => {
+      markersSocket.current = new WebSocket(LOCATION_SOCKET_URL);
+
+      markersSocket.current.onopen = () => {
+        console.log("WebSocket Connected");
+        // location tracking
+        if (!user) return;
+        watchId = navigator.geolocation.watchPosition(
+          async (position) => {
+            // center map on user
+            if (!mapCenteredRef.current) {
+              const map = mapRef.current;
+              if (map) {
+                mapCenteredRef.current = true;
+                map.setCenter([position.coords.longitude, position.coords.latitude]);
+              }
             }
+
+            fetchAndUpdateBoxes(position.coords.latitude, position.coords.longitude);
+
+            // SEND USER LOCATION
+            if (markersSocket.current && markersSocket.current.readyState === WebSocket.OPEN && user?.id) {
+              const location = {
+                id: user.id,
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                accuracy: position.coords.accuracy,
+                altitude: position.coords.altitude,
+                altitudeAccuracy: position.coords.altitudeAccuracy,
+                timestamp: position.timestamp,
+              };
+              markersSocket.current.send(JSON.stringify({ action: "sendmessage", data: location }));
+            }
+          },
+          (error) => {
+            console.error("Error getting location", error);
+          },
+          {
+            enableHighAccuracy: true,
+            maximumAge: 0,
           }
+        );
+      };
 
-          fetchAndUpdateBoxes(position.coords.latitude, position.coords.longitude);
+      markersSocket.current.onmessage = (event: MessageEvent) => {
+        const message: MarkerData = JSON.parse(event.data);
+        const map = mapRef.current;
+        if (map) updateMarkers(map, message);
+      };
 
-          // SEND USER LOCATION
-          if (markersSocket.current && markersSocket.current.readyState === WebSocket.OPEN && user?.id) {
-            const location = {
-              id: user.id,
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-              accuracy: position.coords.accuracy,
-              altitude: position.coords.altitude,
-              altitudeAccuracy: position.coords.altitudeAccuracy,
-              timestamp: position.timestamp,
-            };
-            markersSocket.current.send(JSON.stringify({ action: "sendmessage", data: location }));
-          }
-        },
-        (error) => {
-          console.error("Error getting location", error);
-        },
-        {
-          enableHighAccuracy: true,
-          maximumAge: 0,
-        }
-      );
+      markersSocket.current.onerror = (error) => {
+        console.error("WebSocket Error", error);
+      };
+
+      markersSocket.current.onclose = () => {
+        console.log("WebSocket Disconnected");
+        // Initiate a reconnect attempt
+        scheduleReconnect();
+      };
     };
 
-    markersSocket.current.onmessage = (event: MessageEvent) => {
-      const message: MarkerData = JSON.parse(event.data);
-      const map = mapRef.current;
-      if (map) updateMarkers(map, message);
+    const scheduleReconnect = () => {
+      const maxReconnectAttempts = 5;
+      if (reconnectAttempts < maxReconnectAttempts) {
+        // Exponential backoff formula: Math.min(1000 * 2 ** reconnectAttempts, 30000);
+        const delay = Math.min(1000 * Math.pow(2, reconnectAttempts), 30000);
+        setTimeout(() => {
+          reconnectAttempts++;
+          console.log(`Reconnecting attempt #${reconnectAttempts}`);
+          connectWebSocket(); // Attempt to reconnect
+        }, delay);
+      } else {
+        console.log("Max reconnect attempts reached. Giving up.");
+      }
     };
 
-    markersSocket.current.onclose = () => {
-      console.log("WebSocket Disconnected");
-    };
+    // Initial connection
+    connectWebSocket();
 
     return () => {
       markersSocket.current?.close();
