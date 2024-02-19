@@ -93,7 +93,7 @@
     color: #fff;
     font-feature-settings: "ss09" on, "ss08" on, "ss17" on, "ss07" on;
     font-family: "Diatype-Mono", monospace;
-    font-size: 16px;
+    font-size: 24px;
     resize: none;
 }
 
@@ -107,5 +107,5 @@
     color: #42FF60;
     font-feature-settings: "ss09" on, "ss08" on, "ss17" on, "ss07" on;
     font-family: "Diatype-Mono", monospace;
-    font-size: 16px;
+    font-size: 24px;
 }
