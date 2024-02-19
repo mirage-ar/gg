@@ -274,6 +274,7 @@ const MapboxMap: React.FC = () => {
       mapRef.current.flyTo({
         center: [currentLocation.coords.longitude, currentLocation.coords.latitude],
         zoom: 18,
+        pitch: 15,
         essential: true,
         easing: (time: number) => {
           // complex logic to hide button after map moved

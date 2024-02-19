@@ -23,10 +23,10 @@ const TopBar: React.FC = () => {
         <div className={styles.title}>My Score</div>
         <div className={styles.scoreAmountContainer}>
           <div className={styles.scoreAmount}>{withCommas(points)}</div>
-          <Image alt="G Icon" src="/icons/g-points.svg" width={16} height={16} />
+          <Image alt="G Icon" src="/icons/16/g-points.svg" width={16} height={16} />
           <div className={styles.boxAmountContainer}>
             <div className={styles.boxAmount}><span className={styles.grey}>(</span>{boxes}<span className={styles.grey}>)</span></div>
-            <Image alt="Box Icon" src="/icons/box-closed.svg" width={16} height={16} />
+            <Image alt="Box Icon" src="/icons/16/box-closed.svg" width={16} height={16} />
           </div>
         </div>
       </div>
