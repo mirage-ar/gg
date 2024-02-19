@@ -28,6 +28,7 @@
 }
 
 .centerButton {
+  margin: -24px 0 0 -24px;
   position: fixed;
   bottom: 30%;
   left: 50%;
