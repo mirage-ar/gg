@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { useUser } from "@/hooks";
 import { encodeGeoHash } from "@/utils/geoHash";
 import { rand } from "@/utils";
@@ -31,6 +32,9 @@ const MapboxMap: React.FC = () => {
   const boxesRef = useRef<MarkersObject>({});
   const [boxCollect, setBoxCollect] = useState<BoxData | null>(null);
   const [showCollectButton, setShowCollectButton] = useState(false);
+
+  const [currentLocation, setCurrentLocation] = useState<GeolocationPosition | null>(null);
+  const [mapMoved, setMapMoved] = useState(false);
 
   // SETUP MAP
   useEffect(() => {
@@ -86,10 +90,16 @@ const MapboxMap: React.FC = () => {
       });
     });
 
+    // Add a 'move' event listener
+    map.on("move", () => {
+      setMapMoved(true);
+    });
+
     mapRef.current = map;
 
     return () => {
       map.remove();
+      map.off("move", () => setMapMoved(true));
     };
   }, []);
 
@@ -104,7 +114,7 @@ const MapboxMap: React.FC = () => {
         body: JSON.stringify({ userId: user?.id, geoHash: userGeoHash, latitude, longitude }),
       });
       const data = await response.json();
-      console.log(data);
+
       // check if user can collect box
       if (data.collect) {
         router.push(`/claim/${data.collect.points}`);
@@ -139,7 +149,11 @@ const MapboxMap: React.FC = () => {
         if (!user) return;
         watchId = navigator.geolocation.watchPosition(
           async (position) => {
-            // center map on user
+            // TODO: add center on map button to center on user
+            // STORE CURRENT POSITION (TESTING)
+            setCurrentLocation(position);
+
+            // CENTER MAP ON USER IF FIRST TIME
             if (!mapCenteredRef.current) {
               const map = mapRef.current;
               if (map) {
@@ -148,6 +162,7 @@ const MapboxMap: React.FC = () => {
               }
             }
 
+            // FETCH BOXES AND UPDATE MARKERS
             fetchAndUpdateBoxes(position.coords.latitude, position.coords.longitude);
 
             // SEND USER LOCATION
@@ -252,6 +267,32 @@ const MapboxMap: React.FC = () => {
     }
   };
 
+  const centerOnUser = () => {
+    console.log("Centering on user");
+    if (currentLocation && mapRef.current) {
+      // mapRef.current.setCenter([currentLocation.coords.longitude, currentLocation.coords.latitude]);
+      mapRef.current.flyTo({
+        center: [currentLocation.coords.longitude, currentLocation.coords.latitude],
+        zoom: 18,
+        essential: true,
+        easing: (time: number) => {
+          // complex logic to hide button after map moved
+          if (time === 1) {
+            console.log("Map moved");
+            setTimeout(() => {
+              setMapMoved(false);
+            }, 500);
+          }
+
+          return time;
+        },
+      });
+      // setTimeout(() => {
+      //   setMapMoved(false);
+      // }, 1000);
+    }
+  };
+
   return (
     <>
       <div
@@ -266,6 +307,11 @@ const MapboxMap: React.FC = () => {
         }}
       />
       {showCollectButton && <button className={styles.collectButton}>Claim</button>}
+      {mapMoved && (
+        <button className={styles.centerButton} onClick={centerOnUser}>
+          <Image src="/icons/map/center.svg" width={48} height={48} alt="Center User" />
+        </button>
+      )}
     </>
   );
 };

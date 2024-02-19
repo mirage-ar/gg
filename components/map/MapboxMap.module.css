@@ -26,3 +26,12 @@
   line-height: 20px; /* 111.111% */
   text-transform: uppercase;
 }
+
+.centerButton {
+  position: fixed;
+  bottom: 30%;
+  left: 50%;
+  border: none;
+  outline: none;
+  background: none;
+}
