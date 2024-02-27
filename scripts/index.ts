@@ -56,10 +56,10 @@ async function main() {
   }
 
   for (const run of runs) {
-    const latitude = `42.356${rand(1000000, 9999999)}`;
-    const longitude = `-71.137${rand(1000000, 9999999)}`;
+    const latitude = `41.044${rand(1000000, 9999999)}`;
+    const longitude = `28.993${rand(1000000, 9999999)}`;
 
-// 42.35644402047422, -71.13710763709712
+    // 41.044439799237644, 28.99397070611545
 
     const box = await prisma.box.create({
       data: {

@@ -19,7 +19,6 @@ export const metadata: Metadata = {
   title: "GG",
   description: "GG",
   appleWebApp: true,
-  manifest: "/manifest.json",
   viewport: viewport,
   themeColor: "#000000",
   openGraph: {
@@ -53,7 +52,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         {children}
-        <MapboxMap />
       </body>
     </html>
   );

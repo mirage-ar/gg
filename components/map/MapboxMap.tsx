@@ -149,8 +149,8 @@ const MapboxMap: React.FC = () => {
         if (!user) return;
         watchId = navigator.geolocation.watchPosition(
           async (position) => {
-            // TODO: add center on map button to center on user
-            // STORE CURRENT POSITION (TESTING)
+
+            // STORE CURRENT POSITION
             setCurrentLocation(position);
 
             // CENTER MAP ON USER IF FIRST TIME
@@ -184,6 +184,7 @@ const MapboxMap: React.FC = () => {
           },
           {
             enableHighAccuracy: true,
+            timeout: 5000,
             maximumAge: 0,
           }
         );

@@ -1,19 +1,24 @@
-import { useState, useEffect } from 'react';
-import { getSession } from 'next-auth/react';
+import { useState, useEffect } from "react";
+import { getSession } from "next-auth/react";
+import { usePrivy } from "@privy-io/react-auth";
 
-import { User } from '@/types';
+import { User } from "@/types";
 
 export default function useUser() {
-  const [user, setUser] = useState<User | null>(null);
+  const [ user, setUser ] = useState<User | null>(null);
+  const { user: privyUser } = usePrivy();
 
   useEffect(() => {
-    const fetchUserSession = async () => {
-      const session = await getSession();
-      setUser(session?.user as User);
-    };
+    if (privyUser) {
+      setUser({
+        id: privyUser.twitter?.subject || privyUser.id,
+        image: privyUser.twitter?.profilePictureUrl || "",
+        name: privyUser.twitter?.name || "",
+        username: privyUser.twitter?.username || "",
+      });
+    }
 
-    fetchUserSession();
-  }, []);
+  }, [privyUser]);
 
   return user;
 }
