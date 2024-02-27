@@ -9,9 +9,12 @@ export default function useUser() {
 
   useEffect(() => {
     if (privyUser) {
+      let image = privyUser.twitter?.profilePictureUrl || "";
+      image = image.replace("_normal", "");
+
       setUser({
         id: privyUser.twitter?.subject || privyUser.id,
-        image: privyUser.twitter?.profilePictureUrl || "",
+        image: image,
         name: privyUser.twitter?.name || "",
         username: privyUser.twitter?.username || "",
       });
