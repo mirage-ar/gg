@@ -147,7 +147,6 @@ const MapboxMap: React.FC = () => {
         if (!user) return;
         watchId = navigator.geolocation.watchPosition(
           async (position) => {
-
             // STORE CURRENT POSITION
             setCurrentLocation(position);
 
@@ -201,23 +200,7 @@ const MapboxMap: React.FC = () => {
       markersSocket.current.onclose = () => {
         console.log("WebSocket Disconnected");
         // Initiate a reconnect attempt
-        scheduleReconnect();
       };
-    };
-
-    const scheduleReconnect = () => {
-      const maxReconnectAttempts = 5;
-      if (reconnectAttempts < maxReconnectAttempts) {
-        // Exponential backoff formula: Math.min(1000 * 2 ** reconnectAttempts, 30000);
-        const delay = Math.min(1000 * Math.pow(2, reconnectAttempts), 30000);
-        setTimeout(() => {
-          reconnectAttempts++;
-          console.log(`Reconnecting attempt #${reconnectAttempts}`);
-          connectWebSocket(); // Attempt to reconnect
-        }, delay);
-      } else {
-        console.log("Max reconnect attempts reached. Giving up.");
-      }
     };
 
     // Initial connection
@@ -247,7 +230,7 @@ const MapboxMap: React.FC = () => {
           const img = document.createElement("img");
           div.className = "user-marker";
           img.src = user?.image;
-          div.appendChild(img);
+          // div.appendChild(img);
 
           const newMarker = new mapboxgl.Marker(div).setLngLat([message.longitude, message.latitude]).addTo(map);
 
