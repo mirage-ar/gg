@@ -96,8 +96,8 @@ a {
 }
 
 .marker {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   z-index: 1000;
   border-radius: 100%;
 }

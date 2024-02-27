@@ -230,7 +230,7 @@ const MapboxMap: React.FC = () => {
           const img = document.createElement("img");
           div.className = "user-marker";
           img.src = user?.image;
-          // div.appendChild(img);
+          div.appendChild(img);
 
           const newMarker = new mapboxgl.Marker(div).setLngLat([message.longitude, message.latitude]).addTo(map);
 
