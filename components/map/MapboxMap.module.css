@@ -35,4 +35,5 @@
   border: none;
   outline: none;
   background: none;
+  z-index: -1000;
 }

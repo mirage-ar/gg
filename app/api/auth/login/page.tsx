@@ -7,14 +7,25 @@ import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 
 const LoginPage = () => {
-  const { ready, authenticated, login } = usePrivy();
+  const { authenticated, login, user } = usePrivy();
   const router = useRouter();
 
   useEffect(() => {
-    if (ready && authenticated) {
-      router.push("/");
+    const checkWhitelist = async (username: string) => {
+      const response = await fetch(`/api/whitelist/${username}`);
+      const data = await response.json();
+      if (data.userExists) {
+        router.push("/");
+      } else {
+        router.push("/api/auth/error?error=UserNotWhitelisted");
+      }
+    };
+
+    if (authenticated && user?.twitter?.username) {
+      const username = user?.twitter?.username;
+      checkWhitelist(username);
     }
-  }, [ready, authenticated, router]);
+  }, [authenticated, user, router]);
 
   return (
     <main className={styles.container}>

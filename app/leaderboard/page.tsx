@@ -5,7 +5,6 @@ import PageHeader from "@/components/navigation/PageHeader";
 import Leaderboard from "@/components/leaderboard/Leaderboard";
 
 import styles from "./page.module.css";
-import { User } from "@/types";
 
 const LeaderboardPage: React.FC = () => {
 

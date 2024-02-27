@@ -10,7 +10,7 @@ import { useLeaderboard, useUser } from "@/hooks";
 
 const Leaderboard: React.FC = () => {
   const user = useUser();
-  const { leaderboard, userRank } = useLeaderboard(user?.id);
+  const { leaderboard, userRank, userScore } = useLeaderboard(user?.id);
 
   return (
     <div className={styles.container}>
@@ -30,7 +30,7 @@ const Leaderboard: React.FC = () => {
         {/* ------ USER SCORE ------ */}
         <div className={styles.scoreRow}>
           <div className={styles.scoreLabel}>Score</div>
-          <div className={styles.scoreValue}>{leaderboard.find((item) => item.id.toString() == user?.id)?.points}</div>
+          <div className={styles.scoreValue}>{userScore}</div>
         </div>
         {/* ------ PRIZE POOL ------ */}
         <div className={styles.scoreRow}>

@@ -1,14 +1,26 @@
 // USER POINT DATA
 import prisma from "@/utils/prisma";
 
-export async function GET(request: Request, { params }: { params: { userId: string } }) {
-  const { userId } = params;
+export async function GET(request: Request, { params }: { params: { twitterId: string } }) {
+  const { twitterId } = params;
+
+  const user = await prisma.user.findFirst({
+    where: {
+      twitterId: twitterId,
+    },
+  });
+
+  if (!user) {
+    return Response.json({ points: 0, boxes: 0 });
+  }
 
   const boxes = await prisma.box.findMany({
     where: {
-      collectorId: userId,
+      collectorId: user.id,
     },
   });
+
+  console.log(boxes);
 
   const userPoints = boxes.reduce((acc: any, box: any) => acc + box.points, 0);
 

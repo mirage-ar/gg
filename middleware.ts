@@ -8,12 +8,12 @@ export function middleware(request: NextRequest) {
 
   const authUrl = "/api/auth/login";
 
-  if (request.nextUrl.pathname === authUrl && privyToken) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/";
+  // if (request.nextUrl.pathname === authUrl && privyToken) {
+  //   const url = request.nextUrl.clone();
+  //   url.pathname = "/";
 
-    return NextResponse.redirect(url);
-  }
+  //   return NextResponse.redirect(url);
+  // }
 
   // Exclude paths for static assets and API calls from the auth check
   const shouldBypassAuth =

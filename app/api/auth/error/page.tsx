@@ -1,18 +1,30 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
 import styles from "./page.module.css";
+import { usePrivy } from "@privy-io/react-auth";
 
 const ErrorPage = () => {
   const searchParams = useSearchParams();
   const error = searchParams.get("error");
+  const { logout } = usePrivy();
 
   let errorMessage = "An unknown error occurred";
-  if (error === "UserNotFound") {
-    errorMessage = "Authentication failed: User does not exist.";
+  if (error === "UserNotWhitelisted") {
+    errorMessage = "Authentication failed: You are not whitelisted to play.";
   }
+
+  useEffect(() => {
+    if (error) {
+      logout();
+      setTimeout(() => {
+        // TODO: update to spectate page
+        window.location.href = "https://gg.zip/";
+      }, 3000);
+    }
+  }, [error, logout]);
 
   return (
     <main className={styles.container}>

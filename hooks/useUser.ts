@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { getSession } from "next-auth/react";
 import { usePrivy } from "@privy-io/react-auth";
 
 import { User } from "@/types";
