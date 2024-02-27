@@ -96,9 +96,10 @@ a {
 }
 
 .marker {
-  width: 16px;
-  height: 16px;
+  width: 24px;
+  height: 24px;
   z-index: 1000;
+  border-radius: 100%;
 }
 
 .user-marker {

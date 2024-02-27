@@ -20,8 +20,6 @@ export async function GET(request: Request, { params }: { params: { twitterId: s
     },
   });
 
-  console.log(boxes);
-
   const userPoints = boxes.reduce((acc: any, box: any) => acc + box.points, 0);
 
   //   const user = await prisma.user.findUnique({

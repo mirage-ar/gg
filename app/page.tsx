@@ -8,7 +8,6 @@ import TopBar from "@/components/navigation/TopBar";
 
 const MapPage: React.FC = () => {
   const [isStandalone, setIsStandalone] = useState(true);
-  console.log("isStandalone", isStandalone);
 
   // TODO: update to use standalone - map too
   useEffect(() => {

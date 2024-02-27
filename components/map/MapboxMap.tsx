@@ -11,7 +11,7 @@ import { rand } from "@/utils";
 import styles from "./MapboxMap.module.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-import type { MarkerData, BoxData } from "@/types";
+import type { LocationData } from "@/types";
 import { LOCATION_SOCKET_URL } from "@/utils/constants";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN as string;
@@ -29,8 +29,6 @@ const MapboxMap: React.FC = () => {
   const mapCenteredRef = useRef(false);
   const markersSocket = useRef<WebSocket | null>(null);
   const markersRef = useRef<MarkersObject>({});
-  const boxesRef = useRef<MarkersObject>({});
-  const [boxCollect, setBoxCollect] = useState<BoxData | null>(null);
   const [showCollectButton, setShowCollectButton] = useState(false);
 
   const [currentLocation, setCurrentLocation] = useState<GeolocationPosition | null>(null);
@@ -169,6 +167,7 @@ const MapboxMap: React.FC = () => {
             if (markersSocket.current && markersSocket.current.readyState === WebSocket.OPEN && user?.id) {
               const location = {
                 id: user.id,
+                image: user.image,
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
                 accuracy: position.coords.accuracy,
@@ -190,7 +189,7 @@ const MapboxMap: React.FC = () => {
       };
 
       markersSocket.current.onmessage = (event: MessageEvent) => {
-        const message: MarkerData = JSON.parse(event.data);
+        const message: LocationData = JSON.parse(event.data);
         const map = mapRef.current;
         if (map) updateMarkers(map, message);
       };
@@ -232,7 +231,7 @@ const MapboxMap: React.FC = () => {
   }, [user]);
 
   // UPDATE PLAYER MARKERS
-  const updateMarkers = (map: mapboxgl.Map, message: MarkerData) => {
+  const updateMarkers = (map: mapboxgl.Map, message: LocationData) => {
     if (map && message.id && message.latitude && message.longitude) {
       const existingMarker = markersRef.current[message.id];
 
@@ -257,7 +256,8 @@ const MapboxMap: React.FC = () => {
           // Marker doesn't exist, create a new one
           const el = document.createElement("img");
           el.className = "marker";
-          el.src = `/icons/markers/${rand(1, 5)}.svg`;
+          el.src = message.image;
+          // el.src = `/icons/markers/${rand(1, 5)}.svg`;
 
           const newMarker = new mapboxgl.Marker(el).setLngLat([message.longitude, message.latitude]).addTo(map);
 

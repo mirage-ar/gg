@@ -7,30 +7,13 @@ export type User = {
 
 export type LocationData = {
   id: string;
+  image: string;
   latitude: number;
   longitude: number;
   accuracy: number;
   altitude: number | null;
   altitudeAccuracy: number | null;
   timestamp: number;
-};
-
-export type Location = {
-  latitude: number;
-  longitude: number;
-};
-
-export type MarkerData = {
-  id: string;
-  latitude: number;
-  longitude: number;
-};
-
-export type BoxData = {
-  id: string;
-  latitude: number;
-  longitude: number;
-  points: number;
 };
 
 export type PointstData = {
