@@ -23,7 +23,9 @@ export function middleware(request: NextRequest) {
     request.nextUrl.pathname.endsWith(".jpg") || // Image assets
     request.nextUrl.pathname.endsWith(".png") || // Image assets
     request.nextUrl.pathname.endsWith(".css") || // CSS files
-    request.nextUrl.pathname.endsWith(".js"); // JavaScript files
+    request.nextUrl.pathname.endsWith(".js") || // JavaScript files
+    request.nextUrl.pathname.endsWith(".webmanifest"); // Manifest files
+
 
   if (!privyToken && !shouldBypassAuth && request.nextUrl.pathname !== authUrl) {
     // User is not authenticated and request is not for a static asset or API call
