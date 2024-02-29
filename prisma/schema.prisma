@@ -39,21 +39,15 @@ model Box {
     @@index([geoHash])
 }
 
-// model Sponsor {
-//   id        String   @id @default(uuid())
-//   wallet    String   @unique
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-//   Card      Card[]
-// }
-
-// model Card {
-//   id        String   @id @default(uuid())
-//   price     Int // price in lamports
-//   userId    String
-//   user      User     @relation(fields: [userId], references: [id])
-//   sponsorId String
-//   sponsor   Sponsor  @relation(fields: [sponsorId], references: [id])
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
+model Points {
+  id        String     @id @default(uuid())
+  twitterId String     @unique
+  username  String     @unique
+  name      String
+  image     String
+  wallet    String     @unique
+  boost     Float      @default(0.0)
+  points    Int        @default(0)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}

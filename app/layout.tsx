@@ -32,7 +32,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             appearance: {
               theme: "dark",
               accentColor: "#676FFF",
-              logo: "https://your-logo-url",
+              // TODO: add logo
+              logo: "https://gg.zip/gg-logo.png",
             },
           }}
         >

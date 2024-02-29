@@ -251,7 +251,6 @@ const MapboxMap: React.FC = () => {
   };
 
   const centerOnUser = () => {
-    console.log("Centering on user");
     if (currentLocation && mapRef.current) {
       // mapRef.current.setCenter([currentLocation.coords.longitude, currentLocation.coords.latitude]);
       mapRef.current.flyTo({
@@ -262,7 +261,6 @@ const MapboxMap: React.FC = () => {
         easing: (time: number) => {
           // complex logic to hide button after map moved
           if (time === 1) {
-            console.log("Map moved");
             setTimeout(() => {
               setMapMoved(false);
             }, 500);
