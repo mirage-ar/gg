@@ -16,9 +16,9 @@ const MapPage: React.FC = () => {
   // TODO: update to use standalone - map too
   useEffect(() => {
     // check if user is authenticated
-    if (!user) {
-      router.push("/api/auth/login");
-    }
+    // if (!user) {
+    //   router.push("/api/auth/login");
+    // }
 
     // Check if running in standalone mode on iOS
     if ((window.navigator as any).standalone) {
