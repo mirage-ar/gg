@@ -15,6 +15,7 @@ export function middleware(request: NextRequest) {
   //   return NextResponse.redirect(url);
   // }
 
+  // TODO: try to remove this 
   // Exclude paths for static assets and API calls from the auth check
   const shouldBypassAuth =
     request.nextUrl.pathname.startsWith("/_next/static/") || // Next.js static files
