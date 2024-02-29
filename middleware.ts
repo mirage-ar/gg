@@ -31,6 +31,7 @@ export function middleware(request: NextRequest) {
     url.pathname = authUrl;
     return NextResponse.redirect(url);
   }
+  
 
   return NextResponse.next();
 }
