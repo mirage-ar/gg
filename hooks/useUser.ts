@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { User } from "@/types";
 
 export default function useUser() {
-  const [ user, setUser ] = useState<User | null>(null);
-  const { user: privyUser } = usePrivy();
+  const [user, setUser] = useState<User | null>(null);
+  const { user: privyUser, ready } = usePrivy();
   const router = useRouter();
 
   useEffect(() => {
@@ -20,11 +20,12 @@ export default function useUser() {
         name: privyUser.twitter?.name || "",
         username: privyUser.twitter?.username || "",
       });
-    } else {
-      router.push("/api/auth/login");
     }
+    //  else if (ready) {
+    //   router.push("/api/auth/login");
+    // }
 
-  }, [privyUser, router]);
+  }, [privyUser, ready, router]);
 
   return user;
 }

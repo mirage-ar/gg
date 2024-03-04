@@ -5,36 +5,23 @@ import { cookies } from "next/headers";
 export function middleware(request: NextRequest) {
   const cookieStore = cookies();
   const privyToken = cookieStore.get("privy-token");
-
+  const pathname = request.nextUrl.pathname;
   const authUrl = "/api/auth/login";
 
-  // if (request.nextUrl.pathname === authUrl && privyToken) {
-  //   const url = request.nextUrl.clone();
-  //   url.pathname = "/";
+  // Define base conditions for bypassing auth in arrays for easy management
+  const bypassPaths = ["/_next/static/", "/static/", "/api/"];
+  const bypassExtensions = [".jpg", ".png", ".css", ".js", ".webmanifest"];
 
-  //   return NextResponse.redirect(url);
-  // }
-
-  // TODO: try to remove this 
-  // Exclude paths for static assets and API calls from the auth check
+  // Check if the request should bypass authentication
   const shouldBypassAuth =
-    request.nextUrl.pathname.startsWith("/_next/static/") || // Next.js static files
-    request.nextUrl.pathname.startsWith("/static/") || // Custom static directory (if any)
-    request.nextUrl.pathname.startsWith("/api/") || // API requests
-    request.nextUrl.pathname.endsWith(".jpg") || // Image assets
-    request.nextUrl.pathname.endsWith(".png") || // Image assets
-    request.nextUrl.pathname.endsWith(".css") || // CSS files
-    request.nextUrl.pathname.endsWith(".js") || // JavaScript files
-    request.nextUrl.pathname.endsWith(".webmanifest"); // Manifest files
+    bypassPaths.some((path) => pathname.startsWith(path)) || bypassExtensions.some((ext) => pathname.endsWith(ext));
 
-
-  if (!privyToken && !shouldBypassAuth && request.nextUrl.pathname !== authUrl) {
-    // User is not authenticated and request is not for a static asset or API call
+  // Redirect unauthenticated requests to the auth URL, unless they should bypass auth
+  if (!privyToken && !shouldBypassAuth && pathname !== authUrl) {
     const url = request.nextUrl.clone();
     url.pathname = authUrl;
     return NextResponse.redirect(url);
   }
-  
 
   return NextResponse.next();
 }

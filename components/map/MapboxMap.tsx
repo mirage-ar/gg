@@ -104,7 +104,7 @@ const MapboxMap: React.FC = () => {
   const fetchAndUpdateBoxes = async (latitude: number, longitude: number) => {
     try {
       const userGeoHash = encodeGeoHash(latitude, longitude);
-      const response = await fetch(`api/boxes`, {
+      const response = await fetch(`/api/boxes`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -136,7 +136,6 @@ const MapboxMap: React.FC = () => {
     if (!user) return;
 
     let watchId: number;
-    let reconnectAttempts = 0;
 
     const connectWebSocket = () => {
       markersSocket.current = new WebSocket(LOCATION_SOCKET_URL);

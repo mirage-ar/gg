@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { usePrivy } from "@privy-io/react-auth";
+import { User, usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
 
 import styles from "./page.module.css";
@@ -11,29 +11,39 @@ const LoginPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const checkWhitelist = async (username: string) => {
+    const checkWhitelist = async (user: User) => {
+      const username = user?.twitter?.username;
       const response = await fetch(`/api/whitelist/${username}`);
       const data = await response.json();
+      
       if (data.userExists) {
+        // create user in db
+        const response = await fetch("/api/auth/user", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ user }),
+        });
         router.push("/");
       } else {
         router.push("/api/auth/error?error=UserNotWhitelisted");
       }
     };
 
+    // Make sure user is authenticated and is on whitelist
     if (authenticated && user?.twitter?.username) {
-      const username = user?.twitter?.username;
-      checkWhitelist(username);
+      checkWhitelist(user);
     }
   }, [authenticated, user, router]);
 
   return (
     <main className={styles.container}>
-      <div className={styles.logo}>
+      <div className={styles.logo} onClick={login}>
         {/* <Image src="/icons/logo.svg" alt="logo" width={100} height={100} /> */}
         CONNECT VIA X
       </div>
-      <button className={styles.button} onClick={() => login()}>
+      <button className={styles.button} onClick={login}>
         Sign in
       </button>
     </main>

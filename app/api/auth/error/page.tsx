@@ -22,7 +22,7 @@ const ErrorPage = () => {
       setTimeout(() => {
         // TODO: update to spectate page
         window.location.href = "https://gg.zip/";
-      }, 3000);
+      }, 1000);
     }
   }, [error, logout]);
 

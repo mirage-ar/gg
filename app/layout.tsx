@@ -32,8 +32,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             appearance: {
               theme: "dark",
               accentColor: "#676FFF",
+              showWalletLoginFirst: false,
               // TODO: add logo
-              logo: "https://gg.zip/gg-logo.png",
+              // logo: "/logo.svg",
             },
           }}
         >
