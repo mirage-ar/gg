@@ -45,12 +45,9 @@ export async function POST(request: Request) {
         username,
       },
     });
-  
-    if (!user) {
-      throw new Error("User not found");
-    }
+
     
-    if (distance <= 8) {
+    if (distance <= 8 && user) {
       const collected = await prisma.box.update({
         where: {
           id: box.id,
