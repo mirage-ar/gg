@@ -48,7 +48,7 @@ const LoginPage = () => {
         {/* <Image src="/icons/logo.svg" alt="logo" width={100} height={100} /> */}
         CONNECT VIA X
       </div>
-      <button className={styles.button} onClick={login}>
+      <button className={styles.button} onClick={() => handleSignIn()}>
         Sign in
       </button>
     </main>
