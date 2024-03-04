@@ -37,6 +37,7 @@ const LoginPage = () => {
     }
   }, [authenticated, user, router]);
 
+
   return (
     <main className={styles.container}>
       <div className={styles.logo} onClick={login}>

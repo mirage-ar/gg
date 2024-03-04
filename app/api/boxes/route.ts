@@ -3,7 +3,7 @@ import { calculateDistance } from "@/utils";
 import prisma from "@/utils/prisma";
 
 export async function POST(request: Request) {
-  const { userId, geoHash, latitude, longitude } = await request.json();
+  const { username, geoHash, latitude, longitude } = await request.json();
 
   // get all boxes within a certain area
   const boxes = await prisma.box.findMany();
@@ -40,20 +40,30 @@ export async function POST(request: Request) {
 
   for (const box of collectableBoxes) {
     const distance = calculateDistance(latitude, longitude, box.latitude, box.longitude);
+    const user = await prisma.user.findUnique({
+      where: {
+        username,
+      },
+    });
+  
+    if (!user) {
+      throw new Error("User not found");
+    }
+    
     if (distance <= 8) {
       const collected = await prisma.box.update({
         where: {
           id: box.id,
         },
         data: {
-          collectorId: userId,
+          collectorId: user.id,
         },
       });
 
       if (collected) {
         await prisma.user.update({
           where: {
-            id: userId,
+            id: user.id,
           },
           data: {
             points: {
