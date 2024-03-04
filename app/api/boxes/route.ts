@@ -3,7 +3,9 @@ import { calculateDistance } from "@/utils";
 import prisma from "@/utils/prisma";
 
 export async function POST(request: Request) {
-  const { username, geoHash, latitude, longitude } = await request.json();
+  const { username: usernameUnformatted, geoHash, latitude, longitude } = await request.json();
+
+  const username = usernameUnformatted.toLowerCase();
 
   // get all boxes within a certain area
   const boxes = await prisma.box.findMany();
