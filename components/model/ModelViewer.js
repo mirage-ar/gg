@@ -3,7 +3,7 @@ import "@google/model-viewer";
 const ModelViewer = ({ name }) => (
   <model-viewer
     style={{ width: "100%", height: "500px" }}
-    src={`/models/${name}.glb`}
+    src={`/models/${name}.gltf`}
     ios-src={`/models/${name}.usdz`}
     poster={`/models/posters/${name}.webp`}
     alt="FWB 3D Model"

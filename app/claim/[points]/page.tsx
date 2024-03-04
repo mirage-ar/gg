@@ -24,7 +24,7 @@ const ClaimPage: React.FC = () => {
     <main className={styles.container}>
       <TopBar />
       <div className={styles.modelContainer}>
-        <ModelViewer name={"horse"} />
+        <ModelViewer name={"koji"} />
       </div>
       <button className={styles.button} onClick={() => router.push(`/`)}>
         Continue
