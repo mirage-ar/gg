@@ -29,6 +29,7 @@ const MapboxMap: React.FC = () => {
   const mapCenteredRef = useRef(false);
   const markersSocket = useRef<WebSocket | null>(null);
   const markersRef = useRef<MarkersObject>({});
+  const userIdRef = useRef<string | null>(null);
   const [showCollectButton, setShowCollectButton] = useState(false);
 
   const [currentLocation, setCurrentLocation] = useState<GeolocationPosition | null>(null);
@@ -93,6 +94,17 @@ const MapboxMap: React.FC = () => {
       setMapMoved(true);
     });
 
+    map.on("zoom", () => {
+      const currentZoom: number = map.getZoom();
+      // Check if the user marker exists and has an element attached
+      if (userIdRef.current) {
+        const marker = markersRef.current[userIdRef.current];
+        if (marker) {
+          updateMarkerSize(marker, currentZoom);
+        }
+      }
+    });
+
     mapRef.current = map;
 
     return () => {
@@ -134,6 +146,8 @@ const MapboxMap: React.FC = () => {
   // Markers Socket
   useEffect(() => {
     if (!user) return;
+    // set user id
+    userIdRef.current = user.id;
 
     let watchId: number;
 
@@ -233,6 +247,8 @@ const MapboxMap: React.FC = () => {
           img.src = user?.image;
           div.appendChild(img);
 
+          // updateMarkerSize(div, map.getZoom());
+
           const newMarker = new mapboxgl.Marker(div).setLngLat([message.longitude, message.latitude]).addTo(map);
 
           markersRef.current[message.id] = newMarker;
@@ -275,6 +291,17 @@ const MapboxMap: React.FC = () => {
       // }, 1000);
     }
   };
+
+  function updateMarkerSize(marker: mapboxgl.Marker, mapZoom: number): void {
+    const baseSize = 30;
+    const minZoomLevel = 18;
+    const size = baseSize * Math.pow(2, (mapZoom - minZoomLevel));
+
+    console.log(mapZoom);
+    const markerElement = marker.getElement();
+    markerElement.style.width = `${size}px`;
+    markerElement.style.height = `${size}px`;
+  }
 
   return (
     <>
