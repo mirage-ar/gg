@@ -11,32 +11,32 @@ const LoginPage = () => {
   const { authenticated, login, user } = usePrivy();
   const router = useRouter();
 
-  useEffect(() => {
-    const checkWhitelist = async (user: User) => {
-      const username = user?.twitter?.username;
-      const response = await fetch(`/api/whitelist/${username}`);
-      const data = await response.json();
+  // useEffect(() => {
+  //   const checkWhitelist = async (user: User) => {
+  //     const username = user?.twitter?.username;
+  //     const response = await fetch(`/api/whitelist/${username}`);
+  //     const data = await response.json();
       
-      if (data.userExists) {
-        // create user in db
-        const response = await fetch("/api/auth/user", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ user }),
-        });
-        router.push("/");
-      } else {
-        router.push("/api/auth/error?error=UserNotWhitelisted");
-      }
-    };
+  //     if (data.userExists) {
+  //       // create user in db
+  //       const response = await fetch("/api/auth/user", {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({ user }),
+  //       });
+  //       // router.push("/");
+  //     } else {
+  //       router.push("/api/auth/error?error=UserNotWhitelisted");
+  //     }
+  //   };
 
-    // Make sure user is authenticated and is on whitelist
-    if (authenticated && user?.twitter?.username) {
-      checkWhitelist(user);
-    }
-  }, [authenticated, user, router]);
+  //   // Make sure user is authenticated and is on whitelist
+  //   if (authenticated && user?.twitter?.username) {
+  //     checkWhitelist(user);
+  //   }
+  // }, [authenticated, user, router]);
 
   const handleSignIn = () => {
     signIn("twitter", { callbackUrl: "/" });

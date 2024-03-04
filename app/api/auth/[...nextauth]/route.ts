@@ -1,6 +1,7 @@
 import NextAuth, { SessionStrategy } from "next-auth";
 import TwitterProvider from "next-auth/providers/twitter";
 import prisma from "@/utils/prisma";
+import whitelist from "./whitelist.json";
 
 const OPTIONS = {
   session: {
@@ -23,19 +24,25 @@ const OPTIONS = {
   ],
 
   callbacks: {
-    async signIn({ user, account, profile}: any) {
-      console.log("SIGN IN");
-
-      const userExists = await prisma.user.findFirst({
-        where: {
-          twitterId: user.id,
-        },
-      });
+    async signIn({ user, account, profile }: any) {
+      // check whitelist
+      const userExists = whitelist.includes(user.username.toLowerCase());
 
       if (userExists) {
+        const result = await prisma.user.upsert({
+          where: { username: user.username },
+          update: {
+            image: user.image,
+          },
+          create: {
+            twitterId: user.id,
+            username: user.username,
+            image: user.image,
+          },
+        });
         return true;
       } else {
-        return '/api/auth/error?error=UserNotFound'
+        return "/api/auth/error?error=UserNotWhitelisted";
       }
     },
     async session({ session, token }: any) {
