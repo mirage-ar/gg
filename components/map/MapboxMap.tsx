@@ -149,6 +149,8 @@ const MapboxMap: React.FC = () => {
             // STORE CURRENT POSITION
             setCurrentLocation(position);
 
+            console.log("Location Updated", position);
+
             // CENTER MAP ON USER IF FIRST TIME
             if (!mapCenteredRef.current) {
               const map = mapRef.current;
