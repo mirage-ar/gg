@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <PrivyProvider
-          appId="clq5sknmv005vld0fk12orbq1"
+          appId="clq5ska6s002qld0fpqnk8rmv"
           config={{
             // Display email and wallet as login methods
             loginMethods: ["twitter"],
