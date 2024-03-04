@@ -6,6 +6,7 @@ export async function GET(request: Request, { params }: { params: { username: st
   const { username } = params;
 
   console.log("username", username);
+  console.log(whitelist)
 
   const userExists = whitelist.includes(username);
 
