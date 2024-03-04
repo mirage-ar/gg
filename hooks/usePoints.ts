@@ -1,15 +1,15 @@
 import { PointstData } from "@/types";
 import { useState, useEffect } from "react";
 
-export default function usePoints(twitterId?: string) {
+export default function usePoints(username?: string) {
   const [points, setPoints] = useState<number>(0);
   const [boxes, setBoxes] = useState<number>(0);
 
   useEffect(() => {
-    if (!twitterId) return;
+    if (!username) return;
     const fetchPointData = async () => {
       try {
-        const response = await fetch(`api/points/${twitterId}`);
+        const response = await fetch(`/api/points/${username}`);
         const userPointsData: PointstData = await response.json();
         const userPoints = userPointsData?.points ?? 0;
         const userBoxes = userPointsData?.boxes ?? 0;
@@ -21,7 +21,7 @@ export default function usePoints(twitterId?: string) {
     };
 
     fetchPointData();
-  }, [twitterId]);
+  }, [username]);
 
   return {
     points,

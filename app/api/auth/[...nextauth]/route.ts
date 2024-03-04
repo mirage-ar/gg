@@ -27,9 +27,10 @@ const OPTIONS = {
     async signIn({ user, account, profile }: any) {
       // check whitelist
       const userExists = whitelist.includes(user.username.toLowerCase());
+      console.log(userExists, user.username.toLowerCase());
 
       if (userExists) {
-        const result = await prisma.user.upsert({
+        await prisma.user.upsert({
           where: { username: user.username },
           update: {
             image: user.image,

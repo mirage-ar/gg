@@ -8,7 +8,7 @@ import { useLeaderboard, usePoints, useUser } from "@/hooks";
 
 const Profile: React.FC = () => {
   const user = useUser();
-  const { points, boxes } = usePoints(user?.id);
+  const { points, boxes } = usePoints(user?.username);
   const { leaderboard, userRank } = useLeaderboard(user?.username);
 
   return (
