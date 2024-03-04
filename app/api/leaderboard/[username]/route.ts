@@ -1,12 +1,12 @@
 // LEADERBOARD ROUTE
 import prisma from "@/utils/prisma";
 
-export async function GET(request: Request, { params }: { params: { twitterId: string } }) {
-  const { twitterId } = params;
+export async function GET(request: Request, { params }: { params: { username: string } }) {
+  const { username } = params;
 
   const user = await prisma.user.findFirst({
     where: {
-      twitterId: twitterId,
+      username: username,
     },
   });
 

@@ -9,7 +9,7 @@ import { useLeaderboard, usePoints, useUser } from "@/hooks";
 const Profile: React.FC = () => {
   const user = useUser();
   const { points, boxes } = usePoints(user?.id);
-  const { leaderboard, userRank } = useLeaderboard(user?.id);
+  const { leaderboard, userRank } = useLeaderboard(user?.username);
 
   return (
     <div className={styles.container}>
