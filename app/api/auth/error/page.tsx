@@ -19,10 +19,10 @@ const ErrorPage = () => {
   useEffect(() => {
     if (error) {
       logout();
-      setTimeout(() => {
-        // TODO: update to spectate page
-        window.location.href = "https://gg.zip/";
-      }, 1000);
+      // setTimeout(() => {
+      //   // TODO: update to spectate page
+      //   window.location.href = "https://gg.zip/";
+      // }, 1000);
     }
   }, [error, logout]);
 
