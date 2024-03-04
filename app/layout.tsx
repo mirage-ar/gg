@@ -20,11 +20,12 @@ export function generateViewport() {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const PRIVY_ID = process.env.NEXT_PUBLIC_PRIVY_ID as string;
   return (
     <html lang="en">
       <body>
         <PrivyProvider
-          appId="clq5sknmv005vld0fk12orbq1" // dev
+          appId={PRIVY_ID}
           // appId="clq5ska6s002qld0fpqnk8rmv" // prod
           config={{
             // Display email and wallet as login methods
