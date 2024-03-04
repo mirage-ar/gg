@@ -5,10 +5,8 @@ import whitelist from "./whitelist.json";
 export async function GET(request: Request, { params }: { params: { username: string } }) {
   const { username } = params;
 
-  console.log("username", username);
-  console.log(whitelist)
-
-  const userExists = whitelist.includes(username);
+  // ignore case
+  const userExists = whitelist.includes(username.toLowerCase());
 
   if (userExists) {
     return Response.json({ userExists: true });
