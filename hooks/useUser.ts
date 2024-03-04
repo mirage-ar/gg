@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
+import { getSession } from 'next-auth/react';
 
 import { User } from "@/types";
 
@@ -10,20 +11,24 @@ export default function useUser() {
   const router = useRouter();
 
   useEffect(() => {
-    if (privyUser) {
-      let image = privyUser.twitter?.profilePictureUrl || "";
-      image = image.replace("_normal", "");
+    // if (privyUser) {
+    //   let image = privyUser.twitter?.profilePictureUrl || "";
+    //   image = image.replace("_normal", "");
 
-      setUser({
-        id: privyUser.twitter?.subject || privyUser.id,
-        image: image,
-        name: privyUser.twitter?.name || "",
-        username: privyUser.twitter?.username || "",
-      });
-    }
-    //  else if (ready) {
-    //   router.push("/api/auth/login");
+    //   setUser({
+    //     id: privyUser.twitter?.subject || privyUser.id,
+    //     image: image,
+    //     name: privyUser.twitter?.name || "",
+    //     username: privyUser.twitter?.username || "",
+    //   });
     // }
+
+    const fetchUserSession = async () => {
+      const session = await getSession();
+      setUser(session?.user as User);
+    };
+
+    fetchUserSession();
 
   }, [privyUser, ready, router]);
 
