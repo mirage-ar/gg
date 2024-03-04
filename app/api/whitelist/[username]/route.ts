@@ -5,6 +5,8 @@ import whitelist from "./whitelist.json";
 export async function GET(request: Request, { params }: { params: { username: string } }) {
   const { username } = params;
 
+  console.log("username", username);
+
   const userExists = whitelist.includes(username);
 
   if (userExists) {
