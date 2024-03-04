@@ -6,7 +6,7 @@ import { useUser } from "@/hooks";
 import * as DateFNS from "date-fns";
 import styles from "./Chat.module.css";
 
-import { ChatMessage, User } from "@/types";
+import { ChatMessage } from "@/types";
 import { GET_MESSAGES_URL, CHAT_SOCKET_URL } from "@/utils/constants";
 
 const Chat: React.FC = () => {

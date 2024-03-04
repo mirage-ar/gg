@@ -27,7 +27,6 @@ const OPTIONS = {
     async signIn({ user, account, profile }: any) {
       // check whitelist
       const userExists = whitelist.includes(user.username.toLowerCase());
-      console.log(userExists, user.username.toLowerCase());
 
       if (userExists) {
         await prisma.user.upsert({

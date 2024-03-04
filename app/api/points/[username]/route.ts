@@ -22,11 +22,5 @@ export async function GET(request: Request, { params }: { params: { username: st
 
   const userPoints = boxes.reduce((acc: any, box: any) => acc + box.points, 0);
 
-  //   const user = await prisma.user.findUnique({
-  //     where: {
-  //       id: userId,
-  //     },
-  //   });
-
   return Response.json({ points: userPoints, boxes: boxes.length });
 }

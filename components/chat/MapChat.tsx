@@ -5,11 +5,12 @@ import Image from "next/image";
 import * as DateFNS from "date-fns";
 import styles from "./MapChat.module.css";
 
-import { ChatMessage, User } from "@/types";
+import { ChatMessage } from "@/types";
 import { GET_MESSAGES_URL, CHAT_SOCKET_URL } from "@/utils/constants";
+import { useUser } from "@/hooks";
 
 const MapChat: React.FC = () => {
-  const [user, setUser] = useState<User | null>(null);
+  const user = useUser();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputMessage, setInputMessage] = useState<string>("");
   const webSocket = useRef<WebSocket | null>(null);
@@ -23,9 +24,6 @@ const MapChat: React.FC = () => {
 
   // Connect to WebSocket
   useEffect(() => {
-    const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user") as string) : null;
-    setUser(user);
-
     fetchInitialMessages();
 
     webSocket.current = new WebSocket(CHAT_SOCKET_URL);

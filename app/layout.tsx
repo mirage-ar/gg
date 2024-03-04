@@ -1,10 +1,8 @@
-"use client";
-
 import React from "react";
-import { PrivyProvider } from "@privy-io/react-auth";
 import MapboxMap from "@/components/map/MapboxMap";
 
 import "./globals.css";
+import { Metadata } from "next";
 
 export function generateViewport() {
   return {
@@ -19,30 +17,43 @@ export function generateViewport() {
   };
 }
 
+export const metadata: Metadata = {
+  title: "GG",
+  description: "GG",
+  appleWebApp: true,
+  themeColor: "#000000",
+  openGraph: {
+    title: "GG",
+    description: "GG",
+    url: "https://gg.zip",
+    images: [
+      {
+        url: "https://gg.zip/og.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary",
+    title: "GG",
+    description: "GG",
+    images: [
+      {
+        url: "https://gg.zip/og.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const PRIVY_ID = process.env.NEXT_PUBLIC_PRIVY_ID as string;
   return (
     <html lang="en">
       <body>
-        <PrivyProvider
-          appId={PRIVY_ID}
-          // appId="clq5ska6s002qld0fpqnk8rmv" // prod
-          config={{
-            // Display email and wallet as login methods
-            loginMethods: ["twitter"],
-            // Customize Privy's appearance in your app
-            appearance: {
-              theme: "dark",
-              accentColor: "#676FFF",
-              showWalletLoginFirst: false,
-              // TODO: add logo
-              // logo: "/logo.svg",
-            },
-          }}
-        >
-          <MapboxMap />
-          {children}
-        </PrivyProvider>
+        <MapboxMap />
+        {children}
       </body>
     </html>
   );
