@@ -1,5 +1,6 @@
 // USER POINT DATA
 import prisma from "@/utils/prisma";
+import { PointstData } from "@/types";
 
 export async function GET(request: Request, { params }: { params: { username: string } }) {
   const { username } = params;
@@ -22,5 +23,7 @@ export async function GET(request: Request, { params }: { params: { username: st
 
   const userPoints = boxes.reduce((acc: any, box: any) => acc + box.points, 0);
 
-  return Response.json({ points: userPoints, boxes: boxes.length });
+  const pointsData: PointstData = { points: userPoints, boxes: boxes.length };
+
+  return Response.json(pointsData);
 }

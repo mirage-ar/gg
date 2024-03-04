@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./Leaderboard.module.css";
 
-import { LeaderboardItem } from "@/types";
 import { useLeaderboard, useUser } from "@/hooks";
 
 const Leaderboard: React.FC = () => {

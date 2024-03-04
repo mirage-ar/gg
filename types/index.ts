@@ -17,7 +17,6 @@ export type LocationData = {
 };
 
 export type PointstData = {
-  id: string;
   points: number;
   boxes: number;
 };
