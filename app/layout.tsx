@@ -20,7 +20,7 @@ export function generateViewport() {
 export const metadata: Metadata = {
   title: "GG",
   description: "GG",
-  // appleWebApp: true,
+  appleWebApp: true,
   themeColor: "#000000",
   openGraph: {
     title: "GG",
