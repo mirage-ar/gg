@@ -31,10 +31,9 @@ const MapboxMap: React.FC = () => {
   const userIdRef = useRef<string | null>(null);
   const [showCollectButton, setShowCollectButton] = useState(false);
 
-  const [visible, setVisible] = useState(true);
-
   const [currentLocation, setCurrentLocation] = useState<GeolocationPosition | null>(null);
   const [mapMoved, setMapMoved] = useState(false);
+  const [connectionClosed, setConnectionClosed] = useState(false);
 
   // SETUP MAP
   useEffect(() => {
@@ -157,6 +156,7 @@ const MapboxMap: React.FC = () => {
 
       markersSocket.current.onopen = () => {
         console.log("WebSocket Connected");
+        setConnectionClosed(false);
         // location tracking
         if (!user) return;
         watchId = navigator.geolocation.watchPosition(
@@ -227,7 +227,7 @@ const MapboxMap: React.FC = () => {
       navigator.geolocation.clearWatch(watchId);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [user, connectionClosed]);
 
   useEffect(() => {
     const handleVisibilityChange = () => {
@@ -236,7 +236,7 @@ const MapboxMap: React.FC = () => {
         if (markersSocket.current && markersSocket.current.readyState !== WebSocket.OPEN) {
           // Attempt to reconnect
           console.log('Attempting to reconnect WebSocket');
-          setVisible(false);
+          setConnectionClosed(true)
         }
       }
     };
@@ -340,7 +340,7 @@ const MapboxMap: React.FC = () => {
           <Image src="/icons/map/center.svg" width={48} height={48} alt="Center User" />
         </button>
       )}
-      {!visible && (
+      {connectionClosed && (
         <button>REFRESH MAP</button>
       )}
     </>
