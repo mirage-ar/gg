@@ -33,7 +33,7 @@ const MapboxMap: React.FC = () => {
 
   const [currentLocation, setCurrentLocation] = useState<GeolocationPosition | null>(null);
   const [mapMoved, setMapMoved] = useState(false);
-  const [connectionClosed, setConnectionClosed] = useState(true);
+  const [connectionClosed, setConnectionClosed] = useState(false);
 
   // SETUP MAP
   useEffect(() => {
@@ -216,6 +216,7 @@ const MapboxMap: React.FC = () => {
 
       markersSocket.current.onclose = () => {
         console.log('WebSocket Disconnected, attempting to reconnect...');
+        navigator.geolocation.clearWatch(watchId);
         setTimeout(connectWebSocket, 3000); // Attempt to reconnect after 3 seconds
       };
     };
