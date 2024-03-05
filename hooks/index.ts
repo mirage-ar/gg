@@ -1,5 +1,5 @@
 import useUser from './useUser';
-import usePoints from './usePoints';
+import useScore from './useScore';
 import useLeaderboard from './useLeaderboard';
 
-export { useUser, usePoints, useLeaderboard };
+export { useUser, useScore, useLeaderboard };

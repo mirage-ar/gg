@@ -4,11 +4,11 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./Profile.module.css";
 
-import { useLeaderboard, usePoints, useUser } from "@/hooks";
+import { useLeaderboard, useScore, useUser } from "@/hooks";
 
 const Profile: React.FC = () => {
   const user = useUser();
-  const { points, boxes } = usePoints(user?.username);
+  const { score, boxes } = useScore(user?.username);
   const { leaderboard, userRank } = useLeaderboard(user?.username);
 
   return (
@@ -30,7 +30,7 @@ const Profile: React.FC = () => {
         {/* ------ USER SCORE ------ */}
         <div className={styles.scoreRow}>
           <div className={styles.scoreLabel}>Score</div>
-          <div className={styles.scoreValue}>{points}</div>
+          <div className={styles.scoreValue}>{score}</div>
         </div>
         {/* ------ USER BOXES ------ */}
         <div className={styles.scoreRow}>

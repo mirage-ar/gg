@@ -1,6 +1,6 @@
-// USER POINT DATA
+// USER SCORE DATA
 import prisma from "@/utils/prisma";
-import { PointstData } from "@/types";
+import { ScoreData } from "@/types";
 
 export async function GET(request: Request, { params }: { params: { username: string } }) {
   const { username } = params;
@@ -12,7 +12,7 @@ export async function GET(request: Request, { params }: { params: { username: st
   });
 
   if (!user) {
-    return Response.json({ points: 0, boxes: 0 });
+    throw new Error("Score: User not found");
   }
 
   const boxes = await prisma.box.findMany({
@@ -22,7 +22,7 @@ export async function GET(request: Request, { params }: { params: { username: st
   });
 
   // using points from user object so we can reduce if needed
-  const pointsData: PointstData = { points: user.points, boxes: boxes.length };
+  const pointsData: ScoreData = { points: user.points, boxes: boxes.length };
 
   return Response.json(pointsData);
 }

@@ -2,13 +2,13 @@
 
 import React from "react";
 import Image from "next/image";
-import { useUser, usePoints } from "@/hooks";
+import { useUser, useScore } from "@/hooks";
 import { withCommas } from "@/utils";
 import styles from "./TopBar.module.css";
 
 const TopBar: React.FC = () => {
   const user = useUser();
-  const { points, boxes } = usePoints(user?.username);
+  const { score, boxes } = useScore(user?.username);
 
   return (
     <div className={styles.container}>
@@ -22,7 +22,7 @@ const TopBar: React.FC = () => {
       <div className={styles.scoreContainer}>
         <div className={styles.title}>My Score</div>
         <div className={styles.scoreAmountContainer}>
-          <div className={styles.scoreAmount}>{withCommas(points)}</div>
+          <div className={styles.scoreAmount}>{withCommas(score)}</div>
           <Image alt="G Icon" src="/icons/16/g-points.svg" width={16} height={16} />
           <div className={styles.boxAmountContainer}>
             <div className={styles.boxAmount}><span className={styles.grey}>(</span>{boxes}<span className={styles.grey}>)</span></div>

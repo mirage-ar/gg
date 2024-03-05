@@ -1,5 +1,6 @@
 // LEADERBOARD ROUTE
 import prisma from "@/utils/prisma";
+import { th } from "date-fns/locale";
 
 export async function GET(request: Request, { params }: { params: { username: string } }) {
   const { username } = params;
@@ -11,21 +12,14 @@ export async function GET(request: Request, { params }: { params: { username: st
   });
 
   if (!user) {
-    return Response.json({ leaderboard: [], userRank: 0 });
+    throw new Error("Leaderboard: User not found");
   }
 
   const leaderboard = await prisma.user.findMany({
-    select: {
-      id: true,
-      username: true,
-      image: true,
-      wallet: true,
-      points: true,
+    orderBy: {
+      points: "desc",
     },
   });
-
-  // order leaderboard by points
-  leaderboard.sort((a, b) => b.points - a.points);
 
   const userRank = leaderboard.findIndex((player) => player.id.toString() === user.id) + 1;
   const userScore = leaderboard.find((player) => player.id.toString() === user.id)?.points;

@@ -16,7 +16,7 @@ export type LocationData = {
   timestamp: number;
 };
 
-export type PointstData = {
+export type ScoreData = {
   points: number;
   boxes: number;
 };
