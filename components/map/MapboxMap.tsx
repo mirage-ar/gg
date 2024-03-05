@@ -159,6 +159,12 @@ const MapboxMap: React.FC = () => {
         if (!user) return;
         watchId = navigator.geolocation.watchPosition(
           async (position) => {
+            // check socket connection
+            if (markersSocket.current && markersSocket.current.readyState !== WebSocket.OPEN) {
+              console.log("WebSocket not open");
+              connectWebSocket();
+              return;
+            }
             // STORE CURRENT POSITION
             setCurrentLocation(position);
 
@@ -226,11 +232,6 @@ const MapboxMap: React.FC = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
-
-  useEffect(() => {
-    console.log("pushing to home")
-    router.push("/");
-  }, [router]);
 
   // UPDATE PLAYER MARKERS
   const updateMarkers = (map: mapboxgl.Map, message: LocationData) => {
