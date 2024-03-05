@@ -174,12 +174,6 @@ const MapboxMap: React.FC = () => {
               }
             }
 
-            // update user marker
-            const map = mapRef.current;
-            if (map) {
-              markersRef.current[user.id]?.setLngLat([position.coords.longitude, position.coords.latitude]);
-            }
-
             // FETCH BOXES AND UPDATE MARKERS
             fetchAndUpdateBoxes(position.coords.latitude, position.coords.longitude);
 
@@ -241,7 +235,7 @@ const MapboxMap: React.FC = () => {
 
       console.log(`Updating marker: ${message.id}`);
 
-      if (existingMarker && message.id !== user?.id) {
+      if (existingMarker) {
         // Marker exists, update its position
         existingMarker.setLngLat([message.longitude, message.latitude]);
       } else {
@@ -301,7 +295,7 @@ const MapboxMap: React.FC = () => {
   function updateMarkerSize(marker: mapboxgl.Marker, mapZoom: number): void {
     const baseSize = 40;
     const minZoomLevel = 18;
-    const size = baseSize * Math.pow(2, mapZoom - minZoomLevel);
+    const size = baseSize * Math.pow(2, (mapZoom - minZoomLevel));
     const markerElement = marker.getElement();
     markerElement.style.width = `${size}px`;
     markerElement.style.height = `${size}px`;
