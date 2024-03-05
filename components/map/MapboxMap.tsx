@@ -160,7 +160,7 @@ const MapboxMap: React.FC = () => {
         watchId = navigator.geolocation.watchPosition(
           async (position) => {
             // check socket connection
-            if (markersSocket.current && markersSocket.current.readyState !== WebSocket.OPEN) {
+            if (markersSocket.current && markersSocket.current.readyState !== WebSocket.OPEN && document.visibilityState === "visible") {
               console.log("WebSocket not open");
               connectWebSocket();
               return;
