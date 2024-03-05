@@ -215,6 +215,7 @@ const MapboxMap: React.FC = () => {
 
       markersSocket.current.onclose = () => {
         console.log("WebSocket Disconnected");
+        setConnectionClosed(true);
       };
     };
 
@@ -222,7 +223,7 @@ const MapboxMap: React.FC = () => {
     connectWebSocket();
 
     return () => {
-      // markersSocket.current?.close();
+      markersSocket.current?.close();
       navigator.geolocation.clearWatch(watchId);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
