@@ -296,8 +296,6 @@ const MapboxMap: React.FC = () => {
     const baseSize = 30;
     const minZoomLevel = 18;
     const size = baseSize * Math.pow(2, (mapZoom - minZoomLevel));
-
-    console.log(mapZoom);
     const markerElement = marker.getElement();
     markerElement.style.width = `${size}px`;
     markerElement.style.height = `${size}px`;

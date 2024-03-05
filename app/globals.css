@@ -106,8 +106,8 @@ a {
   background-image: url("/icons/user-marker.svg");
   background-size: cover;
   background-position: center;
-  width: 100px;
-  height: 100px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   z-index: 1000;
   display: flex;

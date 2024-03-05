@@ -21,9 +21,8 @@ export async function GET(request: Request, { params }: { params: { username: st
     },
   });
 
-  const userPoints = boxes.reduce((acc: any, box: any) => acc + box.points, 0);
-
-  const pointsData: PointstData = { points: userPoints, boxes: boxes.length };
+  // using points from user object so we can reduce if needed
+  const pointsData: PointstData = { points: user.points, boxes: boxes.length };
 
   return Response.json(pointsData);
 }

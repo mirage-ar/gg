@@ -10,6 +10,7 @@
 
 .logo {
   font-family: "Diatype Mono", "Courier New", Courier, monospace;
+  margin-bottom: 20px;
 }
 
 .button {
@@ -24,6 +25,33 @@
   display: flex;
   z-index: 1001;
   color: black;
+  padding: 15px 24px 13px 24px;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 4px;
+  flex-shrink: 0;
+  background: var(--g, #42ff60);
+  color: var(--b, #000);
+  font-feature-settings: "ss08" on, "ss17" on, "ss07" on;
+  /* uppercase/title 2-upper 18—20 */
+  font-family: "Diatype Mono", "Courier New", Courier, monospace;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 111.111% */
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.input {
+  width: 100%;
+  height: 80px;
+  background-color: #000;
+  border: none;
+  outline: none;
+  display: flex;
+  z-index: 1001;
+  color: #fff;
   padding: 15px 24px 13px 24px;
   justify-content: center;
   align-items: flex-start;
