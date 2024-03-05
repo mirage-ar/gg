@@ -33,7 +33,7 @@ const MapboxMap: React.FC = () => {
 
   const [currentLocation, setCurrentLocation] = useState<GeolocationPosition | null>(null);
   const [mapMoved, setMapMoved] = useState(false);
-  // const [connectionClosed, setConnectionClosed] = useState(false);
+  const [connectionClosed, setConnectionClosed] = useState(false);
 
   // SETUP MAP
   useEffect(() => {
@@ -157,7 +157,6 @@ const MapboxMap: React.FC = () => {
 
       markersSocket.current.onopen = () => {
         console.log("WebSocket Connected");
-        // setConnectionClosed(false);
 
         // location tracking
         watchId = navigator.geolocation.watchPosition(
@@ -231,24 +230,24 @@ const MapboxMap: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
-  // useEffect(() => {
-  //   const handleVisibilityChange = () => {
-  //     if (document.visibilityState === "visible") {
-  //       // Check if the WebSocket is disconnected
-  //       if (markersSocket.current && markersSocket.current.readyState !== WebSocket.OPEN) {
-  //         // Attempt to reconnect
-  //         console.log("Attempting to reconnect WebSocket");
-  //         setConnectionClosed(true);
-  //       }
-  //     }
-  //   };
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        // Check if the WebSocket is disconnected
+        if (markersSocket.current && markersSocket.current.readyState !== WebSocket.OPEN) {
+          // Attempt to reconnect
+          console.log("Attempting to reconnect WebSocket");
+          setConnectionClosed(true);
+        }
+      }
+    };
 
-  //   document.addEventListener("visibilitychange", handleVisibilityChange);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
-  //   return () => {
-  //     document.removeEventListener("visibilitychange", handleVisibilityChange);
-  //   };
-  // }, []);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
 
   // UPDATE PLAYER MARKERS
   const updateMarkers = (map: mapboxgl.Map, message: LocationData) => {
@@ -342,7 +341,7 @@ const MapboxMap: React.FC = () => {
           <Image src="/icons/map/center.svg" width={48} height={48} alt="Center User" />
         </button>
       )}
-      {/* {connectionClosed && <button>REFRESH MAP</button>} */}
+      {connectionClosed && <button>REFRESH MAP</button>}
     </>
   );
 };
