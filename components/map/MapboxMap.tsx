@@ -220,7 +220,9 @@ const MapboxMap: React.FC = () => {
     };
 
     // Initial connection
-    connectWebSocket();
+    if (connectionClosed) {
+      connectWebSocket();
+    }
 
     return () => {
       markersSocket.current?.close();
@@ -231,20 +233,20 @@ const MapboxMap: React.FC = () => {
 
   useEffect(() => {
     const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
+      if (document.visibilityState === "visible") {
         // Check if the WebSocket is disconnected
         if (markersSocket.current && markersSocket.current.readyState !== WebSocket.OPEN) {
           // Attempt to reconnect
-          console.log('Attempting to reconnect WebSocket');
-          setConnectionClosed(true)
+          console.log("Attempting to reconnect WebSocket");
+          setConnectionClosed(true);
         }
       }
     };
-  
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-  
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
     return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
 
@@ -315,7 +317,7 @@ const MapboxMap: React.FC = () => {
   function updateMarkerSize(marker: mapboxgl.Marker, mapZoom: number): void {
     const baseSize = 40;
     const minZoomLevel = 18;
-    const size = baseSize * Math.pow(2, (mapZoom - minZoomLevel));
+    const size = baseSize * Math.pow(2, mapZoom - minZoomLevel);
     const markerElement = marker.getElement();
     markerElement.style.width = `${size}px`;
     markerElement.style.height = `${size}px`;
@@ -340,9 +342,7 @@ const MapboxMap: React.FC = () => {
           <Image src="/icons/map/center.svg" width={48} height={48} alt="Center User" />
         </button>
       )}
-      {connectionClosed && (
-        <button>REFRESH MAP</button>
-      )}
+      {connectionClosed && <button>REFRESH MAP</button>}
     </>
   );
 };
