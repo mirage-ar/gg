@@ -221,9 +221,23 @@ const MapboxMap: React.FC = () => {
     // Initial connection
     connectWebSocket();
 
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        // Check if the WebSocket is disconnected
+        if (markersSocket.current && markersSocket.current.readyState !== WebSocket.OPEN) {
+          // Attempt to reconnect
+          console.log('Attempting to reconnect WebSocket');
+          connectWebSocket();
+        }
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
     return () => {
       markersSocket.current?.close();
       navigator.geolocation.clearWatch(watchId);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
