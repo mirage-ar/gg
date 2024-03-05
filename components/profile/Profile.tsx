@@ -5,6 +5,7 @@ import Image from "next/image";
 import styles from "./Profile.module.css";
 
 import { useLeaderboard, useScore, useUser } from "@/hooks";
+import { withCommas } from "@/utils";
 
 const Profile: React.FC = () => {
   const user = useUser();
@@ -30,7 +31,7 @@ const Profile: React.FC = () => {
         {/* ------ USER SCORE ------ */}
         <div className={styles.scoreRow}>
           <div className={styles.scoreLabel}>Score</div>
-          <div className={styles.scoreValue}>{score}</div>
+          <div className={styles.scoreValue}>{withCommas(score)}</div>
         </div>
         {/* ------ USER BOXES ------ */}
         <div className={styles.scoreRow}>

@@ -7,7 +7,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  font-family: "Connect", Arial, Helvetica, sans-serif;
+  font-family: var(--connect);
 }
 
 .prizeContainer {
@@ -21,9 +21,8 @@
 .title {
   padding-bottom: 4px;
   text-transform: uppercase;
-  font-family: "Diatype-Mono", monospace;
+  font-family: var(--diatype);
   text-align: center;
-  font-feature-settings: "ss09" on, "ss08" on, "ss17" on, "ss07" on;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
@@ -45,7 +44,6 @@
   padding-right: 4px;
   color: var(--p, #ff61ef);
   text-align: right;
-  font-feature-settings: "case" on;
   font-size: 22px;
   font-style: normal;
   font-weight: 400;
@@ -73,9 +71,7 @@
 
 .scoreAmount {
   padding-right: 4px;
-  /* color: var(--supporting-w-40, rgba(250, 245, 233, 0.4)); */
   text-align: right;
-  font-feature-settings: "case" on;
   font-size: 22px;
   font-style: normal;
   font-weight: 400;
@@ -92,7 +88,6 @@
 .boxAmount {
   /* color: var(--supporting-w-40, var(--p, rgba(250, 245, 233, 0.40))); */
   text-align: right;
-  font-feature-settings: "case" on;
   font-size: 22px;
   font-style: normal;
   font-weight: 400;

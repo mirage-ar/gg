@@ -18,6 +18,6 @@ export const rand = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
-export const withCommas = (x: number): string => {
+export const withCommas = (x: number | string): string => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };

@@ -9,6 +9,21 @@
   z-index: 10000;
 }
 
+.pointsContainer {
+  color: #42FF60;
+  font-family: var(--connect);
+  font-size: 82px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 82px; /* 100% */
+  text-transform: uppercase;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .modelContainer {
   width: 100%;
   height: 500px;
@@ -56,12 +71,28 @@
   flex-shrink: 0;
   background: var(--g, #42ff60);
   color: var(--b, #000);
-  font-feature-settings: "ss08" on, "ss17" on, "ss07" on;
-  /* uppercase/title 2-upper 18—20 */
-  font-family: "Diatype Mono", "Courier New", Courier, monospace;
+  font-family: var(--diatype);
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
   line-height: 20px; /* 111.111% */
   text-transform: uppercase;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+
+  background-image: url("/images/rays.svg");
+  background-size: cover;
 }

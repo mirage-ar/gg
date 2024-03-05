@@ -17,9 +17,8 @@
   flex-shrink: 0;
   background: var(--g, #42ff60);
   color: var(--b, #000);
-  font-feature-settings: "ss08" on, "ss17" on, "ss07" on;
   /* uppercase/title 2-upper 18—20 */
-  font-family: "Diatype Mono", "Courier New", Courier, monospace;
+  font-family: var(--diatype);
   font-size: 18px;
   font-style: normal;
   font-weight: 400;

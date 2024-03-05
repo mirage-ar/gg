@@ -29,7 +29,6 @@ const MapboxMap: React.FC = () => {
   const markersSocket = useRef<WebSocket | null>(null);
   const markersRef = useRef<MarkersObject>({});
   const userIdRef = useRef<string | null>(null);
-  const [showCollectButton, setShowCollectButton] = useState(false);
 
   const [currentLocation, setCurrentLocation] = useState<GeolocationPosition | null>(null);
   const [mapMoved, setMapMoved] = useState(false);
@@ -144,7 +143,6 @@ const MapboxMap: React.FC = () => {
 
   // Markers Socket
   useEffect(() => {
-    console.log("User:", user);
     if (!user) return;
     // set user id
     userIdRef.current = user.id;
@@ -162,8 +160,6 @@ const MapboxMap: React.FC = () => {
           async (position) => {
             // STORE CURRENT POSITION
             setCurrentLocation(position);
-
-            console.log("Location Updated", position);
 
             // CENTER MAP ON USER IF FIRST TIME
             if (!mapCenteredRef.current) {
@@ -233,8 +229,6 @@ const MapboxMap: React.FC = () => {
   const updateMarkers = (map: mapboxgl.Map, message: LocationData) => {
     if (map && message.id && message.latitude && message.longitude) {
       const existingMarker = markersRef.current[message.id];
-
-      console.log(`Updating marker: ${message.id}`);
 
       if (existingMarker) {
         // Marker exists, update its position
@@ -312,7 +306,6 @@ const MapboxMap: React.FC = () => {
           zIndex: "-1000",
         }}
       />
-      {showCollectButton && <button className={styles.collectButton}>Claim</button>}
       {mapMoved && (
         <button className={styles.centerButton} onClick={centerOnUser}>
           <Image src="/icons/map/center.svg" width={48} height={48} alt="Center User" />

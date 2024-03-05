@@ -17,9 +17,8 @@
 
   color: var(--g, #42ff60);
   text-align: center;
-  font-feature-settings: "case" on;
   text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.45);
-  font-family: "Connect", Arial, Helvetica, sans-serif;
+  font-family: var(--connect);
   font-size: 76px;
   font-style: normal;
   font-weight: 400;
@@ -55,8 +54,7 @@
 .bottomText {
   color: var(--g, #42ff60);
   text-align: center;
-  font-feature-settings: "ss09" on, "ss08" on, "ss17" on, "ss07" on;
-  font-family: "Diatype Mono", "Courier New", Courier, monospace;
+  font-family: var(--diatype);
   font-size: 14px;
   font-style: normal;
   font-weight: 400;

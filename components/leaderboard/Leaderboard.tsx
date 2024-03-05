@@ -6,6 +6,7 @@ import Image from "next/image";
 import styles from "./Leaderboard.module.css";
 
 import { useLeaderboard, useUser } from "@/hooks";
+import { withCommas } from "@/utils";
 
 const Leaderboard: React.FC = () => {
   const user = useUser();
@@ -31,7 +32,7 @@ const Leaderboard: React.FC = () => {
         {/* ------ USER SCORE ------ */}
         <div className={styles.scoreRow}>
           <div className={styles.scoreLabel}>Score</div>
-          <div className={styles.scoreValue}>{userScore}</div>
+          <div className={styles.scoreValue}>{withCommas(userScore || "")}</div>
         </div>
         {/* ------ PRIZE POOL ------ */}
         <div className={styles.scoreRow}>
@@ -54,7 +55,7 @@ const Leaderboard: React.FC = () => {
                   {/* </div> */}
                   <div className={styles.playerName}>@{player.username}</div>
                 </div>
-                <div className={styles.playerScore}>{player.points}</div>
+                <div className={styles.playerScore}>{withCommas(player.points)}</div>
               </div>
             ))}
         </div>
