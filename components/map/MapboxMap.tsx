@@ -31,6 +31,8 @@ const MapboxMap: React.FC = () => {
   const userIdRef = useRef<string | null>(null);
   const [showCollectButton, setShowCollectButton] = useState(false);
 
+  const [visible, setVisible] = useState(true);
+
   const [currentLocation, setCurrentLocation] = useState<GeolocationPosition | null>(null);
   const [mapMoved, setMapMoved] = useState(false);
 
@@ -159,12 +161,6 @@ const MapboxMap: React.FC = () => {
         if (!user) return;
         watchId = navigator.geolocation.watchPosition(
           async (position) => {
-            // check socket connection
-            if (markersSocket.current && markersSocket.current.readyState !== WebSocket.OPEN && document.visibilityState === "visible") {
-              console.log("WebSocket not open");
-              connectWebSocket();
-              return;
-            }
             // STORE CURRENT POSITION
             setCurrentLocation(position);
 
@@ -232,6 +228,25 @@ const MapboxMap: React.FC = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        // Check if the WebSocket is disconnected
+        if (markersSocket.current && markersSocket.current.readyState !== WebSocket.OPEN) {
+          // Attempt to reconnect
+          console.log('Attempting to reconnect WebSocket');
+          setVisible(false);
+        }
+      }
+    };
+  
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+  
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
 
   // UPDATE PLAYER MARKERS
   const updateMarkers = (map: mapboxgl.Map, message: LocationData) => {
@@ -324,6 +339,9 @@ const MapboxMap: React.FC = () => {
         <button className={styles.centerButton} onClick={centerOnUser}>
           <Image src="/icons/map/center.svg" width={48} height={48} alt="Center User" />
         </button>
+      )}
+      {!visible && (
+        <button>REFRESH MAP</button>
       )}
     </>
   );
