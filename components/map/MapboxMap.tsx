@@ -156,7 +156,7 @@ const MapboxMap: React.FC = () => {
 
       markersSocket.current.onopen = () => {
         console.log("WebSocket Connected");
-        setConnectionClosed(false);
+        // setConnectionClosed(false);
         // location tracking
         if (!user) return;
         watchId = navigator.geolocation.watchPosition(
