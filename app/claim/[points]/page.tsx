@@ -23,12 +23,12 @@ const ClaimPage: React.FC = () => {
   return (
     <main className={styles.container}>
       <TopBar />
-      <div className={styles.modelContainer}>
+      <div className={styles.modelContainer} onClick={() => router.push('/')}>
         <ModelViewer name={"koji"} />
       </div>
-      <button className={styles.button} onClick={() => router.push(`/`)}>
+      {/* <button className={styles.button} onClick={() => router.push(`/`)}>
         Continue
-      </button>
+      </button> */}
     </main>
   );
 };
