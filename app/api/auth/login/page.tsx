@@ -13,19 +13,19 @@ const LoginPage = () => {
     // Check the access code in the database
     const isValidCode = await checkAccessCode(accessCode);
 
-    // if (isValidCode) {
+    if (isValidCode) {
       signIn("twitter", { callbackUrl: "/" });
-    // } else {
-    //   alert("Invalid access code");
-    // }
+    } else {
+      alert("Invalid access code");
+    }
   };
 
   const checkAccessCode = async (code: string) => {
-    // Implement your logic to check the access code in the database
-    // For example, you can make an API call to your backend
-    // and return true if the code is valid, false otherwise
-    // Replace this with your actual implementation
-    return code === "123456";
+    const response = await fetch(`/api/codes/${code}`);
+    const data = await response.json();
+
+    console.log(data);
+    return data.authorized;
   };
 
   return (
@@ -34,13 +34,13 @@ const LoginPage = () => {
         {/* <Image src="/icons/logo.svg" alt="logo" width={100} height={100} /> */}
         CONNECT VIA X
       </div>
-      {/* <input
+      <input
         type="text"
         value={accessCode}
         onChange={(e) => setAccessCode(e.target.value)}
         placeholder="Enter access code"
         className={styles.input}
-      /> */}
+      />
       <button className={styles.button} onClick={() => handleSignIn()}>
         Sign in
       </button>
