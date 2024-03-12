@@ -1,46 +1,40 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { signIn } from "next-auth/react";
 
 import styles from "./page.module.css";
 import { access } from "fs";
+import { useRouter } from "next/navigation";
+import HomeScreenOverlay from "@/components/onboarding/HomeScreenOverlay";
 
 const LoginPage = () => {
-  const [accessCode, setAccessCode] = useState("");
+  const router = useRouter();
+  const [isStandalone, setIsStandalone] = useState(false);
+
+  useEffect(() => {
+    if ((window.navigator as any).standalone) {
+      setIsStandalone(false);
+    }
+  }, [router]);
 
   const handleSignIn = async () => {
-    // Check the access code in the database
-    const isValidCode = await checkAccessCode(accessCode);
-
-    if (isValidCode) {
-      signIn("twitter", { callbackUrl: "/" });
-    } else {
-      alert("Invalid access code");
-    }
+    signIn("twitter", { callbackUrl: "/" });
   };
 
-  const checkAccessCode = async (code: string) => {
-    const response = await fetch(`/api/codes/${code}`);
-    const data = await response.json();
-
-    console.log(data);
-    return data.authorized;
-  };
+  if (!isStandalone) {
+    return (
+      <main>
+        <HomeScreenOverlay />
+      </main>
+    );
+  }
 
   return (
     <main className={styles.container}>
       <div className={styles.logo} onClick={() => handleSignIn()}>
-        {/* <Image src="/icons/logo.svg" alt="logo" width={100} height={100} /> */}
         CONNECT VIA X
       </div>
-      <input
-        type="text"
-        value={accessCode}
-        onChange={(e) => setAccessCode(e.target.value)}
-        placeholder="Enter access code"
-        className={styles.input}
-      />
       <button className={styles.button} onClick={() => handleSignIn()}>
         Sign in
       </button>

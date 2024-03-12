@@ -16,7 +16,8 @@ model User {
   username  String   @unique
   wallet    String?  @unique
   image     String?
-  points    Int      @default(0) // Calculated field based on Box.points
+  points    Int      @default(0)
+  boxes     Int      @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   Box       Box[]
@@ -55,7 +56,7 @@ model Points {
 model Code {
   id        String   @id @default(uuid())
   code      String   @unique
-  claimed   Boolean  @default(false)
+  attempts  Int      @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

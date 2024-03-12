@@ -3,6 +3,7 @@ export type User = {
   image: string;
   twitterId: string;
   username: string;
+  points?: number;
 };
 
 export type LocationData = {

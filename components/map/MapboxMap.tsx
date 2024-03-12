@@ -132,7 +132,7 @@ const MapboxMap: React.FC = () => {
       const map = mapRef.current;
       if (map && map.getSource("boxes-source")) {
         const boxesSource = map.getSource("boxes-source") as mapboxgl.GeoJSONSource;
-        if (boxesSource) {
+        if (boxesSource && data.boxes) {
           boxesSource.setData(data.boxes);
         }
       }
@@ -209,7 +209,7 @@ const MapboxMap: React.FC = () => {
       };
 
       markersSocket.current.onclose = () => {
-        console.log('WebSocket Disconnected, attempting to reconnect...');
+        console.log("WebSocket Disconnected, attempting to reconnect...");
         navigator.geolocation.clearWatch(watchId);
         setTimeout(connectWebSocket, 3000); // Attempt to reconnect after 3 seconds
       };

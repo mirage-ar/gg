@@ -5,7 +5,7 @@ export async function GET(request: Request, { params }: { params: { code: string
   const code = params.code.toLowerCase();
 
   const codeExists = await prisma.code.findUnique({
-    where: { code, claimed: false },
+    where: { code, attempts: { lt: 10 } },
   });
 
   if (!codeExists) {
@@ -15,7 +15,9 @@ export async function GET(request: Request, { params }: { params: { code: string
   await prisma.code.update({
     where: { code },
     data: {
-      claimed: true,
+      attempts: {
+        increment: 1,
+      },
     },
   });
 
