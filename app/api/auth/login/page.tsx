@@ -31,18 +31,24 @@ const LoginPage = () => {
   }
 
   return (
-    <main className={styles.container}>
-      <div className={styles.logo}>
-        <Image src="/icons/logo.svg" alt="Logo" width={176} height={176} />
-      </div>
-      <div className={styles.hunter} onClick={() => handleSignIn()}>
-        <Image src="/graphics/hunter-onboarding.svg" alt="Logo" width={367} height={528} />
-      </div>
-      <h1 className={styles.title}>Start Global<br />Hunt</h1>
+    <>
+      <main className={styles.container}>
+        <div className={styles.logo}>
+          <Image src="/icons/logo.svg" alt="Logo" width={176} height={176} />
+        </div>
+        <div className={styles.hunter} onClick={() => handleSignIn()}>
+          <Image src="/graphics/hunter-onboarding.svg" alt="Logo" width={367} height={528} />
+        </div>
+        <h1 className={styles.title}>
+          Start Global
+          <br />
+          Hunt
+        </h1>
+      </main>
       <button className={styles.button} onClick={() => handleSignIn()}>
         Sign in
       </button>
-    </main>
+    </>
   );
 };
 
