@@ -1,11 +1,36 @@
 // GET BOXES
 import { calculateDistance } from "@/utils";
 import prisma from "@/utils/prisma";
+import airdrop from "@/utils/airdrop";
 
 export async function POST(request: Request) {
   const { userId, geoHash, latitude, longitude } = await request.json();
 
-  // h
+  // check airdrop
+  const noAirdrop = await prisma.user.findFirst({
+    where: {
+      id: userId,
+      airdrop: false,
+    },
+  });
+
+  if (noAirdrop) {
+    const boxCount = 20;
+    const min = 100;
+    const max = 10_000;
+    const radius = 1000;
+
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        airdrop: true,
+      },
+    });
+
+    await airdrop(latitude, longitude, boxCount, min, max, radius);
+  }
 
   // get all boxes within a certain area
   const boxes = await prisma.box.findMany();
