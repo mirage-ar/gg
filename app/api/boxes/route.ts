@@ -5,6 +5,8 @@ import prisma from "@/utils/prisma";
 export async function POST(request: Request) {
   const { userId, geoHash, latitude, longitude } = await request.json();
 
+  // h
+
   // get all boxes within a certain area
   const boxes = await prisma.box.findMany();
   const features = boxes.map((box) => {
