@@ -12,13 +12,13 @@ const TopBar: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.prizeContainer}>
+      {/* <div className={styles.prizeContainer}>
         <div className={styles.title}>Prize Pool</div>
         <div className={styles.prizeAmountContainer}>
           <div className={styles.prizeAmount}>{withCommas(150)}</div>
           <Image alt="Solana Icon" src="/icons/solana.svg" width={16} height={16} />
         </div>
-      </div>
+      </div> */}
       <div className={styles.scoreContainer}>
         <div className={styles.title}>My Score</div>
         <div className={styles.scoreAmountContainer}>
