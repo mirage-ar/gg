@@ -1,4 +1,5 @@
 import React from "react";
+import { Analytics } from "@vercel/analytics/react"
 import MapboxMap from "@/components/map/MapboxMap";
 
 import "./globals.css";
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <MapboxMap />
         {children}
+        <Analytics />
       </body>
     </html>
   );
