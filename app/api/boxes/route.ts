@@ -25,7 +25,7 @@ export async function POST(request: Request) {
     boxCount = 20;
     min = 100;
     max = 1000;
-    radius = 20;
+    radius = 100;
 
     await airdrop(latitude, longitude, boxCount, min, max, radius);
 
