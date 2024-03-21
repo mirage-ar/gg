@@ -23,6 +23,7 @@ const OPTIONS = {
   ],
 
   callbacks: {
+    async redirect({ url, baseUrl }: any) { return baseUrl },
     async signIn({ user, account, profile }: any) {
       await prisma.user.upsert({
         where: { username: user.username },
