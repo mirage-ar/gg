@@ -9,14 +9,9 @@ const ErrorPage = () => {
   const searchParams = useSearchParams();
   const error = searchParams.get("error");
 
-  let errorMessage = "An unknown error occurred";
-  if (error === "UserNotWhitelisted") {
-    errorMessage = "Authentication failed: You are not whitelisted to play.";
-  }
-
   return (
     <main className={styles.container}>
-      <div className={styles.logo}>{errorMessage}</div>
+      <div className={styles.logo}>{error}</div>
       {/* <button className={styles.button} onClick={() => handleSignIn()}>
         Sign in
       </button> */}

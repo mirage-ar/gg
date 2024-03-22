@@ -25,6 +25,12 @@ const OPTIONS = {
   callbacks: {
     async redirect({ url, baseUrl }: any) { return baseUrl },
     async signIn({ user, account, profile }: any) {
+      const userCount = await prisma.user.count();
+
+      if (userCount >= 420) {
+        return false;
+      }
+
       await prisma.user.upsert({
         where: { username: user.username },
         update: {
