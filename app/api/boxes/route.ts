@@ -16,15 +16,15 @@ export async function POST(request: Request) {
 
   if (noAirdrop) {
     let boxCount = 20;
-    let min = 1000;
-    let max = 10_000;
+    let min = 500;
+    let max = 5000;
     let radius = 1000;
 
     await airdrop(latitude, longitude, boxCount, min, max, radius);
 
     boxCount = 20;
-    min = 100;
-    max = 1000;
+    min = 50;
+    max = 500;
     radius = 100;
 
     await airdrop(latitude, longitude, boxCount, min, max, radius);
