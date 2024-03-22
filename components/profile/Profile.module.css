@@ -62,3 +62,31 @@
 .scoreValue {
   color: #fff;
 }
+
+.button {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 80px;
+  background-color: greenyellow;
+  border: none;
+  outline: none;
+  display: flex;
+  z-index: 1001;
+  color: black;
+  padding: 15px 24px 13px 24px;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 4px;
+  flex-shrink: 0;
+  background: var(--g, #42ff60);
+  color: var(--b, #000);
+  font-family: var(--diatype);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 111.111% */
+  text-transform: uppercase;
+  cursor: pointer;
+}

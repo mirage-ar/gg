@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Image from "next/image";
+import { signOut } from "next-auth/react";
 import styles from "./Profile.module.css";
 
 import { useLeaderboard, useScore, useUser } from "@/hooks";
@@ -39,6 +40,7 @@ const Profile: React.FC = () => {
           <div className={styles.scoreValue}>{boxes}</div>
         </div>
       </div>
+      <button className={styles.button} onClick={() => signOut()}>Logout</button>
     </div>
   );
 };
