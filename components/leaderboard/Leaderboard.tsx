@@ -50,9 +50,9 @@ const Leaderboard: React.FC = () => {
               <div className={styles.leaderboardRow} key={player.id}>
                 <div className={styles.playerInfo}>
                   <div className={styles.playerRank}>{index + 1}</div>
-                  {/* <div className={styles.playerMarker}> */}
+
                   <Image className={styles.playerImage} src={player.image} alt="User Image" width={150} height={150} />
-                  {/* </div> */}
+
                   <div className={styles.playerName}>@{player.username}</div>
                 </div>
                 <div className={styles.playerScore}>{withCommas(player.points)}</div>

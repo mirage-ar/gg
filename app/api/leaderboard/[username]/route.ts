@@ -16,9 +16,15 @@ export async function GET(request: Request, { params }: { params: { username: st
   }
 
   const leaderboard = await prisma.user.findMany({
+    where: {
+      points: {
+        gt: 0,
+      },
+    },
     orderBy: {
       points: "desc",
     },
+    take: 500,
   });
 
   const userRank = leaderboard.findIndex((player) => player.id.toString() === user.id) + 1;
