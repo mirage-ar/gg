@@ -76,6 +76,28 @@ export async function POST(request: Request) {
     const distance = calculateDistance(latitude, longitude, box.latitude, box.longitude);
 
     if (distance <= 6) {
+      // ANTI SPOOFING
+      const lastCollected = await prisma.box.findFirst({
+        where: {
+          collectorId: userId,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+
+      const lastCollectedGeoHash = lastCollected ? lastCollected.geoHash : geoHash;
+      const lastCollectedGeohashPrefix = lastCollectedGeoHash.substring(0, 2);
+      const geohashPrefix = geoHash.substring(0, 2);
+      if (lastCollectedGeohashPrefix !== geohashPrefix) {
+        // user is cheating, kill them
+
+        return Response.json({
+          collect: null,
+          boxes: geoJSON,
+        });
+      }
+
       const collected = await prisma.box.update({
         where: {
           id: box.id,
@@ -86,29 +108,6 @@ export async function POST(request: Request) {
       });
 
       if (collected) {
-
-        // ANTI SPOOFING TECH
-        const lastCollected = await prisma.box.findFirst({
-          where: {
-            collectorId: userId,
-          },
-          orderBy: {
-            createdAt: "desc",
-          },
-        });
-
-        const lastCollectedGeoHash = lastCollected ? lastCollected.geoHash : geoHash;
-        const lastCollectedGeohashPrefix = lastCollectedGeoHash.substring(0, 2);
-        const geohashPrefix = geoHash.substring(0, 2);
-        if (lastCollectedGeohashPrefix !== geohashPrefix) {
-          // user is cheating, kill them
-
-          return Response.json({
-            collect: null,
-            boxes: geoJSON,
-          });
-        }
-
         await prisma.user.update({
           where: {
             id: userId,
