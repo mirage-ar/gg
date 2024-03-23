@@ -94,7 +94,7 @@
 .playerRank {
   width: 32px;
   color: #42ff60;
-  text-align: right;
+  /* text-align: right; */
   font-family: var(--connect);
   font-size: 28px;
   font-style: normal;
