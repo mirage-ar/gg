@@ -15,6 +15,15 @@ export async function POST(request: Request) {
   });
 
   if (noAirdrop) {
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        airdrop: true,
+      },
+    });
+
     let boxCount = 20;
     let min = 500;
     let max = 5000;
@@ -28,15 +37,6 @@ export async function POST(request: Request) {
     radius = 100;
 
     await airdrop(latitude, longitude, boxCount, min, max, radius);
-
-    await prisma.user.update({
-      where: {
-        id: userId,
-      },
-      data: {
-        airdrop: true,
-      },
-    });
   }
 
   // get all boxes within a certain area
