@@ -15,7 +15,7 @@ const LoginPage = () => {
   useEffect(() => {
     const isAndroid = /(android)/i.test(navigator.userAgent);
     const isStandalone = (window.navigator as any).standalone || isAndroid;
-    setIsStandalone(isStandalone);
+    setIsStandalone(true);
   }, [router]);
 
   const handleSignIn = async () => {
