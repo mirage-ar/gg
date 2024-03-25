@@ -23,26 +23,33 @@ const OPTIONS = {
   ],
 
   callbacks: {
-    async redirect({ url, baseUrl }: any) { return baseUrl },
+    async redirect({ url, baseUrl }: any) {
+      return baseUrl;
+    },
     async signIn({ user, account, profile }: any) {
       const userCount = await prisma.user.count();
 
-      if (userCount >= 20) {
+      if (userCount >= 420) {
         throw new Error("User limit reached. Sign up is closed.");
       }
 
-      await prisma.user.upsert({
-        where: { username: user.username },
-        update: {
-          image: user.image,
-        },
-        create: {
-          twitterId: user.id,
-          username: user.username,
-          image: user.image,
-        },
-      });
-      return true;
+      try {
+        await prisma.user.upsert({
+          where: { username: user.username },
+          update: {
+            image: user.image,
+          },
+          create: {
+            twitterId: user.id,
+            username: user.username,
+            image: user.image,
+          },
+        });
+        return true;
+      } catch (error) {
+        // TODO: update to better error handling, allow user to try again
+        throw new Error("User account error. Please try again.");
+      }
     },
     async session({ session, token }: any) {
       if (token) {
