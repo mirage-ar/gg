@@ -7,14 +7,14 @@ export async function POST(request: Request) {
   const { userId, geoHash, latitude, longitude } = await request.json();
 
   // check airdrop
-  const noAirdrop = await prisma.user.findFirst({
+  const noAirdropExists = await prisma.user.count({
     where: {
       id: userId,
       airdrop: false,
     },
-  });
+  }) > 0;
 
-  if (noAirdrop) {
+  if (noAirdropExists) {
     await prisma.user.update({
       where: {
         id: userId,
