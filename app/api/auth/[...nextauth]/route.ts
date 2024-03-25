@@ -27,8 +27,8 @@ const OPTIONS = {
     async signIn({ user, account, profile }: any) {
       const userCount = await prisma.user.count();
 
-      if (userCount >= 420) {
-        return false;
+      if (userCount >= 20) {
+        throw new Error("User limit reached. Sign up is closed.");
       }
 
       await prisma.user.upsert({
