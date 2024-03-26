@@ -31,13 +31,15 @@ const OPTIONS = {
         try {
           const userCount = await prisma.user.count();
 
-          if (userCount >= 420) {
+          // TODO: for testing
+          if (userCount >= 4) {
             throw new Error("UserLimitExceeded");
           }
 
           await prisma.user.upsert({
-            where: { username: user.username },
+            where: { twitterId: user.id },
             update: {
+              username: user.username,
               image: user.image,
             },
             create: {
