@@ -26,30 +26,36 @@ const OPTIONS = {
     async redirect({ url, baseUrl }: any) {
       return baseUrl;
     },
-    async signIn({ user, account, profile }: any) {
-      const userCount = await prisma.user.count();
+    callbacks: {
+      async signIn({ user, account, profile }: any) {
+        try {
+          const userCount = await prisma.user.count();
 
-      if (userCount >= 420) {
-        throw new Error("User limit reached. Sign up is closed.");
-      }
+          if (userCount >= 420) {
+            throw new Error("UserLimitExceeded");
+          }
 
-      try {
-        await prisma.user.upsert({
-          where: { username: user.username },
-          update: {
-            image: user.image,
-          },
-          create: {
-            twitterId: user.id,
-            username: user.username,
-            image: user.image,
-          },
-        });
-        return true;
-      } catch (error) {
-        // TODO: update to better error handling, allow user to try again
-        throw new Error("User account error. Please try again.");
-      }
+          await prisma.user.upsert({
+            where: { username: user.username },
+            update: {
+              image: user.image,
+            },
+            create: {
+              twitterId: user.id,
+              username: user.username,
+              image: user.image,
+            },
+          });
+          return true; // Sign-in successful
+        } catch (error) {
+          const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
+          if (errorMessage === "UserLimitExceeded") {
+            throw new Error("User limit reached. Sign up is closed.");
+          }
+          console.error("SignIn error:", errorMessage);
+          throw new Error("An unexpected error occurred. Please try again.");
+        }
+      },
     },
     async session({ session, token }: any) {
       if (token) {
