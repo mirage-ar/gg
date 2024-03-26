@@ -1,5 +1,6 @@
 import NextAuth, { SessionStrategy } from "next-auth";
 import TwitterProvider from "next-auth/providers/twitter";
+import * as Sentry from "@sentry/nextjs";
 import prisma from "@/utils/prisma";
 
 const OPTIONS = {
@@ -31,8 +32,7 @@ const OPTIONS = {
         try {
           const userCount = await prisma.user.count();
 
-          // TODO: for testing
-          if (userCount >= 4) {
+          if (userCount >= 50) {
             throw new Error("UserLimitExceeded");
           }
 
@@ -50,25 +50,44 @@ const OPTIONS = {
           });
           return true; // Sign-in successful
         } catch (error) {
+          // First, log the error to Sentry for detailed error reporting
+          if (error instanceof Error) {
+            Sentry.captureException(error);
+          }
+        
+          // Then, log the error message to the server console for visibility
           const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
+          console.error("SignIn error:", errorMessage);
+        
+          // Decide on a user-friendly error message to throw
           if (errorMessage === "UserLimitExceeded") {
             throw new Error("User limit reached. Sign up is closed.");
           }
-          console.error("SignIn error:", errorMessage);
+          
+          // Throw a generic error for the user without exposing specific details
           throw new Error("An unexpected error occurred. Please try again.");
         }
+        
       },
     },
     async session({ session, token }: any) {
       if (token) {
-        const user = await prisma.user.findFirst({
-          where: {
-            twitterId: token.sub,
-          },
-        });
-        session.user.id = user?.id;
-        session.user.twitterId = token.sub;
-        session.user.username = token.username;
+        try {
+          const user = await prisma.user.findFirst({
+            where: {
+              twitterId: token.sub,
+            },
+          });
+
+          // setup session object
+          session.user.id = user?.id;
+          session.user.twitterId = token.sub;
+          session.user.username = token.username;
+
+        } catch (error) {
+          console.error("Session error:", error);
+          throw new Error("An unexpected error occurred. Please try again.");
+        }
       }
       return session;
     },
