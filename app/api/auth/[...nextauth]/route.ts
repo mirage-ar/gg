@@ -30,7 +30,11 @@ const OPTIONS = {
     callbacks: {
       async signIn({ user, account, profile }: any) {
         try {
-          const userCount = await prisma.user.count();
+          const userCount = await prisma.user.count({
+            cacheStrategy: {
+              ttl: 1
+            }
+          });
 
           if (userCount >= 50) {
             throw new Error("UserLimitExceeded");
