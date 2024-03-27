@@ -32,13 +32,13 @@ const Leaderboard: React.FC = () => {
         {/* ------ USER SCORE ------ */}
         <div className={styles.scoreRow}>
           <div className={styles.scoreLabel}>Score</div>
-          <div className={styles.scoreValue}>{withCommas(userScore || "")}</div>
+          <div className={styles.scoreValue}>{withCommas(userScore || 0)}</div>
         </div>
         {/* ------ PRIZE POOL ------ */}
-        <div className={styles.scoreRow}>
+        {/* <div className={styles.scoreRow}>
           <div className={styles.scoreLabel}>Prize Pool</div>
           <div className={styles.scoreValue}>{150}</div>
-        </div>
+        </div> */}
       </div>
 
       {/* ------ LEADERBOARD ------ */}
@@ -47,6 +47,7 @@ const Leaderboard: React.FC = () => {
         <div className={styles.leaderboardScores}>
           {leaderboard.length > 0 &&
             leaderboard.map((player, index) => (
+              player.points > 0 &&
               <div className={styles.leaderboardRow} key={player.id}>
                 <div className={styles.playerInfo}>
                   <div className={styles.playerRank}>{index + 1}</div>

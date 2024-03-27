@@ -19,22 +19,16 @@ export async function GET(request: Request, { params }: { params: { username: st
   }
 
   const leaderboard = await prisma.user.findMany({
-    where: {
-      points: {
-        gt: 0,
-      },
-    },
     orderBy: {
       points: "desc",
     },
-    take: 500,
     cacheStrategy: {
       ttl: 5,
     },
   });
-
-  const userRank = leaderboard.findIndex((player) => player.id.toString() === user.id) + 1;
-  const userScore = leaderboard.find((player) => player.id.toString() === user.id)?.points;
+  
+  const userRank = leaderboard.findIndex((player) => player.id === user.id) + 1;
+  const userScore = leaderboard.find((player) => player.id === user.id)?.points;
 
   return Response.json({ leaderboard, userRank, userScore });
 }
