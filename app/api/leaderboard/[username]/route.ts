@@ -9,6 +9,9 @@ export async function GET(request: Request, { params }: { params: { username: st
     where: {
       username: username,
     },
+    cacheStrategy: {
+      ttl: 5,
+    },
   });
 
   if (!user) {
@@ -25,6 +28,9 @@ export async function GET(request: Request, { params }: { params: { username: st
       points: "desc",
     },
     take: 500,
+    cacheStrategy: {
+      ttl: 5,
+    },
   });
 
   const userRank = leaderboard.findIndex((player) => player.id.toString() === user.id) + 1;

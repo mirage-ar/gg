@@ -7,12 +7,13 @@ export async function POST(request: Request) {
   const { userId, geoHash, latitude, longitude } = await request.json();
 
   // check airdrop
-  const noAirdropExists = await prisma.user.count({
-    where: {
-      id: userId,
-      airdrop: false,
-    },
-  }) > 0;
+  const noAirdropExists =
+    (await prisma.user.count({
+      where: {
+        id: userId,
+        airdrop: false,
+      },
+    })) > 0;
 
   if (noAirdropExists) {
     await prisma.user.update({
@@ -40,7 +41,11 @@ export async function POST(request: Request) {
   }
 
   // get all boxes within a certain area
-  const boxes = await prisma.box.findMany();
+  const boxes = await prisma.box.findMany({
+    cacheStrategy: {
+      ttl: 1,
+    },
+  });
   const features = boxes.map((box) => {
     return {
       type: "Feature",
@@ -70,6 +75,9 @@ export async function POST(request: Request) {
       },
       collectorId: null,
     },
+    cacheStrategy: {
+      ttl: 1,
+    },
   });
 
   for (const box of collectableBoxes) {
@@ -90,7 +98,7 @@ export async function POST(request: Request) {
       const lastCollectedGeohashPrefix = lastCollectedGeoHash.substring(0, 2);
       const geohashPrefix = geoHash.substring(0, 2);
       if (lastCollectedGeohashPrefix !== geohashPrefix) {
-        // user is cheating, kill them
+        // user is potentially cheating
 
         return Response.json({
           collect: null,

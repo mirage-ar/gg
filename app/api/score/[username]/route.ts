@@ -9,6 +9,9 @@ export async function GET(request: Request, { params }: { params: { username: st
     where: {
       username: username,
     },
+    cacheStrategy: {
+      ttl: 1,
+    }
   });
 
   if (!user) {
@@ -19,6 +22,9 @@ export async function GET(request: Request, { params }: { params: { username: st
     where: {
       collectorId: user.id,
     },
+    cacheStrategy: {
+      ttl: 1,
+    }
   });
 
   // using points from user object so we can reduce if needed
