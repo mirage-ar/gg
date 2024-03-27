@@ -158,6 +158,13 @@ const MapboxMap: React.FC = () => {
         // location tracking
         watchId = navigator.geolocation.watchPosition(
           async (position) => {
+            if (!currentLocation) {
+              mapRef.current?.flyTo({
+                center: [position.coords.longitude, position.coords.latitude],
+                zoom: 18,
+                pitch: 15,
+              });
+            }
             // STORE CURRENT POSITION
             setCurrentLocation(position);
 
