@@ -13,8 +13,11 @@ const LoginPage = () => {
   const [isStandalone, setIsStandalone] = useState(false);
 
   useEffect(() => {
-    const isAndroid = /(android)/i.test(navigator.userAgent);
-    const isStandalone = (window.navigator as any).standalone || isAndroid;
+    function isRunningStandaloneAndroid() {
+      return window.matchMedia("(display-mode: standalone)").matches;
+    }
+
+    const isStandalone = (window.navigator as any).standalone || isRunningStandaloneAndroid();
     setIsStandalone(isStandalone);
   }, [router]);
 
