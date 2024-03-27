@@ -12,12 +12,19 @@ const LoginPage = () => {
   const router = useRouter();
   const [isStandalone, setIsStandalone] = useState(false);
 
-  useEffect(() => {
-    function isRunningStandaloneAndroid() {
-      return window.matchMedia("(display-mode: standalone)").matches;
-    }
+  // TODO: was unable to test
+  // useEffect(() => {
+  //   function isRunningStandaloneAndroid() {
+  //     return window.matchMedia("(display-mode: standalone)").matches;
+  //   }
 
-    const isStandalone = (window.navigator as any).standalone || isRunningStandaloneAndroid();
+  //   const isStandalone = (window.navigator as any).standalone || isRunningStandaloneAndroid();
+  //   setIsStandalone(isStandalone);
+  // }, [router]);
+
+  useEffect(() => {
+    const isAndroid = /(android)/i.test(navigator.userAgent);
+    const isStandalone = (window.navigator as any).standalone || isAndroid;
     setIsStandalone(isStandalone);
   }, [router]);
 
