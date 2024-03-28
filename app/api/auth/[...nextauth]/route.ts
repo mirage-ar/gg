@@ -36,9 +36,9 @@ const OPTIONS = {
             }
           });
 
-          if (userCount >= 300) {
-            throw new Error("UserLimitExceeded");
-          }
+          // if (userCount >= 20) {
+          //   throw new Error("UserLimitExceeded");
+          // }
 
           await prisma.user.upsert({
             where: { twitterId: user.id },
