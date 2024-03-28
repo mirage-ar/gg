@@ -27,53 +27,48 @@ const OPTIONS = {
     async redirect({ url, baseUrl }: any) {
       return baseUrl;
     },
-    callbacks: {
-      async signIn({ user, account, profile }: any) {
-        try {
-          const userCount = await prisma.user.count({
-            cacheStrategy: {
-              ttl: 1
-            }
-          });
 
-          // if (userCount >= 20) {
-          //   throw new Error("UserLimitExceeded");
-          // }
+    async signIn({ user, account, profile }: any) {
+      try {
+        const userCount = await prisma.user.count();
 
-          await prisma.user.upsert({
-            where: { twitterId: user.id },
-            update: {
-              username: user.username,
-              image: user.image,
-            },
-            create: {
-              twitterId: user.id,
-              username: user.username,
-              image: user.image,
-            },
-          });
-          return true; // Sign-in successful
-        } catch (error) {
-          // First, log the error to Sentry for detailed error reporting
-          if (error instanceof Error) {
-            Sentry.captureException(error);
-          }
-        
-          // Then, log the error message to the server console for visibility
-          const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
-          console.error("SignIn error:", errorMessage);
-        
-          // Decide on a user-friendly error message to throw
-          if (errorMessage === "UserLimitExceeded") {
-            throw new Error("User limit reached. Sign up is closed.");
-          }
-          
-          // Throw a generic error for the user without exposing specific details
-          throw new Error("An unexpected error occurred. Please try again.");
+        if (userCount >= 500) {
+          throw new Error("UserLimitExceeded");
         }
-        
-      },
+
+        await prisma.user.upsert({
+          where: { twitterId: user.id },
+          update: {
+            username: user.username,
+            image: user.image,
+          },
+          create: {
+            twitterId: user.id,
+            username: user.username,
+            image: user.image,
+          },
+        });
+        return true; // Sign-in successful
+      } catch (error) {
+        // First, log the error to Sentry for detailed error reporting
+        if (error instanceof Error) {
+          Sentry.captureException(error);
+        }
+
+        // Then, log the error message to the server console for visibility
+        const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
+        console.error("SignIn error:", errorMessage);
+
+        // Decide on a user-friendly error message to throw
+        if (errorMessage === "UserLimitExceeded") {
+          throw new Error("User limit reached. Sign up is closed.");
+        }
+
+        // Throw a generic error for the user without exposing specific details
+        throw new Error("An unexpected error occurred. Please try again.");
+      }
     },
+
     async session({ session, token }: any) {
       if (token) {
         try {
@@ -87,7 +82,6 @@ const OPTIONS = {
           session.user.id = user?.id;
           session.user.twitterId = token.sub;
           session.user.username = token.username;
-
         } catch (error) {
           console.error("Session error:", error);
           throw new Error("An unexpected error occurred. Please try again.");
