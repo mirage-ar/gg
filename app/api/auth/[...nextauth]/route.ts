@@ -36,7 +36,7 @@ const OPTIONS = {
             }
           });
 
-          if (userCount >= 50) {
+          if (userCount >= 300) {
             throw new Error("UserLimitExceeded");
           }
 
