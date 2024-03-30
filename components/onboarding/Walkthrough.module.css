@@ -1,0 +1,67 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.8);
+
+  gap: 16px;
+}
+
+.image {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 60%;
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.title h1 {
+  font-size: 32px;
+  line-height: 32px;
+}
+
+.subline {
+  font-size: 14px;
+  color: var(--g);
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 148px;
+  padding: 16px 24px;
+
+  border-radius: var(--corner4, 4px);
+  background: var(--g, #42ff60);
+
+  border: none;
+  color: var(--b);
+  text-transform: uppercase;
+  font-size: 18px;
+}
+
+.progress {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 16px;
+  /* margin-top: 16px; */
+}
+
+.progress span {
+  color: var(--supporting-w-20, rgba(250, 245, 233, 0.2));
+}
+
+.active {
+  color: var(--g) !important;
+}
