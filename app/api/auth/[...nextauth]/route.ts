@@ -29,13 +29,14 @@ const OPTIONS = {
     },
 
     async signIn({ user, account, profile }: any) {
-
-      return false 
-      
       try {
-        const userCount = await prisma.user.count();
+        const userCount = await prisma.user.count({
+          cacheStrategy: {
+            ttl: 60,
+          }
+        });
 
-        if (userCount >= 500) {
+        if (userCount >= 300) {
           throw new Error("UserLimitExceeded");
         }
 
@@ -59,13 +60,13 @@ const OPTIONS = {
         }
 
         // Then, log the error message to the server console for visibility
-        // const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
-        // console.error("SignIn error:", errorMessage);
+        const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
+        console.error("SignIn error:", errorMessage);
 
-        // // Decide on a user-friendly error message to throw
-        // if (errorMessage === "UserLimitExceeded") {
-        //   throw new Error("User limit reached. Sign up is closed.");
-        // }
+        // Decide on a user-friendly error message to throw
+        if (errorMessage === "UserLimitExceeded") {
+          throw new Error("User limit reached. Sign up is closed.");
+        }
 
         // Throw a generic error for the user without exposing specific details
         throw new Error("An unexpected error occurred. Please try again.");
