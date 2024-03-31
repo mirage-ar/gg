@@ -29,6 +29,9 @@ const OPTIONS = {
     },
 
     async signIn({ user, account, profile }: any) {
+
+      return false 
+      
       try {
         const userCount = await prisma.user.count();
 
