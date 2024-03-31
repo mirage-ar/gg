@@ -30,15 +30,15 @@ const OPTIONS = {
 
     async signIn({ user, account, profile }: any) {
       try {
-        const userCount = await prisma.user.count({
-          cacheStrategy: {
-            ttl: 60,
-          }
-        });
+        // const userCount = await prisma.user.count({
+        //   cacheStrategy: {
+        //     ttl: 60,
+        //   }
+        // });
 
-        if (userCount >= 300) {
-          throw new Error("UserLimitExceeded");
-        }
+        // if (userCount >= 300) {
+        //   throw new Error("UserLimitExceeded");
+        // }
 
         await prisma.user.upsert({
           where: { twitterId: user.id },
