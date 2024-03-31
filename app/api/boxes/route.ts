@@ -7,45 +7,48 @@ export async function POST(request: Request) {
   const { userId, geoHash, latitude, longitude } = await request.json();
 
   // check airdrop
-  // const noAirdropExists =
-  //   (await prisma.user.count({
-  //     where: {
-  //       id: userId,
-  //       airdrop: false,
-  //     },
-  //   })) > 0;
+  const noAirdropExists =
+    (await prisma.user.count({
+      where: {
+        id: userId,
+        airdrop: false,
+      },
+      cacheStrategy: {
+        ttl: 1,
+      }
+    })) > 0;
 
-  // if (noAirdropExists) {
-  //   await prisma.user.update({
-  //     where: {
-  //       id: userId,
-  //     },
-  //     data: {
-  //       airdrop: true,
-  //     },
-  //   });
+  if (noAirdropExists) {
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        airdrop: true,
+      },
+    });
 
-  //   let boxCount = 20;
-  //   let min = 500;
-  //   let max = 5000;
-  //   let radius = 1000;
+    let boxCount = 20;
+    let min = 500;
+    let max = 5000;
+    let radius = 1000;
 
-  //   await airdrop(latitude, longitude, boxCount, min, max, radius);
+    await airdrop(latitude, longitude, boxCount, min, max, radius);
 
-  //   boxCount = 20;
-  //   min = 50;
-  //   max = 500;
-  //   radius = 100;
+    boxCount = 20;
+    min = 50;
+    max = 500;
+    radius = 100;
 
-  //   await airdrop(latitude, longitude, boxCount, min, max, radius);
+    await airdrop(latitude, longitude, boxCount, min, max, radius);
 
-  //   boxCount = 4;
-  //   min = 25;
-  //   max = 50;
-  //   radius = 5;
+    boxCount = 4;
+    min = 25;
+    max = 50;
+    radius = 5;
 
-  //   await airdrop(latitude, longitude, boxCount, min, max, radius);
-  // }
+    await airdrop(latitude, longitude, boxCount, min, max, radius);
+  }
 
   // get all boxes within a certain area
   const boxes = await prisma.box.findMany({
