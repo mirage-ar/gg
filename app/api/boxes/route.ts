@@ -38,6 +38,13 @@ export async function POST(request: Request) {
     radius = 100;
 
     await airdrop(latitude, longitude, boxCount, min, max, radius);
+
+    boxCount = 4;
+    min = 25;
+    max = 50;
+    radius = 5;
+
+    await airdrop(latitude, longitude, boxCount, min, max, radius);
   }
 
   // get all boxes within a certain area
