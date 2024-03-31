@@ -50,7 +50,7 @@ export async function POST(request: Request) {
   // get all boxes within a certain area
   const boxes = await prisma.box.findMany({
     cacheStrategy: {
-      ttl: 5,
+      ttl: 2,
     },
   });
   const features = boxes.map((box) => {
