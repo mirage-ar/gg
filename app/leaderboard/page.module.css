@@ -1,7 +1,60 @@
 .container {
   display: flex;
+  flex-direction: column;
   height: 100dvh;
   width: 100vw;
   background-color: #000;
   overflow-y: scroll;
+}
+
+.header {
+  margin-top: 40px;
+  width: 100vw;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.userMarker {
+  background-image: url("/icons/user-marker.svg");
+  background-size: cover;
+  background-position: center;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.userImage {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 1px solid #42ff60;
+}
+
+.scoreContainer {
+  padding-bottom: 52px;
+}
+
+.scoreRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100vw;
+  padding: 0 20px;
+  color: #42ff60;
+  font-family: var(--connect);
+  font-size: 28px;
+  font-style: normal;
+  /* font-weight: 400; */
+  line-height: 28px; /* 100% */
+  text-transform: uppercase;
+}
+
+.scoreValue {
+  color: #fff;
 }

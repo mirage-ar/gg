@@ -1,5 +1,7 @@
 // UTILS
 
+import { GameDate } from "@/types";
+
 /* Calculate distance between two points in meters */
 export const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
   const R = 6371e3; // metres
@@ -21,3 +23,12 @@ export const rand = (min: number, max: number): number => {
 export const withCommas = (x: number | string): string => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
+
+export function getGameStartTime({ year, month, day }: GameDate) {
+  const zeroIndexMonth = month - 1;
+  // Create a date object for 12:00 in Eastern Time (UTC-5 or UTC-4)
+  const easternTime = new Date(Date.UTC(year, zeroIndexMonth, day, 15, 0, 0));
+  // const easternTime = new Date(Date.UTC(year, zeroIndexMonth, day, 21, 32, 0)); // for testing
+
+  return easternTime.getTime(); // Use .getTime() for compatibility
+}

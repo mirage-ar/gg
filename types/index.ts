@@ -1,5 +1,5 @@
 export type User = {
-  id: string;
+  id?: string;
   image: string;
   twitterId: string;
   username: string;
@@ -35,4 +35,10 @@ export type LeaderboardItem = {
   image: string;
   wallet: number;
   points: number;
+};
+
+export type GameDate = {
+  year: number;
+  month: number;
+  day: number;
 };

@@ -30,6 +30,9 @@ const OPTIONS = {
 
     async signIn({ user, account, profile }: any) {
       try {
+        // TODO: check if user exists - allow to login if so
+
+        
         // const userCount = await prisma.user.count({
         //   cacheStrategy: {
         //     ttl: 60,

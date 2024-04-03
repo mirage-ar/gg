@@ -13,7 +13,6 @@ export default function useLeaderboard(username: string | undefined) {
       try {
         const response = await fetch(`/api/leaderboard/${username}`);
         const data = await response.json();
-        console.log(data);
         setLeaderboard(data.leaderboard);
         setUserRank(data.userRank);
         setUserScore(data.userScore);

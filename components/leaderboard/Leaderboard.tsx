@@ -1,7 +1,7 @@
 // components/Leaderboard.tsx
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Image from "next/image";
 import styles from "./Leaderboard.module.css";
 
@@ -14,51 +14,51 @@ const Leaderboard: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        {user?.image && (
-          <div className={styles.userMarker}>
-            <Image className={styles.userImage} src={user.image} alt="User Image" width={150} height={150} />
-          </div>
-        )}
-      </div>
-      <div className={styles.scoreContainer}>
-        {/* ------ USER RANK ------ */}
-        <div className={styles.scoreRow}>
-          <div className={styles.scoreLabel}>Rank</div>
-          <div className={styles.scoreValue}>
-            {userRank}/{leaderboard.length}
-          </div>
-        </div>
-        {/* ------ USER SCORE ------ */}
-        <div className={styles.scoreRow}>
-          <div className={styles.scoreLabel}>Score</div>
-          <div className={styles.scoreValue}>{withCommas(userScore || 0)}</div>
-        </div>
-        {/* ------ PRIZE POOL ------ */}
-        {/* <div className={styles.scoreRow}>
-          <div className={styles.scoreLabel}>Prize Pool</div>
-          <div className={styles.scoreValue}>{150}</div>
-        </div> */}
-      </div>
+
 
       {/* ------ LEADERBOARD ------ */}
       <div className={styles.leaderboardContainer}>
-        <div className={styles.leaderboardHeader}>Leaderboard</div>
+        <div className={styles.leaderboardHeader}>
+          Leaderboard
+          <Image src="/icons/24/g.svg" alt="G" width={24} height={24} />
+        </div>
         <div className={styles.leaderboardScores}>
+
+          {/* ------ USER ROW ------ */}
+          <div className={`${styles.leaderboardRow} ${styles.highlighted}`}>
+            <div className={styles.playerInfo}>
+              <div className={styles.playerRank}>{userRank}</div>
+
+              <Image className={styles.playerImage} src={user?.image || ""} alt="User Image" width={150} height={150} />
+
+              <div className={styles.playerName}>@{user?.username}</div>
+            </div>
+            <div className={styles.playerScore}>{withCommas(userScore || 0)}</div>
+          </div>
+
+          {/* ------ OTHER PLAYERS ROWS ------ */}
           {leaderboard.length > 0 &&
-            leaderboard.map((player, index) => (
-              player.points > 0 &&
-              <div className={styles.leaderboardRow} key={player.id}>
-                <div className={styles.playerInfo}>
-                  <div className={styles.playerRank}>{index + 1}</div>
+            leaderboard.map(
+              (player, index) =>
+                player.points > 0 && (
+                  <div className={styles.leaderboardRow} key={player.id}>
+                    <div className={styles.playerInfo}>
+                      <div className={styles.playerRank}>{index + 1}</div>
 
-                  <Image className={styles.playerImage} src={player.image} alt="User Image" width={150} height={150} />
+                      <Image
+                        className={styles.playerImage}
+                        src={player.image}
+                        alt="User Image"
+                        width={150}
+                        height={150}
+                      />
 
-                  <div className={styles.playerName}>@{player.username}</div>
-                </div>
-                <div className={styles.playerScore}>{withCommas(player.points)}</div>
-              </div>
-            ))}
+                      <div className={styles.playerName}>@{player.username}</div>
+                    </div>
+                    <div className={styles.playerScore}>{withCommas(player.points)}</div>
+                  </div>
+                )
+            )}
         </div>
       </div>
     </div>

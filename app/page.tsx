@@ -4,9 +4,24 @@ import React, { useEffect, useState } from "react";
 import BottomNavigation from "@/components/navigation/BottomNavigation";
 import TopBar from "@/components/navigation/TopBar";
 import Walkthrough from "@/components/onboarding/Walkthrough";
+import { getSession, signOut } from "next-auth/react";
+import { User } from "@/types";
 
 const MapPage: React.FC = () => {
   const [hasOnboarded, setHasOnboarded] = useState<boolean>(false);
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const session = await getSession();
+      const user = session?.user as User;
+
+      if (user && !user?.id) {
+        signOut();
+      }
+    };
+
+    checkUser();
+  }, []);
 
   useEffect(() => {
     const hasOnboardedValue = localStorage.getItem("hasOnboarded");

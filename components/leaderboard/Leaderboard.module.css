@@ -6,64 +6,15 @@
   align-items: center;
 }
 
-.header {
-  margin-top: 40px;
-  width: 100vw;
-  height: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.userMarker {
-  background-image: url("/icons/user-marker.svg");
-  background-size: cover;
-  background-position: center;
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.userImage {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  border: 1px solid #42ff60;
-}
-
-.scoreContainer {
-  padding-bottom: 52px;
-}
-
-.scoreRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100vw;
-  padding: 0 20px;
-  color: #42ff60;
-  font-family: var(--connect);
-  font-size: 28px;
-  font-style: normal;
-  /* font-weight: 400; */
-  line-height: 28px; /* 100% */
-  text-transform: uppercase;
-}
-
-.scoreValue {
-  color: #fff;
-}
-
 .leaderboardContainer {
   width: 100vw;
-  padding: 0 20px;
+  /* padding: 0 20px; */
 }
 
 .leaderboardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   color: #23ee43;
   font-family: var(--connect);
   font-size: 28px;
@@ -73,6 +24,9 @@
 
   border-bottom: 1px solid #292929;
   margin-bottom: 20px;
+  padding: 10px 20px;
+
+  text-transform: uppercase;
 }
 
 .leaderboardRow {
@@ -84,6 +38,7 @@
   /* font-weight: 400; */
   line-height: 28px; /* 100% */
   text-transform: uppercase;
+  padding: 24px 20px;
 }
 
 .playerInfo {
@@ -96,7 +51,7 @@
   color: #42ff60;
   /* text-align: right; */
   font-family: var(--connect);
-  font-size: 28px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 400;
   line-height: 28px; /* 100% */
@@ -125,8 +80,19 @@
   color: var(--w, #faf5e9);
   text-align: right;
   font-family: var(--connect);
-  font-size: 28px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 400;
   line-height: 28px; /* 100% */
+}
+
+.spacer {
+  margin: 10px 16px;
+  border-bottom: 1px dotted var(--g3, #373737);
+}
+
+.highlighted {
+  background: #1F1F1F;
+  box-shadow: 0 0 20px var(--p);
+  margin: 10px 0;
 }

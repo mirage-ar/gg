@@ -6,7 +6,6 @@ import airdrop from "@/utils/airdrop";
 export async function POST(request: Request) {
   const { userId, geoHash, latitude, longitude } = await request.json();
 
-  // check airdrop
   const noAirdropExists =
     (await prisma.user.count({
       where: {
@@ -14,7 +13,7 @@ export async function POST(request: Request) {
         airdrop: false,
       },
       cacheStrategy: {
-        ttl: 1,
+        ttl: 60,
       }
     })) > 0;
 
@@ -53,7 +52,7 @@ export async function POST(request: Request) {
   // get all boxes within a certain area
   const boxes = await prisma.box.findMany({
     cacheStrategy: {
-      ttl: 2,
+      ttl: 10,
     },
   });
   const features = boxes.map((box) => {
@@ -76,7 +75,8 @@ export async function POST(request: Request) {
   };
 
   // substring length calculates area of geohash to search for boxes
-  const geohashPrefix = geoHash.substring(0, 7);
+  // TODO: test this caching strategy
+  const geohashPrefix = geoHash.substring(0, 6);
 
   const collectableBoxes = await prisma.box.findMany({
     where: {
@@ -86,7 +86,7 @@ export async function POST(request: Request) {
       collectorId: null,
     },
     cacheStrategy: {
-      ttl: 1,
+      ttl: 10,
     },
   });
 
@@ -94,7 +94,6 @@ export async function POST(request: Request) {
     const distance = calculateDistance(latitude, longitude, box.latitude, box.longitude);
 
     if (distance <= 6) {
-      // ANTI SPOOFING
       const lastCollected = await prisma.box.findFirst({
         where: {
           collectorId: userId,
@@ -104,6 +103,7 @@ export async function POST(request: Request) {
         },
       });
 
+      // TODO: add spoofing detection to database
       const lastCollectedGeoHash = lastCollected ? lastCollected.geoHash : geoHash;
       const lastCollectedGeohashPrefix = lastCollectedGeoHash.substring(0, 2);
       const geohashPrefix = geoHash.substring(0, 2);

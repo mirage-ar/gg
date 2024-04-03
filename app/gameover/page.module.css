@@ -1,0 +1,74 @@
+.container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  height: 100dvh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.8);
+  overflow-y: scroll;
+}
+
+.logo {
+    margin-top: -20px;
+}
+
+.titleContainer {
+  padding: 16px 0;
+  /* margin: 16px; */
+  margin-top: -30px;
+  margin-bottom: 54px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: 1px solid var(--g);
+  width: 95%;
+}
+
+.titleContainer h1 {
+  padding-bottom: 16px;
+  font-size: 54px;
+  line-height: 54px;
+  color: var(--p);
+}
+
+.scoreContainer {
+  padding: 16px 16px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.scoreRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+  padding: 2px 0;
+}
+
+.scoreRow h3 {
+  color: var(--g);
+}
+
+.amount {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-family: var(--connect);
+  color: var(--g);
+  font-size: 28px;
+
+  gap: 8px;
+}
+
+.spacer {
+  width: 100%;
+  border-bottom: 2px dotted var(--g);
+}
