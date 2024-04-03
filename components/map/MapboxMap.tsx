@@ -143,7 +143,7 @@ const MapboxMap: React.FC = () => {
 
   // Markers Socket
   useEffect(() => {
-    if (!user) return;
+    if (!user?.id) return;
     // set user id
     userIdRef.current = user.id;
 
