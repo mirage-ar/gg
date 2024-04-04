@@ -10,11 +10,15 @@ import Timer from "@/components/timer/TImer";
 import styles from "./page.module.css";
 
 import { getGameStartTime } from "@/utils";
-import { GAME_DATE } from "@/utils/constants";
+import { GAME_DATE, PLAYER_COUNT } from "@/utils/constants";
+import { useUser } from "@/hooks";
 
 const LoginPage = () => {
   const router = useRouter();
+  const user = useUser();
+
   const [isStandalone, setIsStandalone] = useState(false);
+  const [playerCount, setPlayerCount] = useState<number>(0);
 
   // Calculate initial time remaining immediately
   const calculateTimeRemaining = () => {
@@ -53,6 +57,22 @@ const LoginPage = () => {
     return () => clearInterval(interval);
   }, [timeRemaining]);
 
+  useEffect(() => {
+    const getPlayerCount = async () => {
+      try {
+        const time = new Date().toISOString();
+        const response = await fetch(`/api/players/${time}`);
+        const data = await response.json();
+        console.log(data);
+        setPlayerCount(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getPlayerCount();
+  }, []);
+
   const handleSignIn = async () => {
     signIn("twitter", { callbackUrl: "/" });
   };
@@ -65,16 +85,18 @@ const LoginPage = () => {
     );
   }
 
-  if (timeRemaining > 0) {
-    return (
-      <div className={styles.container}>
-        <div className={styles.timerContainer}>
-          <p>The hunt will start in</p>
-          <h3><Timer timeRemaining={timeRemaining} /></h3>
-        </div>
-      </div>
-    );
-  }
+  // if (timeRemaining > 0) {
+  //   return (
+  //     <div className={styles.container}>
+  //       <div className={styles.timerContainer}>
+  //         <p>The hunt will start in</p>
+  //         <h3>
+  //           <Timer timeRemaining={timeRemaining} />
+  //         </h3>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <>
@@ -85,15 +107,26 @@ const LoginPage = () => {
         <div className={styles.hunter} onClick={() => handleSignIn()}>
           <Image src="/graphics/hunter-onboarding.svg" alt="Logo" width={367} height={528} />
         </div>
-        <h1 className={styles.title}>
-          Start Global
-          <br />
-          Hunt
-        </h1>
+
+        {playerCount < PLAYER_COUNT || user?.id ? (
+          <>
+            <h1 className={styles.title}>
+              Start Global
+              <br />
+              Hunt
+            </h1>
+
+            <button className={styles.button} onClick={() => handleSignIn()}>
+              Connect X
+            </button>
+          </>
+        ) : (
+          <>
+            <h1 className={styles.title}>Hunters Locked</h1>
+            <p>Hunter slection has reached capacity.<br />Please try again next game.<br />GG</p>
+          </>
+        )}
       </main>
-      <button className={styles.button} onClick={() => handleSignIn()}>
-        Sign in
-      </button>
     </>
   );
 };
