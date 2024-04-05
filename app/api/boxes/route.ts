@@ -6,6 +6,7 @@ import airdrop from "@/utils/airdrop";
 export async function POST(request: Request) {
   const { userId, geoHash, latitude, longitude } = await request.json();
 
+  // USER AIRDROP
   const noAirdropExists =
     (await prisma.user.count({
       where: {
@@ -13,8 +14,8 @@ export async function POST(request: Request) {
         airdrop: false,
       },
       cacheStrategy: {
-        ttl: 60,
-      }
+        ttl: 1,
+      },
     })) > 0;
 
   if (noAirdropExists) {
@@ -41,7 +42,7 @@ export async function POST(request: Request) {
 
     await airdrop(latitude, longitude, boxCount, min, max, radius);
 
-    boxCount = 4;
+    boxCount = 1;
     min = 25;
     max = 50;
     radius = 5;
@@ -49,12 +50,14 @@ export async function POST(request: Request) {
     await airdrop(latitude, longitude, boxCount, min, max, radius);
   }
 
-  // get all boxes within a certain area
+  // GET BOXES
   const boxes = await prisma.box.findMany({
     cacheStrategy: {
-      ttl: 10,
+      // IMPORTANT - trying to dial in box cache strategy
+      ttl: 5,
     },
   });
+
   const features = boxes.map((box) => {
     return {
       type: "Feature",
@@ -74,26 +77,17 @@ export async function POST(request: Request) {
     features,
   };
 
-  // substring length calculates area of geohash to search for boxes
-  // TODO: test this caching strategy
   const geohashPrefix = geoHash.substring(0, 6);
-
-  const collectableBoxes = await prisma.box.findMany({
-    where: {
-      geoHash: {
-        startsWith: geohashPrefix,
-      },
-      collectorId: null,
-    },
-    cacheStrategy: {
-      ttl: 10,
-    },
+  const collectableBoxes = boxes.filter((box) => {
+    return box.geoHash.startsWith(geohashPrefix) && !box.collectorId;
   });
 
   for (const box of collectableBoxes) {
     const distance = calculateDistance(latitude, longitude, box.latitude, box.longitude);
 
     if (distance <= 6) {
+
+      // CHECK TO SEE IF USER IS CHEATING
       const lastCollected = await prisma.box.findFirst({
         where: {
           collectorId: userId,
@@ -103,12 +97,22 @@ export async function POST(request: Request) {
         },
       });
 
-      // TODO: add spoofing detection to database
       const lastCollectedGeoHash = lastCollected ? lastCollected.geoHash : geoHash;
       const lastCollectedGeohashPrefix = lastCollectedGeoHash.substring(0, 2);
       const geohashPrefix = geoHash.substring(0, 2);
       if (lastCollectedGeohashPrefix !== geohashPrefix) {
         // user is potentially cheating
+
+        await prisma.user.update({
+          where: {
+            id: userId,
+          },
+          data: {
+            risk: {
+              increment: 1,
+            },
+          },
+        });
 
         return Response.json({
           collect: null,
