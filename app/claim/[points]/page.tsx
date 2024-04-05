@@ -25,7 +25,7 @@ const ClaimPage: React.FC = () => {
       <TopBar />
       <div className={styles.pointsContainer}>+ {formattedPoints}</div>
       <div className={styles.modelContainer} onClick={() => router.push("/")}>
-        <ModelViewer name={"koji"} />
+        <ModelViewer name={"koji-open"} />
       </div>
       <button className={styles.button} onClick={() => router.push(`/`)}>
         Tap to Claim

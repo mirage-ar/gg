@@ -5,12 +5,12 @@ const ModelViewer = ({ name }) => (
     style={{ width: "100%", height: "500px" }}
     src={`/models/${name}.gltf`}
     ios-src={`/models/${name}.usdz`}
-    poster={`/models/posters/${name}.webp`}
-    alt="FWB 3D Model"
+    // poster={`/models/posters/${name}.webp`}
+    alt="3D Model"
     camera-controls
     auto-rotate
     loading="eager"
-    ar
+    // ar
     autoplay
     // interaction-prompt="none"
   ></model-viewer>
