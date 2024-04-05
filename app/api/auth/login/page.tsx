@@ -78,18 +78,19 @@ const LoginPage = () => {
     );
   }
 
-  if (timeRemaining > 0) {
-    return (
-      <div className={styles.container}>
-        <div className={styles.timerContainer}>
-          <p>The hunt will start in</p>
-          <h3>
-            <Timer timeRemaining={timeRemaining} />
-          </h3>
-        </div>
-      </div>
-    );
-  }
+  // TODO: turn timer back on
+  // if (timeRemaining > 0) {
+  //   return (
+  //     <div className={styles.container}>
+  //       <div className={styles.timerContainer}>
+  //         <p>The hunt will start in</p>
+  //         <h3>
+  //           <Timer timeRemaining={timeRemaining} />
+  //         </h3>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <>
