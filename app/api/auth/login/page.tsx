@@ -29,7 +29,6 @@ const LoginPage = () => {
 
   const [timeRemaining, setTimeRemaining] = useState<number>(calculateTimeRemaining());
 
-  // TODO: was unable to test
   useEffect(() => {
     function isRunningStandaloneAndroid() {
       return window.matchMedia("(display-mode: standalone)").matches;
@@ -38,12 +37,6 @@ const LoginPage = () => {
     const isStandalone = (window.navigator as any).standalone || isRunningStandaloneAndroid();
     setIsStandalone(isStandalone);
   }, [router]);
-
-  // useEffect(() => {
-  //   const isAndroid = /(android)/i.test(navigator.userAgent);
-  //   const isStandalone = (window.navigator as any).standalone || isAndroid;
-  //   setIsStandalone(isStandalone);
-  // }, [router]);
 
   useEffect(() => {
     const interval = setInterval(() => {

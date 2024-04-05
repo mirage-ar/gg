@@ -19,7 +19,7 @@ const HomeScreenOverlay: React.FC = () => {
 
       <div className={styles.bottomContent}>
         <div className={styles.bottomText}>
-          In Safari, tap &apos;Share&apos;, then choose &apos;Add to Home Screen&apos;. Open the GG app from your home screen
+          In Safari, tap &apos;Share&apos;, then choose &apos;Add to Home Screen&apos;. In Chrome, tap &apos;Install App&apos; in settings.
         </div>
         <Image alt="arrow" src="/icons/long-arrow.svg" width={24} height={24} />
       </div>
