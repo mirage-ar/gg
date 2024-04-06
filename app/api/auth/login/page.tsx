@@ -78,7 +78,7 @@ const LoginPage = () => {
     );
   }
 
-  if (timeRemaining > 0) {
+  if (timeRemaining > 5 * 60 * 1000 * 5) {
     return (
       <div className={styles.container}>
         <div className={styles.timerContainer}>
