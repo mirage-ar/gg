@@ -68,27 +68,26 @@ const LoginPage = () => {
     signIn("twitter", { callbackUrl: "/" });
   };
 
-  // TODO: add back in when ready
-  if (!isStandalone) {
-    return (
-      <main>
-        <HomeScreenOverlay />
-      </main>
-    );
-  }
+  // if (!isStandalone) {
+  //   return (
+  //     <main>
+  //       <HomeScreenOverlay />
+  //     </main>
+  //   );
+  // }
 
-  if (timeRemaining > 5 * 60 * 1000 * 5) { // TODO: move this to a constant 
-    return (
-      <div className={styles.container}>
-        <div className={styles.timerContainer}>
-          <p>The hunt will start in</p>
-          <h3>
-            <Timer timeRemaining={timeRemaining} />
-          </h3>
-        </div>
-      </div>
-    );
-  }
+  // if (timeRemaining > 5 * 60 * 1000) { // TODO: move this to a constant 
+  //   return (
+  //     <div className={styles.container}>
+  //       <div className={styles.timerContainer}>
+  //         <p>The hunt will start in</p>
+  //         <h3>
+  //           <Timer timeRemaining={timeRemaining} />
+  //         </h3>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <>

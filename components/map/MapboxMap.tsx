@@ -119,11 +119,16 @@ const MapboxMap: React.FC = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userId: user?.id, geoHash: userGeoHash, latitude, longitude }),
+        body: JSON.stringify({
+          userId: user?.id,
+          geoHash: userGeoHash,
+          latitude,
+          longitude,
+          collectorUsername: user?.username,
+          collectorImage: user?.image,
+        }),
       });
       const data = await response.json();
-
-      console.log(data);
 
       // check if user can collect box
       if (data.collect) {
