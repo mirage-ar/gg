@@ -1,17 +1,18 @@
 import { useState, useEffect } from "react";
 
 import { LeaderboardItem } from "@/types";
+import { API } from "@/utils/constants";
 
-export default function useLeaderboard(username: string | undefined) {
+export default function useLeaderboard(id: string | undefined) {
   const [leaderboard, setLeaderboard] = useState<LeaderboardItem[]>([]);
   const [userRank, setUserRank] = useState<number | null>(null);
   const [userScore, setUserScore] = useState<number | null>(null);
 
   useEffect(() => {
-    if (!username) return;
+    if (!id) return;
     const fetchLeaderboard = async () => {
       try {
-        const response = await fetch(`/api/leaderboard/${username}`);
+        const response = await fetch(`${API}/leaderboard/${id}`);
         const data = await response.json();
         setLeaderboard(data.leaderboard);
         setUserRank(data.userRank);
@@ -28,7 +29,7 @@ export default function useLeaderboard(username: string | undefined) {
     return () => {
       clearInterval(intervalId);
     };
-  }, [username]);
+  }, [id]);
   return {
     leaderboard,
     userRank,

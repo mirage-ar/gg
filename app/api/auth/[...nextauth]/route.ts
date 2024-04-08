@@ -2,6 +2,7 @@ import NextAuth, { SessionStrategy } from "next-auth";
 import TwitterProvider from "next-auth/providers/twitter";
 import * as Sentry from "@sentry/nextjs";
 import prisma from "@/utils/prisma";
+import { API } from "@/utils/constants";
 
 const OPTIONS = {
   session: {
@@ -30,31 +31,18 @@ const OPTIONS = {
 
     async signIn({ user, account, profile }: any) {
       try {
-        // TODO: check if user exists - allow to login if so
-
-        
-        // const userCount = await prisma.user.count({
-        //   cacheStrategy: {
-        //     ttl: 60,
-        //   }
-        // });
-
-        // if (userCount >= 300) {
-        //   throw new Error("UserLimitExceeded");
-        // }
-
-        await prisma.user.upsert({
-          where: { twitterId: user.id },
-          update: {
-            username: user.username,
-            image: user.image,
+        // CREATE USER
+        const response = await fetch(`${API}/user`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-          create: {
-            twitterId: user.id,
-            username: user.username,
-            image: user.image,
-          },
+          body: JSON.stringify({ data: { id: user.id, username: user.username, image: user.image } }),
         });
+        const data = await response.json();
+
+        console.log(data);
+
         return true; // Sign-in successful
       } catch (error) {
         // First, log the error to Sentry for detailed error reporting
@@ -79,15 +67,7 @@ const OPTIONS = {
     async session({ session, token }: any) {
       if (token) {
         try {
-          const user = await prisma.user.findFirst({
-            where: {
-              twitterId: token.sub,
-            },
-          });
-
-          // setup session object
-          session.user.id = user?.id;
-          session.user.twitterId = token.sub;
+          session.user.id = token.sub;
           session.user.username = token.username;
         } catch (error) {
           console.error("Session error:", error);

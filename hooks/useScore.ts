@@ -1,15 +1,16 @@
 import { ScoreData } from "@/types";
+import { API } from "@/utils/constants";
 import { useState, useEffect } from "react";
 
-export default function useScore(username?: string) {
+export default function useScore(id?: string) {
   const [score, setScore] = useState<number>(0);
   const [boxes, setBoxes] = useState<number>(0);
 
   useEffect(() => {
-    if (!username) return;
+    if (!id) return;
     const fetchPointData = async () => {
       try {
-        const response = await fetch(`/api/score/${username}`);
+        const response = await fetch(`${API}/score/${id}`);
         const userScore: ScoreData = await response.json();
         const userPoints = userScore?.points ?? 0;
         const userBoxes = userScore?.boxes ?? 0;
@@ -21,7 +22,7 @@ export default function useScore(username?: string) {
     };
 
     fetchPointData();
-  }, [username]);
+  }, [id]);
 
   return {
     score,

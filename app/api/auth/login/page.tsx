@@ -10,7 +10,7 @@ import Timer from "@/components/timer/TImer";
 import styles from "./page.module.css";
 
 import { getGameStartTime } from "@/utils";
-import { GAME_DATE, PLAYER_COUNT } from "@/utils/constants";
+import { API, GAME_DATE, PLAYER_COUNT } from "@/utils/constants";
 import { useUser } from "@/hooks";
 
 const LoginPage = () => {
@@ -53,10 +53,8 @@ const LoginPage = () => {
   useEffect(() => {
     const getPlayerCount = async () => {
       try {
-        const time = new Date().toISOString();
-        const response = await fetch(`/api/players/${time}`);
+        const response = await fetch(`${API}/players`);
         const data = await response.json();
-        console.log(data);
         setPlayerCount(data);
       } catch (error) {
         console.error(error);
@@ -70,26 +68,27 @@ const LoginPage = () => {
     signIn("twitter", { callbackUrl: "/" });
   };
 
-  if (!isStandalone) {
-    return (
-      <main>
-        <HomeScreenOverlay />
-      </main>
-    );
-  }
+  // TODO: add back in when ready
+  // if (!isStandalone) {
+  //   return (
+  //     <main>
+  //       <HomeScreenOverlay />
+  //     </main>
+  //   );
+  // }
 
-  if (timeRemaining > 5 * 60 * 1000 * 5) { // TODO: move this to a constant 
-    return (
-      <div className={styles.container}>
-        <div className={styles.timerContainer}>
-          <p>The hunt will start in</p>
-          <h3>
-            <Timer timeRemaining={timeRemaining} />
-          </h3>
-        </div>
-      </div>
-    );
-  }
+  // if (timeRemaining > 5 * 60 * 1000 * 5) { // TODO: move this to a constant 
+  //   return (
+  //     <div className={styles.container}>
+  //       <div className={styles.timerContainer}>
+  //         <p>The hunt will start in</p>
+  //         <h3>
+  //           <Timer timeRemaining={timeRemaining} />
+  //         </h3>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <>

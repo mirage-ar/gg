@@ -3,8 +3,6 @@ import { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import MapboxMap from "@/components/map/MapboxMap";
 
-import prisma from "@/utils/prisma";
-
 import "./globals.css";
 import { User } from "@/types";
 import GameTimer from "@/components/game/GameTimer";

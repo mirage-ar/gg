@@ -1,9 +1,9 @@
 export type User = {
-  id?: string;
+  id: string;
   image: string;
-  twitterId: string;
   username: string;
   points?: number;
+  boxes?: number;
 };
 
 export type LocationData = {

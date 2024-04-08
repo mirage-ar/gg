@@ -8,7 +8,7 @@ import styles from "./TopBar.module.css";
 
 const TopBar: React.FC = () => {
   const user = useUser();
-  const { score, boxes } = useScore(user?.username);
+  const { score, boxes } = useScore(user?.id);
 
   return (
     <div className={styles.container}>

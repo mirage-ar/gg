@@ -10,8 +10,8 @@ import { withCommas } from "@/utils";
 
 const Profile: React.FC = () => {
   const user = useUser();
-  const { score, boxes } = useScore(user?.username);
-  const { leaderboard, userRank } = useLeaderboard(user?.username);
+  const { score, boxes } = useScore(user?.id);
+  const { leaderboard, userRank } = useLeaderboard(user?.id);
 
   return (
     <div className={styles.container}>

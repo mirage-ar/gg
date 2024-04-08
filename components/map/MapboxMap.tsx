@@ -11,7 +11,7 @@ import styles from "./MapboxMap.module.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 import type { LocationData } from "@/types";
-import { LOCATION_SOCKET_URL } from "@/utils/constants";
+import { API, LOCATION_SOCKET_URL } from "@/utils/constants";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN as string;
 
@@ -114,7 +114,7 @@ const MapboxMap: React.FC = () => {
   const fetchAndUpdateBoxes = async (latitude: number, longitude: number) => {
     try {
       const userGeoHash = encodeGeoHash(latitude, longitude);
-      const response = await fetch(`/api/boxes`, {
+      const response = await fetch(`${API}/collect`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -122,6 +122,8 @@ const MapboxMap: React.FC = () => {
         body: JSON.stringify({ userId: user?.id, geoHash: userGeoHash, latitude, longitude }),
       });
       const data = await response.json();
+
+      console.log(data);
 
       // check if user can collect box
       if (data.collect) {

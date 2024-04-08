@@ -12,7 +12,7 @@ import { withCommas } from "@/utils";
 
 const LeaderboardPage: React.FC = () => {
   const user = useUser();
-  const { leaderboard, userRank, userScore } = useLeaderboard(user?.username);
+  const { leaderboard, userRank, userScore } = useLeaderboard(user?.id);
 
   return (
     <main className={styles.container}>

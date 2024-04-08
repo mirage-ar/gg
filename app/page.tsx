@@ -10,6 +10,7 @@ import { User } from "@/types";
 const MapPage: React.FC = () => {
   const [hasOnboarded, setHasOnboarded] = useState<boolean>(false);
 
+  // TODO: needs to be an API call
   useEffect(() => {
     const checkUser = async () => {
       const session = await getSession();
