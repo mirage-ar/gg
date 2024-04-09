@@ -7,6 +7,7 @@ export default function useLeaderboard(id: string | undefined) {
   const [leaderboard, setLeaderboard] = useState<LeaderboardItem[]>([]);
   const [userRank, setUserRank] = useState<number | null>(null);
   const [userScore, setUserScore] = useState<number | null>(null);
+  const [userBoxes, setUserBoxes] = useState<number | null>(null);
 
   useEffect(() => {
     if (!id) return;
@@ -17,6 +18,7 @@ export default function useLeaderboard(id: string | undefined) {
         setLeaderboard(data.leaderboard);
         setUserRank(data.userRank);
         setUserScore(data.userScore);
+        setUserBoxes(data.userBoxes);
       } catch (error) {
         console.error("Error fetching leaderboard:", error);
       }
@@ -33,6 +35,7 @@ export default function useLeaderboard(id: string | undefined) {
   return {
     leaderboard,
     userRank,
-    userScore
+    userScore,
+    userBoxes
   };
 }
