@@ -39,7 +39,7 @@ const LoginPage = () => {
   }, [router]);
 
   useEffect(() => {
-    console.log(timeRemaining);
+    // console.log(timeRemaining);
     const interval = setInterval(() => {
       setTimeRemaining(calculateTimeRemaining());
 
@@ -69,13 +69,13 @@ const LoginPage = () => {
     signIn("twitter", { callbackUrl: "/" });
   };
 
-  // if (!isStandalone) {
-  //   return (
-  //     <main>
-  //       <HomeScreenOverlay />
-  //     </main>
-  //   );
-  // }
+  if (!isStandalone) {
+    return (
+      <main>
+        <HomeScreenOverlay />
+      </main>
+    );
+  }
 
   if (timeRemaining > 5 * 60 * 1000) { // TODO: move this to a constant 
     return (
