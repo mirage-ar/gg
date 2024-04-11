@@ -68,13 +68,13 @@ const LoginPage = () => {
     signIn("twitter", { callbackUrl: "/" });
   };
 
-  // if (!isStandalone) {
-  //   return (
-  //     <main>
-  //       <HomeScreenOverlay />
-  //     </main>
-  //   );
-  // }
+  if (!isStandalone) {
+    return (
+      <main>
+        <HomeScreenOverlay />
+      </main>
+    );
+  }
 
   // if (timeRemaining > 5 * 60 * 1000) { // TODO: move this to a constant 
   //   return (
