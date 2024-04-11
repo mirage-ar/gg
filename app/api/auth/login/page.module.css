@@ -53,18 +53,20 @@
 }
 
 .title {
-  font-size: 48px;
-  line-height: 48px;
+  font-size: 36px;
+  line-height: 36px;
 }
 
 .button {
-  position: absolute;
+  /* position: absolute;
   bottom: 60px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%); */
   display: flex;
   justify-content: center;
   align-items: center;
+
+  margin-top: 20px;
 
   width: 148px;
   height: 60px;
