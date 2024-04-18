@@ -26,12 +26,13 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ setHasOnboarded }) => {
   return (
     <div className={styles.main}>
       <div className={styles.image}>
-        <Image
+        {/* <Image
           src={`/graphics/walkthrough-${step}.png`}
           alt="Walkthrough graphic"
           fill
           style={{ objectFit: "contain" }}
-        />
+        /> */}
+          <video src={`/video/walkthrough-${step}.mp4`} style={{ width: "30vh" }} autoPlay loop muted playsInline />
       </div>
 
       <div className={styles.title}>
@@ -45,21 +46,23 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ setHasOnboarded }) => {
         {step === 2 && (
           <h1>
             Run to a G Box
-            <br />to open it
+            <br />
+            to open it
           </h1>
         )}
         {step === 3 && (
           <h1>
             Claim and climb
-            <br />the leaderboard
+            <br />
+            the leaderboard
           </h1>
         )}
       </div>
 
       <div className={styles.subline}>
-        {step === 1 && (<p>RACE against the world</p>)}
-        {step === 2 && (<p>Stack G and climb the leaderboard</p>)}
-        {step === 3 && (<p>Hurry you only have 1 hour</p>)}
+        {step === 1 && <p>RACE against the world</p>}
+        {step === 2 && <p>Stack G and climb the leaderboard</p>}
+        {step === 3 && <p>Hurry you only have 1 hour</p>}
       </div>
 
       <button className={styles.button} onClick={handleNext}>
