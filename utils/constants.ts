@@ -10,6 +10,8 @@ export const GAME_DATE = {
     month: 4,
     day: 20,
   };
+
+  // TODO: add game time here
   
   export const GAME_LENGTH = 60 * 60 * 1000; // 1 hour
 

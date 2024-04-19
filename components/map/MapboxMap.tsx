@@ -37,8 +37,7 @@ const MapboxMap: React.FC = () => {
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: mapContainerRef.current as HTMLElement,
-      // TODO: update to new york and zoomed out
-      center: [-71.13637993467633, 42.35611312704494],
+      center: [-73.97763959039685, 40.76144130742262],
       zoom: 2,
       pitch: 15,
     });

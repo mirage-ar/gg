@@ -47,8 +47,6 @@ const Chat: React.FC = () => {
   }, [messages]);
 
   // Send a message
-  // TODO: add name and image url
-  // TODO: add own messages to state and hide send button until message is sent
   const sendMessage = () => {
     if (inputMessage !== "" && webSocket.current) {
       const messageData: ChatMessage = {

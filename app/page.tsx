@@ -13,7 +13,6 @@ const MapPage: React.FC = () => {
   const user = useUser();
   const [hasOnboarded, setHasOnboarded] = useState<boolean>(false);
 
-  // TODO: needs to be an API call
   useEffect(() => {
     const checkUser = async () => {
       if (user) {

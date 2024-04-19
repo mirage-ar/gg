@@ -13,6 +13,8 @@ import { getGameStartTime } from "@/utils";
 import { API, GAME_DATE, PLAYER_COUNT } from "@/utils/constants";
 import { useUser } from "@/hooks";
 
+const FIVE_MINUTES = 5 * 60 * 1000;
+
 const LoginPage = () => {
   const router = useRouter();
   const user = useUser();
@@ -77,7 +79,7 @@ const LoginPage = () => {
     );
   }
 
-  if (timeRemaining > 5 * 60 * 1000) { // TODO: move this to a constant 
+  if (timeRemaining > FIVE_MINUTES) { // Five minutes for new users to sign in
     return (
       <div className={styles.container}>
         <div className={styles.timerContainer}>

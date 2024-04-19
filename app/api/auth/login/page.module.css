@@ -15,11 +15,14 @@
   justify-content: center;
   border: 1px solid var(--g);
   padding: 16px;
+  padding-bottom: 30px;
   width: 95%;
   gap: 16px;
 }
 
 .timerContainer p {
+  margin: 0;
+  padding: 0;
   color: var(--g);
   font-size: 14px;
   text-transform: uppercase;
