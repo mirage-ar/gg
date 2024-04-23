@@ -18,6 +18,7 @@
   padding-bottom: 30px;
   width: 95%;
   gap: 16px;
+  background: rgba(0, 0, 0, 0.4);
 }
 
 .timerContainer p {
