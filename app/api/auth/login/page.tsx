@@ -75,26 +75,26 @@ const LoginPage = () => {
     signIn("twitter", { callbackUrl: "/" });
   };
 
-  if (!isStandalone) {
-    return (
-      <main>
-        <HomeScreenOverlay />
-      </main>
-    );
-  }
+  // if (!isStandalone) {
+  //   return (
+  //     <main>
+  //       <HomeScreenOverlay />
+  //     </main>
+  //   );
+  // }
 
-  if (timeRemaining > FIVE_MINUTES) { // Five minutes for new users to sign in
-    return (
-      <div className={styles.container}>
-        <div className={styles.timerContainer}>
-          <p>The hunt will start in</p>
-          <h3>
-            <Timer timeRemaining={timeRemaining} />
-          </h3>
-        </div>
-      </div>
-    );
-  }
+  // if (timeRemaining > FIVE_MINUTES) { // Five minutes for new users to sign in
+  //   return (
+  //     <div className={styles.container}>
+  //       <div className={styles.timerContainer}>
+  //         <p>The hunt will start in</p>
+  //         <h3>
+  //           <Timer timeRemaining={timeRemaining} />
+  //         </h3>
+  //       </div>
+  //     </div>
+  //   );
+  // }
   
 
   return (
