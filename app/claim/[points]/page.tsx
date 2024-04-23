@@ -22,14 +22,16 @@ const ClaimPage: React.FC = () => {
   return (
     <main className={styles.container}>
       <div className={styles.background}>
-      <TopBar />
-      <div className={styles.pointsContainer}>+ {formattedPoints}</div>
-      <div className={styles.modelContainer} onClick={() => router.push("/")}>
-        <ModelViewer name={"koji-open"} />
-      </div>
-      <button className={styles.button} onClick={() => router.push(`/`)}>
-        Tap to Claim
-      </button>
+        <TopBar />
+        <div className={styles.pointsContainer}>+ {formattedPoints}</div>
+        <div className={styles.modelContainer} onClick={() => router.push("/")}>
+          <div style={{ height: "400px", width: "100%", overflow: "hidden" }}>
+            <ModelViewer name={"koji-open"} />
+          </div>
+        </div>
+        <button className={styles.button} onClick={() => router.push(`/`)}>
+          Tap to Claim
+        </button>
       </div>
     </main>
   );
