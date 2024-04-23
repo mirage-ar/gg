@@ -291,7 +291,7 @@ const MapboxMap: React.FC = () => {
   };
 
   function updateMarkerSize(marker: mapboxgl.Marker, mapZoom: number): void {
-    const baseSize = 80;
+    const baseSize = 100;
     const minZoomLevel = 18;
     const size = baseSize * Math.pow(2, mapZoom - minZoomLevel);
     const markerElement = marker.getElement();
