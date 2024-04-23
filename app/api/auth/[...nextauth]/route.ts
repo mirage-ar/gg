@@ -39,9 +39,6 @@ const OPTIONS = {
           },
           body: JSON.stringify({ data: { id: user.id, username: user.username, image: user.image } }),
         });
-        const data = await response.json();
-
-        console.log(data);
 
         return true; // Sign-in successful
       } catch (error) {
