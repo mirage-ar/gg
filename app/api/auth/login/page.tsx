@@ -32,15 +32,15 @@ const LoginPage = () => {
   const [timeRemaining, setTimeRemaining] = useState<number>(calculateTimeRemaining());
 
   useEffect(() => {
-    // function isRunningStandaloneAndroid() {
-    //   return window.matchMedia("(display-mode: standalone)").matches;
-    // }
-
-    function isAndroid() {
-      return /Android/i.test(navigator.userAgent);
+    function isRunningStandaloneAndroid() {
+      return window.matchMedia("(display-mode: standalone)").matches;
     }
 
-    const isStandalone = (window.navigator as any).standalone || isAndroid();
+    // function isAndroid() {
+    //   return /Android/i.test(navigator.userAgent);
+    // }
+
+    const isStandalone = (window.navigator as any).standalone || isRunningStandaloneAndroid();
     setIsStandalone(isStandalone);
   }, [router]);
 
