@@ -13,8 +13,6 @@ export const GAME_DATE = {
 
 export const GAME_TIME = 9;
 
-// TODO: add game time here
-
 export const GAME_LENGTH = 60 * 60 * 1000; // 1 hour and 30 minutes
 
 export const PLAYER_COUNT = 150;
