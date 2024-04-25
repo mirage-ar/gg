@@ -14,7 +14,7 @@ export default function useLeaderboard(id: string | undefined) {
     const fetchLeaderboard = async () => {
       try {
         const response = await fetch(`${API}/leaderboard/${id}`);
-        const data = await response.json();
+        const data = await response.json();        
         setLeaderboard(data.leaderboard);
         setUserRank(data.userRank);
         setUserScore(data.userScore);

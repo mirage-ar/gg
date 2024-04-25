@@ -1,7 +1,6 @@
 import NextAuth, { SessionStrategy } from "next-auth";
 import TwitterProvider from "next-auth/providers/twitter";
 import * as Sentry from "@sentry/nextjs";
-import prisma from "@/utils/prisma";
 import { API } from "@/utils/constants";
 
 const OPTIONS = {
