@@ -36,11 +36,11 @@ const LoginPage = () => {
       return window.matchMedia("(display-mode: standalone)").matches;
     }
 
-    // function isAndroid() {
-    //   return /Android/i.test(navigator.userAgent);
-    // }
+    function isAndroid() {
+      return /Android/i.test(navigator.userAgent);
+    }
 
-    const isStandalone = (window.navigator as any).standalone || isRunningStandaloneAndroid();
+    const isStandalone = (window.navigator as any).standalone || isAndroid();
     setIsStandalone(isStandalone);
   }, [router]);
 
@@ -83,7 +83,7 @@ const LoginPage = () => {
     );
   }
 
-  if (timeRemaining > FIVE_MINUTES) { // Five minutes for new users to sign in
+  if (timeRemaining > FIVE_MINUTES) {
     return (
       <div className={styles.container}>
         <div className={styles.timerContainer}>
