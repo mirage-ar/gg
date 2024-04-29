@@ -176,6 +176,8 @@ const MapboxMap: React.FC = () => {
               }
             }
 
+            // TODO: Add seperate method to fetch boxes - send geohash in request
+
             // FETCH BOXES AND UPDATE MARKERS
             fetchAndUpdateBoxes(position.coords.latitude, position.coords.longitude);
 
