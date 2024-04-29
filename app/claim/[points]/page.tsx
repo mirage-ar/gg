@@ -6,7 +6,6 @@ import { useParams, useRouter } from "next/navigation";
 import TopBar from "@/components/navigation/TopBar";
 
 import styles from "./page.module.css";
-import { useUser } from "@/hooks";
 import { withCommas } from "@/utils";
 
 const ModelViewer = dynamic(() => import("@/components/model/ModelViewer"), {
@@ -19,19 +18,29 @@ const ClaimPage: React.FC = () => {
   const { points } = params;
   const formattedPoints = withCommas(parseInt(points as string));
 
+  const [tapped, setTapped] = React.useState(false);
+
+  const handleTap = () => {
+    if (tapped) {
+      router.push("/");
+    }
+    setTapped(true);
+  };
+
   return (
     <main className={styles.container}>
       <div className={styles.background}>
         <TopBar />
-        <div className={styles.pointsContainer}>+ {formattedPoints}</div>
-        <div className={styles.modelContainer} onClick={() => router.push("/")}>
+        {tapped && <div className={styles.pointsContainer}>+ {formattedPoints}</div>}
+        <div className={styles.modelContainer} onClick={handleTap}>
           <div style={{ height: "400px", width: "100%", overflow: "hidden" }}>
-            <ModelViewer name={"koji-open"} />
+            <ModelViewer name={tapped ? "koji-open" : "koji-closed"} />
           </div>
+          {!tapped && <p>Tap to Open!</p>}
         </div>
-        <button className={styles.button} onClick={() => router.push(`/`)}>
+        {/* <button className={styles.button} onClick={handleTap}>
           Tap to Claim
-        </button>
+        </button> */}
       </div>
     </main>
   );

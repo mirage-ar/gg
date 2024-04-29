@@ -54,7 +54,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  gap: 8px;
+  /* flex-direction: column; */
   color: #42ff60;
 }
 

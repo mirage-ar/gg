@@ -9,8 +9,17 @@
   z-index: 10000;
 }
 
+.container p {
+  color: var(--g, #42ff60);
+  text-align: center;
+  font-family: var(--connect);
+  font-size: 32px;
+
+  text-transform: uppercase;
+}
+
 .pointsContainer {
-  color: #42FF60;
+  color: #42ff60;
   font-family: var(--connect);
   font-size: 82px;
   font-style: normal;
