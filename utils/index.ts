@@ -28,7 +28,7 @@ export const withCommas = (x: number | string): string => {
 export function getGameStartTime({ year, month, day }: GameDate) {
   const zeroIndexMonth = month - 1;
   // const easternTime = new Date(Date.UTC(year, zeroIndexMonth, day, GAME_TIME + 4, 0, 0));
-  const easternTime = new Date(Date.UTC(year, zeroIndexMonth, day, GAME_TIME + 3, 30, 0));
+  const easternTime = new Date(Date.UTC(year, zeroIndexMonth, day, GAME_TIME + 3, 40, 0));
 
   return easternTime.getTime();
 }
