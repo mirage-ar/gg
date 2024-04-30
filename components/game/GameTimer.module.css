@@ -17,7 +17,7 @@
   padding: 20px;
   /* width: 696px; */
   height: 100px;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.8);
   /* clip-path: polygon(3% 0, 100% 0, 100% 88%, 97% 100%, 0 100%, 0 12%); */
 
   color: var(--p);
