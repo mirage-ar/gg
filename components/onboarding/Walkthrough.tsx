@@ -62,7 +62,7 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ setHasOnboarded }) => {
       <div className={styles.subline}>
         {step === 1 && <p>RACE against the world</p>}
         {step === 2 && <p>Stack G and climb the leaderboard</p>}
-        {step === 3 && <p>Hurry you only have 1 hour</p>}
+        {step === 3 && <p>May the odds be ever in your favor anon</p>}
       </div>
 
       <button className={styles.button} onClick={handleNext}>
