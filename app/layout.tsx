@@ -4,7 +4,7 @@ import { Analytics } from "@vercel/analytics/react";
 import MapboxMap from "@/components/map/MapboxMap";
 
 import "./globals.css";
-import { User } from "@/types";
+
 import GameTimer from "@/components/game/GameTimer";
 
 export function generateViewport() {

@@ -316,7 +316,7 @@ const MapboxMap: React.FC = () => {
       />
       {mapMoved && (
         <button className={styles.centerButton} onClick={centerOnUser}>
-          <Image src="/icons/map/center.svg" width={48} height={48} alt="Center User" />
+          <Image src="/icons/map/center.svg" width={64} height={64} alt="Center User" />
         </button>
       )}
     </>

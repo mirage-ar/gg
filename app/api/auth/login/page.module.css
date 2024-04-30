@@ -35,9 +35,9 @@
 }
 
 .logo {
-  font-family: var(--diatype);
-  /* margin-bottom: 20px; */
-  width: 20%;
+  /* font-family: var(--diatype); */
+  margin-top: -50px;
+  width: 40%;
 }
 
 .logo img {
@@ -82,8 +82,34 @@
   border: none;
   color: var(--b);
   text-transform: uppercase;
-  font-size: 18px;
+  font-size: 22px;
+  animation: glow 2s infinite;
+  font-family: var(--connect);
 }
+
+  /* Add glow effect */
+  @keyframes glow {
+    0% {
+      box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    }
+    50% {
+      box-shadow: 0 0 40px rgba(0, 255, 0, 0.8);
+    }
+    100% {
+      box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    }
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100dvh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+
 
 .container p {
   margin: 20px 0;

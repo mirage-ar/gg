@@ -75,13 +75,13 @@ const LoginPage = () => {
     signIn("twitter", { callbackUrl: "/" });
   };
 
-  if (!isStandalone) {
-    return (
-      <main>
-        <HomeScreenOverlay />
-      </main>
-    );
-  }
+  // if (!isStandalone) {
+  //   return (
+  //     <main>
+  //       <HomeScreenOverlay />
+  //     </main>
+  //   );
+  // }
 
   // if (timeRemaining > FIVE_MINUTES) {
   //   return (
@@ -100,7 +100,7 @@ const LoginPage = () => {
     <>
       <main className={styles.container}>
         <div className={styles.logo}>
-          <Image src="/icons/logo.svg" alt="Logo" width={176} height={176} />
+          <Image src="/graphics/logo-animated.gif" alt="Logo" width={200} height={200} />
         </div>
         <div className={styles.hunter} onClick={() => handleSignIn()}>
           <Image src="/graphics/hunter-onboarding.svg" alt="Logo" width={367} height={528} />
@@ -109,9 +109,7 @@ const LoginPage = () => {
         {playerCount < PLAYER_COUNT || user?.id ? (
           <>
             <h1 className={styles.title}>
-              Start Global
-              <br />
-              Hunt
+              Start Hunt
             </h1>
 
             <button className={styles.button} onClick={() => handleSignIn()}>

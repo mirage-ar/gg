@@ -5,7 +5,11 @@ const ModelViewer = ({ name }) => (
     style={{ width: "100%", height: "400px", marginTop: "-10px"  }}
     src={`/models/${name}.gltf`}
     ios-src={`/models/${name}.usdz`}
-    // poster={`/models/posters/${name}.webp`}
+    // poster={`/models/${name}.webp`}
+    tone-mapping="neutral"
+    shadow-intensity="1"
+    disable-zoom
+    zoom="10"
     alt="3D Model"
     camera-controls
     auto-rotate
