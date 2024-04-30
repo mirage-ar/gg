@@ -33,6 +33,15 @@ const MapboxMap: React.FC = () => {
   const [currentLocation, setCurrentLocation] = useState<GeolocationPosition | null>(null);
   const [mapMoved, setMapMoved] = useState(false);
 
+  const [hasOnboarded, setHasOnboarded] = useState(false);
+
+  useEffect(() => {
+    const hasOnboardedValue = localStorage.getItem("hasOnboarded");
+    if (hasOnboardedValue) {
+      setHasOnboarded(JSON.parse(hasOnboardedValue));
+    }
+  }, [hasOnboarded]);
+
   // SETUP MAP
   useEffect(() => {
     const map = new mapboxgl.Map({
@@ -130,7 +139,7 @@ const MapboxMap: React.FC = () => {
       const data = await response.json();
 
       // check if user can collect box
-      if (data.collect) {
+      if (data.collect && hasOnboarded) {
         router.push(`/claim/${data.collect.points}`);
       }
 
