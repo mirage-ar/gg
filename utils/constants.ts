@@ -7,10 +7,10 @@ export const API = "https://zzzvktfgb6.execute-api.us-east-1.amazonaws.com";
 
 export const GAME_DATE = {
   year: 2024,
-  month: 5,
-  day: 1,
+  month: 4,
+  day: 30,
 };
 
-export const GAME_TIME = 9;
-export const GAME_LENGTH = 60 * 60 * 1000;
+export const GAME_TIME = 16;
+export const GAME_LENGTH = 20 * 60 * 1000;
 export const PLAYER_COUNT = 150;
