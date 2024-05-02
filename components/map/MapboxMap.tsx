@@ -139,7 +139,7 @@ const MapboxMap: React.FC = () => {
       const data = await response.json();
 
       // check if user can collect box
-      if (data.collect && hasOnboarded) {
+      if (data.collect) {
         router.push(`/claim/${data.collect.points}`);
       }
 
@@ -185,10 +185,10 @@ const MapboxMap: React.FC = () => {
               }
             }
 
-            // TODO: Add seperate method to fetch boxes - send geohash in request
-
             // FETCH BOXES AND UPDATE MARKERS
-            fetchAndUpdateBoxes(position.coords.latitude, position.coords.longitude);
+            if (hasOnboarded) { // TODO: check to make sure this works !
+              fetchAndUpdateBoxes(position.coords.latitude, position.coords.longitude);
+            }
 
             // SEND USER LOCATION
             if (markersSocket.current && markersSocket.current.readyState === WebSocket.OPEN && user?.id) {
