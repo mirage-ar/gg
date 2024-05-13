@@ -179,18 +179,23 @@ const MapboxMap: React.FC = () => {
           async (position) => {
             // STORE CURRENT POSITION
             setCurrentLocation(position);
+            const hasOnboarded = localStorage.getItem("hasOnboarded") === "true";
 
             // CENTER MAP ON USER IF FIRST TIME
-            if (!mapCenteredRef.current) {
+            if (!mapCenteredRef.current && mapRef.current && hasOnboarded) {
               const map = mapRef.current;
-              if (map) {
-                mapCenteredRef.current = true;
-                map.setCenter([position.coords.longitude, position.coords.latitude]);
-              }
+
+              map.setCenter([position.coords.longitude, position.coords.latitude]);
+              map.flyTo({
+                center: [position.coords.longitude, position.coords.latitude],
+                zoom: 18,
+                pitch: 15,
+                essential: true,
+              });
+              mapCenteredRef.current = true;
             }
 
             // FETCH BOXES AND UPDATE MARKERS
-            const hasOnboarded = localStorage.getItem("hasOnboarded") === "true";
             if (hasOnboarded) {
               fetchAndUpdateBoxes(position.coords.latitude, position.coords.longitude);
             }
