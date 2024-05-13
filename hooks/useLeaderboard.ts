@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { LeaderboardItem } from "@/types";
-import { API } from "@/utils/constants";
+import { API, POLLING_TIME } from "@/utils/constants";
 
 export default function useLeaderboard(id: string | undefined) {
   const [leaderboard, setLeaderboard] = useState<LeaderboardItem[]>([]);
@@ -14,7 +14,7 @@ export default function useLeaderboard(id: string | undefined) {
     const fetchLeaderboard = async () => {
       try {
         const response = await fetch(`${API}/leaderboard/${id}`);
-        const data = await response.json();        
+        const data = await response.json();
         setLeaderboard(data.leaderboard);
         setUserRank(data.userRank);
         setUserScore(data.userScore);
@@ -26,16 +26,20 @@ export default function useLeaderboard(id: string | undefined) {
 
     fetchLeaderboard();
 
-    const intervalId = setInterval(fetchLeaderboard, 5000);
+    const interval = setInterval(() => {
+      if (document.visibilityState === "visible") {
+        fetchLeaderboard();
+      }
+    }, POLLING_TIME);
 
     return () => {
-      clearInterval(intervalId);
+      clearInterval(interval);
     };
   }, [id]);
   return {
     leaderboard,
     userRank,
     userScore,
-    userBoxes
+    userBoxes,
   };
 }
