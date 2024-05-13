@@ -33,14 +33,14 @@ const MapboxMap: React.FC = () => {
   const [currentLocation, setCurrentLocation] = useState<GeolocationPosition | null>(null);
   const [mapMoved, setMapMoved] = useState(false);
 
-  const [hasOnboarded, setHasOnboarded] = useState(false);
+  // const [hasOnboarded, setHasOnboarded] = useState(false);
 
-  useEffect(() => {
-    const hasOnboardedValue = localStorage.getItem("hasOnboarded");
-    if (hasOnboardedValue) {
-      setHasOnboarded(JSON.parse(hasOnboardedValue));
-    }
-  }, [hasOnboarded]);
+  // useEffect(() => {
+  //   const hasOnboardedValue = JSON.parse(localStorage.getItem("hasOnboarded") || "false");
+  //   if (hasOnboardedValue) {
+  //     setHasOnboarded(JSON.parse(hasOnboardedValue));
+  //   }
+  // }, [hasOnboarded]);
 
   // SETUP MAP
   useEffect(() => {
@@ -186,7 +186,8 @@ const MapboxMap: React.FC = () => {
             }
 
             // FETCH BOXES AND UPDATE MARKERS
-            if (hasOnboarded) { // TODO: check to make sure this works !
+            const hasOnboarded = JSON.parse(localStorage.getItem("hasOnboarded") || "false");
+            if (hasOnboarded) {
               fetchAndUpdateBoxes(position.coords.latitude, position.coords.longitude);
             }
 
