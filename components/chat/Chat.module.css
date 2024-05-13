@@ -24,7 +24,7 @@
 
 .chatMessages {
   overflow-y: auto;
-  height: 90%;
+  height: calc(100% - 40px - 50px);
   width: 100%;
   padding: 10px;
   position: relative;
@@ -49,6 +49,7 @@
 .chatMessageInfo {
   display: flex;
   align-items: center;
+  gap: 6px;
 }
 
 .chatMessageImage {
@@ -85,6 +86,7 @@
   width: 100%;
   display: flex;
   align-items: center;
+  border-bottom: 40px solid rgba(0, 0, 0, 0.9);
 }
 
 .chatInput {
