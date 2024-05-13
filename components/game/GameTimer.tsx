@@ -6,6 +6,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { getGameStartTime } from "@/utils";
 import Timer from "@/components/timer/TImer";
 import { GAME_DATE, GAME_LENGTH } from "@/utils/constants";
+import { useApplicationContext } from "@/state/context";
 
 import styles from "./GameTimer.module.css";
 
@@ -14,6 +15,7 @@ const tenMinutes = 10 * 60000;
 const GameTimer = () => {
   const router = useRouter();
   const pathname = usePathname();
+  const { hasOnboarded } = useApplicationContext();
 
   const isOnHomePage = pathname === "/";
 
@@ -44,6 +46,7 @@ const GameTimer = () => {
 
   return (
     isOnHomePage &&
+    hasOnboarded &&
     timeRemaining > 0 && (
       <div className={styles.main}>
         <div className={styles.container}>
