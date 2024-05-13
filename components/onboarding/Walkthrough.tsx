@@ -20,6 +20,7 @@ const Walkthrough: React.FC = () => {
       localStorage.setItem("hasOnboarded", JSON.stringify(true));
       setHasOnboarded(true);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step]);
 
   return (

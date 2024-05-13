@@ -34,7 +34,7 @@ const MapPage: React.FC = () => {
     if (hasOnboardedValue) {
       setHasOnboarded(JSON.parse(hasOnboardedValue));
     }
-  }, [hasOnboarded]);
+  }, [hasOnboarded, setHasOnboarded]);
 
   if (!hasOnboarded) {
     // Show onboarding screens
