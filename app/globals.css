@@ -134,9 +134,9 @@ h4 {
 }
 
 .opponent-marker {
-  background-image: url("/icons/opponent-marker.svg");
-  background-size: cover;
-  background-position: center;
+  /* background-image: url("/icons/opponent-marker.svg"); */
+  /* background-size: cover; */
+  /* background-position: center; */
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -144,6 +144,7 @@ h4 {
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 1px dashed #7D7B76;
 }
 
 .opponent-marker img {
