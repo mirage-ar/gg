@@ -48,7 +48,7 @@ const GameTimer = () => {
       <div className={styles.main}>
         <div className={styles.container}>
           <div className={styles.timer}>
-            <Timer timeRemaining={timeRemaining} hideDays />
+            <Timer timeRemaining={timeRemaining} />
           </div>
           <Image src="/icons/24/timer.svg" alt="timer icon" width={24} height={24} />
         </div>
