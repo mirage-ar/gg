@@ -33,15 +33,6 @@ const MapboxMap: React.FC = () => {
   const [currentLocation, setCurrentLocation] = useState<GeolocationPosition | null>(null);
   const [mapMoved, setMapMoved] = useState(false);
 
-  // const [hasOnboarded, setHasOnboarded] = useState(false);
-
-  // useEffect(() => {
-  //   const hasOnboardedValue = JSON.parse(localStorage.getItem("hasOnboarded") || "false");
-  //   if (hasOnboardedValue) {
-  //     setHasOnboarded(JSON.parse(hasOnboardedValue));
-  //   }
-  // }, [hasOnboarded]);
-
   // SETUP MAP
   useEffect(() => {
     const map = new mapboxgl.Map({

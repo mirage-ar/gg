@@ -9,6 +9,7 @@
   margin: 16px;
   border: none;
   background: none;
+  z-index: 10001;
 }
 
 .header button {
