@@ -103,11 +103,15 @@ const MapboxMap: React.FC = () => {
     map.on("zoom", () => {
       const currentZoom: number = map.getZoom();
       // Check if the user marker exists and has an element attached
-      if (userIdRef.current) {
-        const marker = markersRef.current[userIdRef.current];
-        if (marker) {
-          updateMarkerSize(marker, currentZoom);
-        }
+      // if (userIdRef.current) {
+      //   const marker = markersRef.current[userIdRef.current];
+      //   if (marker) {
+      //     updateMarkerSize(marker, currentZoom);
+      //   }
+      // }
+
+      for (const marker in markersRef.current) {
+        updateMarkerSize(markersRef.current[marker], currentZoom);
       }
     });
 
@@ -267,12 +271,17 @@ const MapboxMap: React.FC = () => {
           markersRef.current[message.id] = newMarker;
         } else {
           // Marker doesn't exist, create a new one
-          const el = document.createElement("img");
-          el.className = "marker";
-          el.src = message.image;
-          // el.src = `/icons/markers/${rand(1, 5)}.svg`;
+          // const el = document.createElement("img");
+          // el.className = "marker";
+          // el.src = message.image;
 
-          const newMarker = new mapboxgl.Marker(el).setLngLat([message.longitude, message.latitude]).addTo(map);
+          const div = document.createElement("div");
+          const img = document.createElement("img");
+          div.className = "opponent-marker";
+          img.src = message.image;
+          div.appendChild(img);
+
+          const newMarker = new mapboxgl.Marker(div).setLngLat([message.longitude, message.latitude]).addTo(map);
 
           markersRef.current[message.id] = newMarker;
         }
