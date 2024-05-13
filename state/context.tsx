@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import { createContext, useContext } from "react";
 
 interface ApplicationContext {
@@ -15,6 +17,12 @@ const Context = createContext(defaultContext);
 
 export function ApplicationProvider({ children }: { children: React.ReactNode }) {
   const [hasOnboarded, setHasOnboarded] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("hasOnboarded")) {
+      setHasOnboarded(true);
+    }
+  }, []);
 
   const value: ApplicationContext = {
     hasOnboarded,

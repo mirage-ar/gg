@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import BottomNavigation from "@/components/navigation/BottomNavigation";
 import TopBar from "@/components/navigation/TopBar";
 import Walkthrough from "@/components/onboarding/Walkthrough";
@@ -11,8 +11,7 @@ import { useApplicationContext } from "@/state/context";
 
 const MapPage: React.FC = () => {
   const user = useUser();
-  const { hasOnboarded, setHasOnboarded } = useApplicationContext();
-
+  const { hasOnboarded } = useApplicationContext();
 
   useEffect(() => {
     const checkUser = async () => {
@@ -28,13 +27,6 @@ const MapPage: React.FC = () => {
 
     checkUser();
   }, [user]);
-
-  useEffect(() => {
-    const hasOnboardedValue = localStorage.getItem("hasOnboarded");
-    if (hasOnboardedValue) {
-      setHasOnboarded(JSON.parse(hasOnboardedValue));
-    }
-  }, [hasOnboarded, setHasOnboarded]);
 
   if (!hasOnboarded) {
     // Show onboarding screens

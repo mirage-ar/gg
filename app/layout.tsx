@@ -34,7 +34,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {children}
         <MapboxMap />
-        <GameTimer />
         <Analytics />
       </body>
     </html>

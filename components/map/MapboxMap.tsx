@@ -10,7 +10,6 @@ import { encodeGeoHash } from "@/utils/geoHash";
 import styles from "./MapboxMap.module.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-import { useApplicationContext } from "@/state/context";
 import type { LocationData } from "@/types";
 import { API, LOCATION_SOCKET_URL } from "@/utils/constants";
 
@@ -23,7 +22,6 @@ type MarkersObject = {
 const MapboxMap: React.FC = () => {
   const router = useRouter();
   const user = useUser();
-  const { hasOnboarded } = useApplicationContext();
 
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
@@ -34,6 +32,15 @@ const MapboxMap: React.FC = () => {
 
   const [currentLocation, setCurrentLocation] = useState<GeolocationPosition | null>(null);
   const [mapMoved, setMapMoved] = useState(false);
+
+  const [hasOnboarded, setHasOnboarded] = useState(false);
+
+  useEffect(() => {
+    const hasOnboardedValue = localStorage.getItem("hasOnboarded");
+    if (hasOnboardedValue) {
+      setHasOnboarded(JSON.parse(hasOnboardedValue));
+    }
+  }, [hasOnboarded]);
 
   // SETUP MAP
   useEffect(() => {
@@ -179,7 +186,7 @@ const MapboxMap: React.FC = () => {
             }
 
             // FETCH BOXES AND UPDATE MARKERS
-            if (hasOnboarded) {
+            if (hasOnboarded) { // TODO: check to make sure this works !
               fetchAndUpdateBoxes(position.coords.latitude, position.coords.longitude);
             }
 
