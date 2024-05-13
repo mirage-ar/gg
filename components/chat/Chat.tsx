@@ -97,14 +97,16 @@ const Chat: React.FC = () => {
           {messages.map((message, index) => (
             <div key={index} className={styles.chatMessageContainer}>
               <div className={styles.chatMessageInfo}>
-                <Image
-                  src={message.image}
-                  alt={message.username}
-                  width={20}
-                  height={20}
-                  className={styles.chatMessageImage}
-                />
-                <p className={styles.chatMessageName}>{message.username}</p>
+                <div className={styles.chatMessageInfoLeft}>
+                  <Image
+                    src={message.image}
+                    alt={message.username}
+                    width={20}
+                    height={20}
+                    className={styles.chatMessageImage}
+                  />
+                  <p className={styles.chatMessageName}>{message.username}</p>
+                </div>
                 <p className={styles.chatMessageTimestamp}>
                   {DateFNS.formatDistance(new Date(message.timestamp), new Date(), { addSuffix: true })}
                 </p>
