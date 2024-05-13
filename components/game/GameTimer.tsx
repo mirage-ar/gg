@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import { getGameStartTime } from "@/utils";
 import Timer from "@/components/timer/TImer";
@@ -13,6 +14,8 @@ const tenMinutes = 10 * 60000;
 const GameTimer = () => {
   const router = useRouter();
   const pathname = usePathname();
+
+  const isOnHomePage = pathname === "/";
 
   // Calculate initial time remaining immediately
   const calculateTimeRemaining = () => {
@@ -40,15 +43,16 @@ const GameTimer = () => {
   }, [timeRemaining]);
 
   return (
-    timeRemaining <= tenMinutes && timeRemaining > 0 && (
-    <div className={styles.main}>
-      <div className={styles.container}>
-        <p>The hunt will finish in</p>
-        <div className={styles.timer}>
-          <Timer timeRemaining={timeRemaining} hideDays />
+    isOnHomePage &&
+    timeRemaining > 0 && (
+      <div className={styles.main}>
+        <div className={styles.container}>
+          <div className={styles.timer}>
+            <Timer timeRemaining={timeRemaining} hideDays />
+          </div>
+          <Image src="/icons/24/timer.svg" alt="timer icon" width={24} height={24} />
         </div>
       </div>
-    </div>
     )
   );
 };
