@@ -1,16 +1,15 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 
 import styles from "./Walkthrough.module.css";
 
-interface WalkthroughProps {
-  setHasOnboarded: (value: boolean) => void;
-}
+import { useApplicationContext } from "@/state/context";
 
-const Walkthrough: React.FC<WalkthroughProps> = ({ setHasOnboarded }) => {
+const Walkthrough: React.FC = () => {
   const [step, setStep] = useState(1);
+
+  const { setHasOnboarded } = useApplicationContext();
 
   const handleNext = () => {
     setStep(step + 1);

@@ -2,6 +2,7 @@ import React from "react";
 import { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import MapboxMap from "@/components/map/MapboxMap";
+import { ApplicationProvider } from "@/state/context";
 
 import "./globals.css";
 
@@ -28,11 +29,10 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-
   return (
     <html lang="en">
       <body>
-        {children}
+        <ApplicationProvider>{children}</ApplicationProvider>
         <MapboxMap />
         <GameTimer />
         <Analytics />

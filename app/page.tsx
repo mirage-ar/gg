@@ -4,14 +4,15 @@ import React, { use, useEffect, useState } from "react";
 import BottomNavigation from "@/components/navigation/BottomNavigation";
 import TopBar from "@/components/navigation/TopBar";
 import Walkthrough from "@/components/onboarding/Walkthrough";
-import { getSession, signOut } from "next-auth/react";
-import { User } from "@/types";
+import { signOut } from "next-auth/react";
 import { API } from "@/utils/constants";
 import { useUser } from "@/hooks";
+import { useApplicationContext } from "@/state/context";
 
 const MapPage: React.FC = () => {
   const user = useUser();
-  const [hasOnboarded, setHasOnboarded] = useState<boolean>(false);
+  const { hasOnboarded, setHasOnboarded } = useApplicationContext();
+
 
   useEffect(() => {
     const checkUser = async () => {
@@ -39,7 +40,7 @@ const MapPage: React.FC = () => {
     // Show onboarding screens
     return (
       <div>
-        <Walkthrough setHasOnboarded={setHasOnboarded} />
+        <Walkthrough />
       </div>
     );
   }
