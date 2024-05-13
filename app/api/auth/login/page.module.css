@@ -3,9 +3,17 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 16px;
   height: 100dvh;
   width: 100vw;
   background-color: rgba(0, 0, 0, 0.6);
+}
+
+.container p {
+  color: var(--g);
+  font-size: 14px;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .timerContainer {
@@ -13,30 +21,29 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--g);
   padding: 16px;
-  padding-bottom: 30px;
   width: 95%;
   gap: 16px;
-  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--g);
+  /* background: rgba(0, 0, 0, 0.2); */
 }
 
 .timerContainer p {
   margin: 0;
   padding: 0;
   color: var(--g);
-  font-size: 14px;
+  font-size: 12px;
   text-transform: uppercase;
 }
 
 .timerContainer h3 {
   color: var(--p);
-  font-size: 12vw
+  font-size: 12vw;
 }
 
 .logo {
-  /* font-family: var(--diatype); */
-  margin-top: -150px;
+  position: absolute;
+  top: 16px;
   width: 40%;
 }
 
@@ -87,33 +94,39 @@
   font-family: var(--connect);
 }
 
-  /* Add glow effect */
-  @keyframes glow {
-    0% {
-      box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-    }
-    50% {
-      box-shadow: 0 0 40px rgba(0, 255, 0, 0.8);
-    }
-    100% {
-      box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-    }
+.graphicTopLeft {
+  position: absolute;
+  top: 34px;
+  left: 16px;
+}
+
+.graphicTopRight {
+  position: absolute;
+  top: 34px;
+  right: 16px;
+}
+
+.graphicBottomLeft {
+  position: absolute;
+  bottom: 54px;
+  left: 16px;
+}
+
+.graphicBottomRight {
+  position: absolute;
+  bottom: 54px;
+  right: 16px;
+}
+
+/* Add glow effect */
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
   }
-
-  .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100dvh;
-    width: 100vw;
-    background-color: rgba(0, 0, 0, 0.6);
+  50% {
+    box-shadow: 0 0 40px rgba(0, 255, 0, 0.8);
   }
-
-
-.container p {
-  margin: 20px 0;
-  color: var(--g);
-  font-size: 14px;
-  text-align: center;
+  100% {
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+  }
 }

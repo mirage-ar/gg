@@ -85,17 +85,36 @@ const LoginPage = () => {
 
   if (timeRemaining > FIVE_MINUTES) {
     return (
-      <div className={styles.container}>
-        <div className={styles.timerContainer}>
-          <p>The hunt will start in</p>
-          <h3>
-            <Timer timeRemaining={timeRemaining} />
-          </h3>
+      <>
+        <div className={styles.container}>
+          <div className={styles.logo}>
+            <Image src="/graphics/logo-animated.gif" alt="Logo" width={200} height={200} />
+          </div>
+          <div className={styles.timerContainer}>
+            <p>The hunt will start in</p>
+            <h3>
+              <Timer timeRemaining={timeRemaining} />
+            </h3>
+          </div>
+          <p>May the odds be ever in your favor anon</p>
+          <Image src="/icons/24/box-opened.svg" alt="Logo" width={24} height={24} />
         </div>
-      </div>
+        <div className={styles.graphicTopLeft}>
+          <Image src="/graphics/timer/top-left.svg" alt="graphic" width={40} height={112} />
+        </div>
+        <div className={styles.graphicTopRight}>
+          <Image src="/graphics/timer/top-right.svg" alt="graphic" width={40} height={112} />
+        </div>
+        <div className={styles.graphicBottomLeft}>
+          <Image src="/graphics/timer/bottom-left.svg" alt="graphic" width={40} height={112} />
+        </div>
+        <div className={styles.graphicBottomRight}>
+          <Image src="/graphics/timer/bottom-right.svg" alt="graphic" width={40} height={112} />
+        </div>
+      </>
     );
   }
-  
+
   return (
     <>
       <main className={styles.container}>
@@ -108,9 +127,7 @@ const LoginPage = () => {
 
         {playerCount < PLAYER_COUNT || user?.id ? (
           <>
-            <h1 className={styles.title}>
-              Start Hunt
-            </h1>
+            <h1 className={styles.title}>Start Hunt</h1>
 
             <button className={styles.button} onClick={() => handleSignIn()}>
               Connect X
@@ -119,7 +136,13 @@ const LoginPage = () => {
         ) : (
           <>
             <h1 className={styles.title}>Hunters Locked</h1>
-            <p>Hunter slection has reached capacity.<br />Please try again next game.<br />GG</p>
+            <p>
+              Hunter slection has reached capacity.
+              <br />
+              Please try again next game.
+              <br />
+              GG
+            </p>
           </>
         )}
       </main>
