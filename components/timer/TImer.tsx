@@ -8,10 +8,12 @@ interface TimerProps {
 
 const Timer: React.FC<TimerProps> = ({ timeRemaining, hideDays = false }) => {
 
+  const daysVisible = timeRemaining < 86400000; // 24 hours in milliseconds
+
   // Format the time remaining
   const formatTime = (time: number): string => {
     if (time <= 0) {
-      return `${hideDays ? "" : "00:"}00:00:00`; // Added days to the format
+      return `${hideDays || daysVisible ? "" : "00:"}00:00:00`; // Added days to the format
     }
     const days = Math.floor(time / (1000 * 60 * 60 * 24))
       .toString()
