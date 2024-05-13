@@ -132,6 +132,26 @@ h4 {
   border: 2px solid #42ff60;
 }
 
+.opponent-marker {
+  background-image: url("/icons/opponent-marker.svg");
+  background-size: cover;
+  background-position: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.opponent-marker img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  /* border: 2px solid #42ff60; */
+}
+
 .box-container {
   display: flex;
   flex-direction: column;
