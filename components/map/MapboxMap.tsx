@@ -186,7 +186,7 @@ const MapboxMap: React.FC = () => {
             }
 
             // FETCH BOXES AND UPDATE MARKERS
-            const hasOnboarded = JSON.parse(localStorage.getItem("hasOnboarded") || "false");
+            const hasOnboarded = localStorage.getItem("hasOnboarded") === "true";
             if (hasOnboarded) {
               fetchAndUpdateBoxes(position.coords.latitude, position.coords.longitude);
             }
