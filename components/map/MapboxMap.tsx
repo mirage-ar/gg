@@ -11,7 +11,8 @@ import styles from "./MapboxMap.module.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 import type { LocationData } from "@/types";
-import { API, LOCATION_SOCKET_URL } from "@/utils/constants";
+import { API, GAME_DATE, GAME_LENGTH, LOCATION_SOCKET_URL } from "@/utils/constants";
+import { getGameStartTime } from "@/utils";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN as string;
 
@@ -151,6 +152,12 @@ const MapboxMap: React.FC = () => {
     }
   };
 
+  const calculateTimeRemaining = () => {
+    const currentTime = new Date().getTime();
+    const gameTime = getGameStartTime(GAME_DATE) + GAME_LENGTH;
+    return gameTime - currentTime;
+  };
+
   // Markers Socket
   useEffect(() => {
     if (!user?.id) return;
@@ -187,7 +194,7 @@ const MapboxMap: React.FC = () => {
             }
 
             // FETCH BOXES AND UPDATE MARKERS
-            if (hasOnboarded) {
+            if (hasOnboarded || calculateTimeRemaining() > 0) {
               fetchAndUpdateBoxes(position.coords.latitude, position.coords.longitude);
             }
 
