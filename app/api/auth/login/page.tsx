@@ -127,7 +127,7 @@ const LoginPage = () => {
           <Image src="/graphics/hunter-onboarding.svg" alt="Logo" width={367} height={528} />
         </div>
 
-        {playerCount < PLAYER_COUNT || user?.id ? (
+        {/* {playerCount < PLAYER_COUNT || user?.id ? ( */}
           <>
             <h1 className={styles.title}>Start Hunt</h1>
 
@@ -135,7 +135,7 @@ const LoginPage = () => {
               Connect X
             </button>
           </>
-        ) : (
+        {/* ) : (
           <>
             <h1 className={styles.title}>Hunters Locked</h1>
             <p>
@@ -146,7 +146,7 @@ const LoginPage = () => {
               GG
             </p>
           </>
-        )}
+        )} */}
       </main>
     </>
   );
