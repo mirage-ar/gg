@@ -50,7 +50,7 @@ const OPTIONS = {
         const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
         console.error("SignIn error:", errorMessage);
 
-        // Decide on a user-friendly error message to throw
+        // Decide on a user-friendly error message to throw // TODO: not using this anymore
         if (errorMessage === "UserLimitExceeded") {
           throw new Error("User limit reached. Sign up is closed.");
         }

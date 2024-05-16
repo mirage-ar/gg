@@ -134,6 +134,8 @@ const MapboxMap: React.FC = () => {
       });
       const data = await response.json();
 
+      // TODO: if box is collected send socket message to box socket !!
+
       // check if user can collect box
       if (data.collect) {
         router.push(`/claim/${data.collect.points}`);
