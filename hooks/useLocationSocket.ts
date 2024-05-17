@@ -15,6 +15,7 @@ const useLocationSocket = (
   const markersSocket = useRef<WebSocket | null>(null);
   const markersRef = useRef({});
   const userIdRef = useRef<string | null>(null);
+  const mapCenteredRef = useRef(false);
 
   const calculateTimeRemaining = () => {
     const currentTime = new Date().getTime();
@@ -39,8 +40,10 @@ const useLocationSocket = (
             setCurrentLocation(position);
             const hasOnboarded = localStorage.getItem("hasOnboarded") === "true";
 
-            if (!mapRef.current && hasOnboarded) {
+            // CENTER MAP ON USER IF FIRST TIME
+            if (!mapCenteredRef.current && mapRef.current && hasOnboarded) {
               const map = mapRef.current!;
+
               map.setCenter([position.coords.longitude, position.coords.latitude]);
               map.flyTo({
                 center: [position.coords.longitude, position.coords.latitude],
@@ -101,6 +104,7 @@ const useLocationSocket = (
       markersSocket.current?.close();
       navigator.geolocation.clearWatch(watchId);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const updateMarkers = (map: mapboxgl.Map, message: LocationData) => {

@@ -18,7 +18,6 @@ const MapboxMap: React.FC = () => {
   const user = useUser();
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
-  const mapCenteredRef = useRef(false);
   const [mapMoved, setMapMoved] = useState(false);
 
   const fetchAndUpdateBoxes = async (latitude: number, longitude: number) => {
@@ -112,6 +111,7 @@ const MapboxMap: React.FC = () => {
     return () => {
       map.remove();
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const centerOnUser = () => {
