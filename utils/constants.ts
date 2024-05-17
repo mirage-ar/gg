@@ -1,11 +1,11 @@
 // CONSTANTS
-export const LOCATION_SOCKET_URL = "wss://djltygczfk.execute-api.us-east-1.amazonaws.com/dev";
-export const COLLECT_SOCKET_URL = "wss://djltygczfk.execute-api.us-east-1.amazonaws.com/dev";
+export const COLLECT_SOCKET_URL = "wss://a40233o696.execute-api.us-east-1.amazonaws.com/dev";
+export const LOCATION_SOCKET_URL = "wss://s24f0pma67.execute-api.us-east-1.amazonaws.com/dev";
+export const CHAT_SOCKET_URL = "wss://khukqi1flb.execute-api.us-east-1.amazonaws.com/dev";
 
-export const CHAT_SOCKET_URL = "wss://eo1vie1516.execute-api.us-east-1.amazonaws.com/dev";
 export const GET_MESSAGES_URL = "https://messages.koji.im";
 
-export const API = "https://g9kovjtzgb.execute-api.us-east-1.amazonaws.com";
+export const API = "https://ybobrsrwn3.execute-api.us-east-1.amazonaws.com";
 
 export const POLLING_TIME = 5000;
 
