@@ -51,6 +51,7 @@ const useLocationSocket = (
                 pitch: 15,
                 essential: true,
               });
+              mapCenteredRef.current = true;
             }
 
             if (hasOnboarded || calculateTimeRemaining() > 0) {
