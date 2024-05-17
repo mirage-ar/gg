@@ -1,15 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
-import { LOCATION_SOCKET_URL, GAME_DATE, GAME_LENGTH } from "@/utils/constants";
+import { useRouter } from "next/navigation";
+import { LOCATION_SOCKET_URL, GAME_DATE, GAME_LENGTH, API } from "@/utils/constants";
 import { getGameStartTime } from "@/utils";
 import type { LocationData, User } from "@/types";
+import { encodeGeoHash } from "@/utils/geoHash";
 
 type FetchAndUpdateBoxes = (latitude: number, longitude: number) => Promise<void>;
 
 const useLocationSocket = (
   user: User | null,
   mapRef: React.RefObject<mapboxgl.Map | null>,
-  fetchAndUpdateBoxes: FetchAndUpdateBoxes
+//   fetchAndUpdateBoxes: FetchAndUpdateBoxes
 ) => {
   const [currentLocation, setCurrentLocation] = useState<GeolocationPosition | null>(null);
   const markersSocket = useRef<WebSocket | null>(null);
@@ -17,10 +19,46 @@ const useLocationSocket = (
   const userIdRef = useRef<string | null>(null);
   const mapCenteredRef = useRef(false);
 
+  const router = useRouter();
+
   const calculateTimeRemaining = () => {
     const currentTime = new Date().getTime();
     const gameTime = getGameStartTime(GAME_DATE) + GAME_LENGTH;
     return gameTime - currentTime;
+  };
+
+  const fetchAndUpdateBoxes = async (latitude: number, longitude: number) => {
+    try {
+      const userGeoHash = encodeGeoHash(latitude, longitude);
+      const response = await fetch(`${API}/collect`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user?.id,
+          geoHash: userGeoHash,
+          latitude,
+          longitude,
+          collectorUsername: user?.username,
+          collectorImage: user?.image,
+        }),
+      });
+      const data = await response.json();
+      if (data.collect) {
+        router.push(`/claim/${data.collect.points}`);
+      }
+
+      const map = mapRef.current;
+      if (map && map.getSource("boxes-source")) {
+        const boxesSource = map.getSource("boxes-source") as mapboxgl.GeoJSONSource;
+        if (boxesSource && data.boxes) {
+          boxesSource.setData(data.boxes);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching boxes:", error);
+    }
   };
 
   useEffect(() => {

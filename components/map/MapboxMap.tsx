@@ -20,41 +20,7 @@ const MapboxMap: React.FC = () => {
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const [mapMoved, setMapMoved] = useState(false);
 
-  const fetchAndUpdateBoxes = async (latitude: number, longitude: number) => {
-    try {
-      const userGeoHash = encodeGeoHash(latitude, longitude);
-      const response = await fetch(`${API}/collect`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: user?.id,
-          geoHash: userGeoHash,
-          latitude,
-          longitude,
-          collectorUsername: user?.username,
-          collectorImage: user?.image,
-        }),
-      });
-      const data = await response.json();
-      if (data.collect) {
-        router.push(`/claim/${data.collect.points}`);
-      }
-
-      const map = mapRef.current;
-      if (map && map.getSource("boxes-source")) {
-        const boxesSource = map.getSource("boxes-source") as mapboxgl.GeoJSONSource;
-        if (boxesSource && data.boxes) {
-          boxesSource.setData(data.boxes);
-        }
-      }
-    } catch (error) {
-      console.error("Error fetching boxes:", error);
-    }
-  };
-
-  const { currentLocation, markersRef } = useLocationSocket(user, mapRef, fetchAndUpdateBoxes);
+  const { currentLocation, markersRef } = useLocationSocket(user, mapRef);
 
   useEffect(() => {
     const map = new mapboxgl.Map({
