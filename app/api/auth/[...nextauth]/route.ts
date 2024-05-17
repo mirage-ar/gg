@@ -28,6 +28,7 @@ const OPTIONS = {
       return baseUrl;
     },
 
+    // TODO: make sure we have user wallet info - should come from mint page
     async signIn({ user, account, profile }: any) {
       try {
         // CREATE USER
