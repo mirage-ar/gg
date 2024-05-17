@@ -4,14 +4,14 @@ import mapboxgl from "mapbox-gl";
 import { getGameStartTime } from "@/utils";
 import { encodeGeoHash } from "@/utils/geoHash";
 
-import { LOCATION_SOCKET_URL, COLLECT_SOCKET_URL, GAME_DATE, GAME_LENGTH, API } from "@/utils/constants";
+import { LOCATION_SOCKET_URL, GAME_DATE, GAME_LENGTH, API, COLLECT_SOCKET_URL } from "@/utils/constants";
 import type { LocationData, User } from "@/types";
 
 const useLocationSocket = (user: User | null, mapRef: React.RefObject<mapboxgl.Map | null>) => {
   const [currentLocation, setCurrentLocation] = useState<GeolocationPosition | null>(null);
   const markersSocket = useRef<WebSocket | null>(null);
   const collectSocket = useRef<WebSocket | null>(null);
-  const markersRef = useRef({});
+  const markersRef = useRef<{ [id: string]: mapboxgl.Marker }>({});
   const userIdRef = useRef<string | null>(null);
   const mapCenteredRef = useRef(false);
 
@@ -146,7 +146,6 @@ const useLocationSocket = (user: User | null, mapRef: React.RefObject<mapboxgl.M
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
-  // COLLECTION SOCKET
   useEffect(() => {
     if (!user?.id) return;
 
@@ -176,7 +175,6 @@ const useLocationSocket = (user: User | null, mapRef: React.RefObject<mapboxgl.M
 
   const updateMarkers = (map: mapboxgl.Map, message: LocationData) => {
     if (map && message.id && message.latitude && message.longitude) {
-      // @ts-ignore
       const existingMarker = markersRef.current[message.id];
       if (existingMarker) {
         existingMarker.setLngLat([message.longitude, message.latitude]);
@@ -188,7 +186,6 @@ const useLocationSocket = (user: User | null, mapRef: React.RefObject<mapboxgl.M
         div.appendChild(img);
 
         const newMarker = new mapboxgl.Marker(div).setLngLat([message.longitude, message.latitude]).addTo(map);
-        // @ts-ignore
         markersRef.current[message.id] = newMarker;
       }
     }
