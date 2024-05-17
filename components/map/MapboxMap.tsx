@@ -1,25 +1,22 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import mapboxgl from "mapbox-gl";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { useUser } from "@/hooks";
-import { encodeGeoHash } from "@/utils/geoHash";
+import mapboxgl from "mapbox-gl";
+
 import styles from "./MapboxMap.module.css";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { API } from "@/utils/constants";
-import useLocationSocket from "@/hooks/useLocationSocket";
+
+import { useUser, useLocationSocket } from "@/hooks";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN as string;
 
 const MapboxMap: React.FC = () => {
-  const router = useRouter();
-  const user = useUser();
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const [mapMoved, setMapMoved] = useState(false);
 
+  const user = useUser();
   const { currentLocation, markersRef } = useLocationSocket(user, mapRef);
 
   useEffect(() => {

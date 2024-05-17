@@ -1,20 +1,16 @@
 import { useEffect, useRef, useState } from "react";
-import mapboxgl from "mapbox-gl";
 import { useRouter } from "next/navigation";
-import { LOCATION_SOCKET_URL, GAME_DATE, GAME_LENGTH, API } from "@/utils/constants";
+import mapboxgl from "mapbox-gl";
 import { getGameStartTime } from "@/utils";
-import type { LocationData, User } from "@/types";
 import { encodeGeoHash } from "@/utils/geoHash";
 
-type FetchAndUpdateBoxes = (latitude: number, longitude: number) => Promise<void>;
+import { LOCATION_SOCKET_URL, COLLECT_SOCKET_URL, GAME_DATE, GAME_LENGTH, API } from "@/utils/constants";
+import type { LocationData, User } from "@/types";
 
-const useLocationSocket = (
-  user: User | null,
-  mapRef: React.RefObject<mapboxgl.Map | null>,
-//   fetchAndUpdateBoxes: FetchAndUpdateBoxes
-) => {
+const useLocationSocket = (user: User | null, mapRef: React.RefObject<mapboxgl.Map | null>) => {
   const [currentLocation, setCurrentLocation] = useState<GeolocationPosition | null>(null);
   const markersSocket = useRef<WebSocket | null>(null);
+  const collectSocket = useRef<WebSocket | null>(null);
   const markersRef = useRef({});
   const userIdRef = useRef<string | null>(null);
   const mapCenteredRef = useRef(false);
@@ -47,6 +43,10 @@ const useLocationSocket = (
       const data = await response.json();
       if (data.collect) {
         router.push(`/claim/${data.collect.points}`);
+        // Send a message to the collect socket
+        if (collectSocket.current && collectSocket.current.readyState === WebSocket.OPEN) {
+          collectSocket.current.send(JSON.stringify({ action: "boxCollected", data }));
+        }
       }
 
       const map = mapRef.current;
@@ -143,26 +143,54 @@ const useLocationSocket = (
       markersSocket.current?.close();
       navigator.geolocation.clearWatch(watchId);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  // COLLECTION SOCKET
+  useEffect(() => {
+    if (!user?.id) return;
+
+    const connectCollectSocket = () => {
+      collectSocket.current = new WebSocket(COLLECT_SOCKET_URL);
+
+      collectSocket.current.onopen = () => {
+        console.log("Collect WebSocket Connected");
+      };
+
+      collectSocket.current.onerror = (error) => {
+        console.error("Collect WebSocket Error", error);
+      };
+
+      collectSocket.current.onclose = () => {
+        console.log("Collect WebSocket Disconnected, attempting to reconnect...");
+        setTimeout(connectCollectSocket, 3000);
+      };
+    };
+
+    connectCollectSocket();
+
+    return () => {
+      collectSocket.current?.close();
+    };
   }, [user]);
 
   const updateMarkers = (map: mapboxgl.Map, message: LocationData) => {
     if (map && message.id && message.latitude && message.longitude) {
-        // @ts-ignore
-        const existingMarker = markersRef.current[message.id];
-        if (existingMarker) {
-            existingMarker.setLngLat([message.longitude, message.latitude]);
-        } else {
-            const div = document.createElement("div");
-            const img = document.createElement("img");
-            div.className = message.id === user?.id ? "user-marker" : "opponent-marker";
-            img.src = message.image;
-            div.appendChild(img);
+      // @ts-ignore
+      const existingMarker = markersRef.current[message.id];
+      if (existingMarker) {
+        existingMarker.setLngLat([message.longitude, message.latitude]);
+      } else {
+        const div = document.createElement("div");
+        const img = document.createElement("img");
+        div.className = message.id === user?.id ? "user-marker" : "opponent-marker";
+        img.src = message.image;
+        div.appendChild(img);
 
-            const newMarker = new mapboxgl.Marker(div).setLngLat([message.longitude, message.latitude]).addTo(map);
-            // @ts-ignore
-            markersRef.current[message.id] = newMarker;
-        }
+        const newMarker = new mapboxgl.Marker(div).setLngLat([message.longitude, message.latitude]).addTo(map);
+        // @ts-ignore
+        markersRef.current[message.id] = newMarker;
+      }
     }
   };
 

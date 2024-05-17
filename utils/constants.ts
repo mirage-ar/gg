@@ -1,5 +1,7 @@
 // CONSTANTS
 export const LOCATION_SOCKET_URL = "wss://djltygczfk.execute-api.us-east-1.amazonaws.com/dev";
+export const COLLECT_SOCKET_URL = "wss://djltygczfk.execute-api.us-east-1.amazonaws.com/dev";
+
 export const CHAT_SOCKET_URL = "wss://eo1vie1516.execute-api.us-east-1.amazonaws.com/dev";
 export const GET_MESSAGES_URL = "https://messages.koji.im";
 
