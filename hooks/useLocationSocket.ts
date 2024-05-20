@@ -41,7 +41,7 @@ const useLocationSocket = (user: User | null, mapRef: React.RefObject<mapboxgl.M
         }),
       });
       const data = await response.json();
-      
+
       if (data.collect) {
         // send collect box message
         const collectData = {
@@ -53,14 +53,16 @@ const useLocationSocket = (user: User | null, mapRef: React.RefObject<mapboxgl.M
           longitude: data.collect.longitude,
           timestamp: Date.now(),
         };
-        
+
         // Send a message to the collect socket
         if (collectSocket.current && collectSocket.current.readyState === WebSocket.OPEN) {
+          console.log("sending collection", collectData);
           collectSocket.current.send(JSON.stringify({ action: "boxCollected", data: collectData }));
         }
 
         // Redirect to claim page
-        router.push(`/claim/${data.collect.points}`);
+        // TODO: turn back on
+        // router.push(`/claim/${data.collect.points}`);
       }
 
       const map = mapRef.current;
