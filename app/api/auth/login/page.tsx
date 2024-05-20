@@ -10,7 +10,7 @@ import Timer from "@/components/timer/TImer";
 import styles from "./page.module.css";
 
 import { getGameStartTime } from "@/utils";
-import { API, GAME_DATE, PLAYER_COUNT } from "@/utils/constants";
+import { GAME_API, GAME_DATE, PLAYER_COUNT } from "@/utils/constants";
 import { useUser } from "@/hooks";
 
 const FIVE_MINUTES = 5 * 60 * 1000;
@@ -60,7 +60,7 @@ const LoginPage = () => {
   useEffect(() => {
     const getPlayerCount = async () => {
       try {
-        const response = await fetch(`${API}/players`);
+        const response = await fetch(`${GAME_API}/players`);
         const data = await response.json();
         setPlayerCount(data);
       } catch (error) {

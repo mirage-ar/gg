@@ -1,7 +1,7 @@
 import NextAuth, { SessionStrategy } from "next-auth";
 import TwitterProvider from "next-auth/providers/twitter";
 import * as Sentry from "@sentry/nextjs";
-import { API } from "@/utils/constants";
+import { GAME_API } from "@/utils/constants";
 
 const OPTIONS = {
   session: {
@@ -28,57 +28,69 @@ const OPTIONS = {
       return baseUrl;
     },
 
-    // TODO: make sure we have user wallet info - should come from mint page
     async signIn({ user, account, profile }: any) {
       try {
-        // CREATE USER
-        const response = await fetch(`${API}/user`, {
+        // TODO: CREATE OR UPDATE USER IN PRISMA
+        // PULL USER DATA FROM PRISMA
+
+        // CREATE GAME USER
+        const response = await fetch(`${GAME_API}/user`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ data: { id: user.id, username: user.username, image: user.image } }),
+          body: JSON.stringify({
+            data: {
+              id: user.id,
+              username: user.username,
+              image: user.image,
+              // TODO: remove this hardcoded wallet and pull from prisma user
+              wallet: "FG22CkapS12Qj5MdwH8p6Mb8UqxB7BDTaJkkc3x6PJ1a",
+            },
+          }),
         });
 
-        return true; // Sign-in successful
+        // Fetch additional user details (e.g., wallet information)
+        const result = await response.json();
+        if (result.success === false) {
+          throw new Error(result.error);
+        }
+        return true;
       } catch (error) {
-        // First, log the error to Sentry for detailed error reporting
         if (error instanceof Error) {
           Sentry.captureException(error);
         }
-
-        // Then, log the error message to the server console for visibility
         const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
         console.error("SignIn error:", errorMessage);
 
-        // Decide on a user-friendly error message to throw // TODO: not using this anymore
-        if (errorMessage === "UserLimitExceeded") {
-          throw new Error("User limit reached. Sign up is closed.");
-        }
-
-        // Throw a generic error for the user without exposing specific details
         throw new Error("An unexpected error occurred. Please try again.");
       }
     },
 
-    async session({ session, token }: any) {
-      if (token) {
-        try {
-          session.user.id = token.sub;
-          session.user.username = token.username;
-        } catch (error) {
-          console.error("Session error:", error);
-          throw new Error("An unexpected error occurred. Please try again.");
-        }
-      }
-      return session;
-    },
     async jwt({ token, user }: any) {
       if (user) {
-        // token.id = user.id;
-        token.username = user?.username; // Store custom fields in JWT
+        const response = await fetch(`${GAME_API}/user/${user.id}`);
+
+        // Fetch additional user details (e.g., wallet information)
+        const result = await response.json();
+        const userDetails = result.data;
+
+        token.id = user.id;
+        token.username = user.username;
+        token.wallet = userDetails.wallet;
+
+        console.log("JWT token:", token);
       }
       return token;
+    },
+
+    async session({ session, token }: any) {
+      if (token) {
+        session.user.id = token.id;
+        session.user.username = token.username;
+        session.user.wallet = token.wallet; // Add wallet to session
+      }
+      return session;
     },
   },
   pages: {

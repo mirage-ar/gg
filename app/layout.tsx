@@ -5,8 +5,6 @@ import MapboxMap from "@/components/map/MapboxMap";
 
 import "./globals.css";
 
-import GameTimer from "@/components/game/GameTimer";
-
 export function generateViewport() {
   return {
     themeColor: "#000",
@@ -24,11 +22,9 @@ export const metadata: Metadata = {
   title: "GG",
   description: "GG",
   // appleWebApp: true, // opens every link in a share page
-  themeColor: "#000000",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-
   return (
     <html lang="en">
       <body>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { LeaderboardItem } from "@/types";
-import { API, POLLING_TIME } from "@/utils/constants";
+import { GAME_API, POLLING_TIME } from "@/utils/constants";
 
 export default function useLeaderboard(id: string | undefined) {
   const [leaderboard, setLeaderboard] = useState<LeaderboardItem[]>([]);
@@ -13,7 +13,7 @@ export default function useLeaderboard(id: string | undefined) {
     if (!id) return;
     const fetchLeaderboard = async () => {
       try {
-        const response = await fetch(`${API}/leaderboard/${id}`);
+        const response = await fetch(`${GAME_API}/leaderboard/${id}`);
         const data = await response.json();
         setLeaderboard(data.leaderboard);
         setUserRank(data.userRank);

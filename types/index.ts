@@ -2,8 +2,7 @@ export type User = {
   id: string;
   image: string;
   username: string;
-  points?: number;
-  boxes?: number;
+  wallet: string;
 };
 
 export type LocationData = {

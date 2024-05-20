@@ -1,5 +1,5 @@
 import { ScoreData } from "@/types";
-import { API } from "@/utils/constants";
+import { GAME_API } from "@/utils/constants";
 import { useState, useEffect } from "react";
 
 export default function useScore(id?: string) {
@@ -10,7 +10,7 @@ export default function useScore(id?: string) {
     if (!id) return;
     const fetchPointData = async () => {
       try {
-        const response = await fetch(`${API}/score/${id}`);
+        const response = await fetch(`${GAME_API}/score/${id}`);
         const userScore: ScoreData = await response.json();
         const userPoints = userScore?.points ?? 0;
         const userBoxes = userScore?.boxes ?? 0;

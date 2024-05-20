@@ -4,7 +4,7 @@ import mapboxgl from "mapbox-gl";
 import { getGameStartTime } from "@/utils";
 import { encodeGeoHash } from "@/utils/geoHash";
 
-import { LOCATION_SOCKET_URL, GAME_DATE, GAME_LENGTH, API, COLLECT_SOCKET_URL } from "@/utils/constants";
+import { LOCATION_SOCKET_URL, GAME_DATE, GAME_LENGTH, GAME_API, COLLECT_SOCKET_URL } from "@/utils/constants";
 import type { LocationData, User } from "@/types";
 
 const useLocationSocket = (user: User | null, mapRef: React.RefObject<mapboxgl.Map | null>) => {
@@ -26,7 +26,7 @@ const useLocationSocket = (user: User | null, mapRef: React.RefObject<mapboxgl.M
   const fetchAndUpdateBoxes = async (latitude: number, longitude: number) => {
     try {
       const userGeoHash = encodeGeoHash(latitude, longitude);
-      const response = await fetch(`${API}/collect`, {
+      const response = await fetch(`${GAME_API}/collect`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -48,6 +48,7 @@ const useLocationSocket = (user: User | null, mapRef: React.RefObject<mapboxgl.M
           id: data.collect.id,
           username: user?.username,
           image: user?.image,
+          wallet: user?.wallet,
           points: data.collect.points,
           latitude: data.collect.latitude,
           longitude: data.collect.longitude,
@@ -57,7 +58,7 @@ const useLocationSocket = (user: User | null, mapRef: React.RefObject<mapboxgl.M
         // Send a message to the collect socket
         if (collectSocket.current && collectSocket.current.readyState === WebSocket.OPEN) {
           console.log("sending collection", collectData);
-          collectSocket.current.send(JSON.stringify({ action: "boxCollected", data: collectData }));
+          collectSocket.current.send(JSON.stringify({ action: "sendmessage", data: collectData }));
         }
 
         // Redirect to claim page
@@ -108,7 +109,8 @@ const useLocationSocket = (user: User | null, mapRef: React.RefObject<mapboxgl.M
               mapCenteredRef.current = true;
             }
 
-            if (hasOnboarded || calculateTimeRemaining() > 0) {
+            if (hasOnboarded && calculateTimeRemaining() > 0) {
+                console.log("here");
               fetchAndUpdateBoxes(position.coords.latitude, position.coords.longitude);
             }
 
@@ -170,6 +172,10 @@ const useLocationSocket = (user: User | null, mapRef: React.RefObject<mapboxgl.M
 
       collectSocket.current.onopen = () => {
         console.log("Collect WebSocket Connected");
+      };
+
+      collectSocket.current.onmessage = (event) => {
+        console.log("Collect WebSocket Message", event.data);
       };
 
       collectSocket.current.onerror = (error) => {
