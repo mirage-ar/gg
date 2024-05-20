@@ -109,7 +109,6 @@ const useLocationSocket = (user: User | null, mapRef: React.RefObject<mapboxgl.M
             }
 
             if (hasOnboarded && calculateTimeRemaining() > 0) {
-              console.log("here");
               fetchAndUpdateBoxes(position.coords.latitude, position.coords.longitude);
             }
 

@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from "react";
 import { ApplicationProvider } from "@/state/context";
 import GameTimer from "@/components/game/GameTimer";
 import { useUser } from "@/hooks";
-import { GAME_GAME_API } from "@/utils/constants";
+import { GAME_API } from "@/utils/constants";
 import { signOut } from "next-auth/react";
 
 export default function Template({ children }: { children: React.ReactNode }) {
@@ -13,7 +13,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const checkUser = async () => {
       if (user) {
-        const response = await fetch(`${GAME_GAME_API}/user/${user?.id}`);
+        const response = await fetch(`${GAME_API}/user/${user?.id}`);
         const result = await response.json();
 
         if (result.success === false) {
