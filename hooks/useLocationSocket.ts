@@ -62,8 +62,7 @@ const useLocationSocket = (user: User | null, mapRef: React.RefObject<mapboxgl.M
         }
 
         // Redirect to claim page
-        // TODO: turn back on
-        // router.push(`/claim/${data.collect.points}`);
+        router.push(`/claim/${data.collect.points}`);
       }
 
       const map = mapRef.current;
@@ -110,7 +109,7 @@ const useLocationSocket = (user: User | null, mapRef: React.RefObject<mapboxgl.M
             }
 
             if (hasOnboarded && calculateTimeRemaining() > 0) {
-                console.log("here");
+              console.log("here");
               fetchAndUpdateBoxes(position.coords.latitude, position.coords.longitude);
             }
 

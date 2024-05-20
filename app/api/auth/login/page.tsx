@@ -75,6 +75,7 @@ const LoginPage = () => {
     signIn("twitter", { callbackUrl: "/" });
   };
 
+  // TODO: turn on signin overlays
   // // ------ APP OVERLAY ------
   // if (!isStandalone) {
   //   return (
