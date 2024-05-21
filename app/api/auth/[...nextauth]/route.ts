@@ -2,6 +2,7 @@ import NextAuth, { SessionStrategy } from "next-auth";
 import TwitterProvider from "next-auth/providers/twitter";
 import * as Sentry from "@sentry/nextjs";
 import { GAME_API } from "@/utils/constants";
+import prisma from "@/utils/prisma";
 
 const OPTIONS = {
   session: {
@@ -30,8 +31,18 @@ const OPTIONS = {
 
     async signIn({ user, account, profile }: any) {
       try {
-        // TODO: CREATE OR UPDATE USER IN PRISMA
-        // PULL USER DATA FROM PRISMA
+        const prismaUser = await prisma.user.findUnique({
+          where: {
+            twitterId: user.id,
+          },
+        });
+
+        // TODO: remove for testnet testing
+        if (!prismaUser) {
+          throw new Error("NO PRISMA USER");
+        }
+
+        console.log("prismaUser", prismaUser);
 
         // CREATE GAME USER
         const response = await fetch(`${GAME_API}/user`, {
@@ -44,8 +55,7 @@ const OPTIONS = {
               id: user.id,
               username: user.username,
               image: user.image,
-              // TODO: remove this hardcoded wallet and pull from prisma user
-              wallet: "FG22CkapS12Qj5MdwH8p6Mb8UqxB7BDTaJkkc3x6PJ1a",
+              wallet: prismaUser.wallet,
             },
           }),
         });
@@ -60,10 +70,11 @@ const OPTIONS = {
         if (error instanceof Error) {
           Sentry.captureException(error);
         }
+
         const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
         console.error("SignIn error:", errorMessage);
 
-        throw new Error("An unexpected error occurred. Please try again.");
+        throw new Error(errorMessage);
       }
     },
 
@@ -78,8 +89,6 @@ const OPTIONS = {
         token.id = user.id;
         token.username = user.username;
         token.wallet = userDetails.wallet;
-
-        console.log("JWT token:", token);
       }
       return token;
     },

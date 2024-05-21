@@ -87,7 +87,7 @@ const useLocationSocket = (user: User | null, mapRef: React.RefObject<mapboxgl.M
       markersSocket.current = new WebSocket(LOCATION_SOCKET_URL);
 
       markersSocket.current.onopen = () => {
-        console.log("WebSocket Connected");
+        console.log("Markers WebSocket Connected");
 
         watchId = navigator.geolocation.watchPosition(
           async (position) => {
@@ -181,8 +181,8 @@ const useLocationSocket = (user: User | null, mapRef: React.RefObject<mapboxgl.M
       };
 
       collectSocket.current.onclose = () => {
-        console.log("Collect WebSocket Disconnected, attempting to reconnect...");
-        setTimeout(connectCollectSocket, 3000);
+        console.log("Collect WebSocket Disconnected.");
+        // setTimeout(connectCollectSocket, 3000);
       };
     };
 
