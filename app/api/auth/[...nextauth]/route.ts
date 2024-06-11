@@ -37,7 +37,6 @@ const OPTIONS = {
           },
         });
 
-        // TODO: remove for testnet testing
         if (!prismaUser) {
           throw new Error("NO PRISMA USER");
         }

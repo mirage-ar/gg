@@ -2,6 +2,7 @@
 
 import { GameDate } from "@/types";
 import { GAME_TIME } from "./constants";
+import * as DateFNS from "date-fns";
 
 /* Calculate distance between two points in meters */
 export const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
@@ -30,4 +31,21 @@ export function getGameStartTime({ year, month, day }: GameDate) {
   const easternTime = new Date(Date.UTC(year, zeroIndexMonth, day, GAME_TIME + 4, 0, 0));
 
   return easternTime.getTime();
+}
+
+export function formatDate(date: Date) {
+  return DateFNS.formatDistanceToNow(new Date(date), { addSuffix: true })
+    .replace("about ", "")
+    .replace("less than a minute ago", "now")
+    .replace(" ", "")
+    .replace("minutes", "m")
+    .replace("minute", "m")
+    .replace("hours", "h")
+    .replace("hour", "h")
+    .replace("days", "d")
+    .replace("day", "d")
+    .replace("months", "mo")
+    .replace("month", "mo")
+    .replace("years", "y")
+    .replace("year", "y");
 }

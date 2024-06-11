@@ -20,12 +20,27 @@ const ClaimPage: React.FC = () => {
 
   const [tapped, setTapped] = useState(false);
 
+  const level = Number(points);
+  let color;
+
+  if (level > 5000) {
+    color = "#FF0000";
+  } else if (level > 1000) {
+    color = "#F5E900";
+  } else if (level > 500) {
+    color = "#0082F2";
+  } else if (level > 100) {
+    color = "#E557F0";
+  } else {
+    color = "#00F0F4";
+  }
+
   const handleTap = () => {
     if (tapped) {
       router.push("/");
     }
     setTapped(true);
-  };  
+  };
 
   return (
     <main className={styles.container}>
@@ -33,8 +48,8 @@ const ClaimPage: React.FC = () => {
         <TopBar />
         {tapped && <div className={styles.pointsContainer}>+ {formattedPoints}</div>}
         <div className={styles.modelContainer}>
-          <div style={{ height: "400px", width: "100%", overflow: "hidden"}}>
-            <ModelViewer name={tapped ? "koji-open" : "koji-closed"} />
+          <div style={{ height: "400px", width: "100%", overflow: "hidden" }}>
+            <ModelViewer name={tapped ? "koji-open" : "koji-closed"} color={color} />
           </div>
           <p className={`${!tapped ? styles.glow : ""}`}>Tap to {tapped ? "Close" : "Open!"}</p>
         </div>

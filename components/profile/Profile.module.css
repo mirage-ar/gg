@@ -93,24 +93,23 @@
 
 .button {
   position: absolute;
-  bottom: 60px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 20px;
+  left: calc(95% - 80px);
   display: flex;
   justify-content: center;
   align-items: center;
 
-  margin-top: 20px;
+  /* margin-top: 20px; */
 
-  width: 100px;
-  height: 60px;
+  width: 80px;
+  height: 40px;
   /* padding: 5px 16px; */
 
   border-radius: var(--corner4, 4px);
-  background: var(--g, #42ff60);
+  background: var(--g);
 
   border: none;
   color: var(--b);
   text-transform: uppercase;
-  font-size: 18px;
+  font-size: 14px;
 }

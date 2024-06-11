@@ -3,11 +3,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useUser } from "@/hooks";
-import * as DateFNS from "date-fns";
 import styles from "./Chat.module.css";
 
 import { ChatMessage } from "@/types";
 import { GET_MESSAGES_URL, CHAT_SOCKET_URL } from "@/utils/constants";
+import { formatDate } from "@/utils";
 
 const Chat: React.FC = () => {
   const user = useUser();
@@ -107,9 +107,7 @@ const Chat: React.FC = () => {
                   />
                   <p className={styles.chatMessageName}>{message.username}</p>
                 </div>
-                <p className={styles.chatMessageTimestamp}>
-                  {DateFNS.formatDistance(new Date(message.timestamp), new Date(), { addSuffix: true })}
-                </p>
+                <p className={styles.chatMessageTimestamp}>{formatDate(new Date(message.timestamp))}</p>
               </div>
               <p className={styles.chatMessage}>{message.message}</p>
             </div>
