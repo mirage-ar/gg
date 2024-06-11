@@ -38,6 +38,7 @@ const useLocationSocket = (user: User | null, mapRef: React.RefObject<mapboxgl.M
           longitude,
           collectorUsername: user?.username,
           collectorImage: user?.image,
+          wallet: user?.wallet,
         }),
       });
       const data = await response.json();
