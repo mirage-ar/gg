@@ -182,7 +182,7 @@ const useLocationSocket = (user: User | null, mapRef: React.RefObject<mapboxgl.M
 
       collectSocket.current.onclose = () => {
         console.log("Collect WebSocket Disconnected.");
-        // setTimeout(connectCollectSocket, 3000);
+        setTimeout(connectCollectSocket, 3000);
       };
     };
 
