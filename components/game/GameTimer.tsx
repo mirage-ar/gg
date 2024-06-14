@@ -35,14 +35,17 @@ const GameTimer = () => {
       if (timeRemaining <= 0) {
         clearInterval(interval);
 
-        if (!pathname.includes("gameover")) {
-          router.push("/gameover");
+        if (pathname.includes("login") || pathname.includes("gameover")) {
+          return;
         }
+
+        router.push("/gameover");
       }
     }, 1000);
 
     return () => clearInterval(interval);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeRemaining]);
 
   return (

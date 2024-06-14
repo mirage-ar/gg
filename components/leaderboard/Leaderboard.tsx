@@ -29,7 +29,7 @@ const Leaderboard: React.FC = () => {
             <div className={styles.playerInfo}>
               <div className={styles.playerRank}>{userRank}</div>
 
-              <Image className={styles.playerImage} src={user?.image || ""} alt="User Image" width={150} height={150} />
+              <Image className={styles.playerImage} src={user?.image || "/icons/koji.png"} alt="User Image" width={150} height={150} />
 
               <div className={styles.playerName}>@{user?.username}</div>
             </div>
