@@ -4,7 +4,7 @@ import mapboxgl from "mapbox-gl";
 import { getGameStartTime } from "@/utils";
 import { encodeGeoHash } from "@/utils/geoHash";
 
-import { LOCATION_SOCKET_URL, GAME_DATE, GAME_LENGTH, GAME_API, COLLECT_SOCKET_URL } from "@/utils/constants";
+import { LOCATION_SOCKET_URL, GAME_DATE, GAME_LENGTH, GAME_API } from "@/utils/constants";
 import type { LocationData, User } from "@/types";
 
 const useLocationSocket = (user: User | null, mapRef: React.RefObject<mapboxgl.Map | null>) => {
@@ -161,37 +161,6 @@ const useLocationSocket = (user: User | null, mapRef: React.RefObject<mapboxgl.M
       navigator.geolocation.clearWatch(watchId);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
-
-  useEffect(() => {
-    if (!user?.id) return;
-
-    const connectCollectSocket = () => {
-      collectSocket.current = new WebSocket(COLLECT_SOCKET_URL);
-
-      collectSocket.current.onopen = () => {
-        console.log("Collect WebSocket Connected");
-      };
-
-      collectSocket.current.onmessage = (event) => {
-        console.log("Collect WebSocket Message", event.data);
-      };
-
-      collectSocket.current.onerror = (error) => {
-        console.error("Collect WebSocket Error", error);
-      };
-
-      collectSocket.current.onclose = () => {
-        console.log("Collect WebSocket Disconnected.");
-        setTimeout(connectCollectSocket, 3000);
-      };
-    };
-
-    connectCollectSocket();
-
-    return () => {
-      collectSocket.current?.close();
-    };
   }, [user]);
 
   const updateMarkers = (map: mapboxgl.Map, message: LocationData) => {
