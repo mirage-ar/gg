@@ -35,7 +35,7 @@ const LeaderboardPage: React.FC = () => {
         {/* ------ USER SCORE ------ */}
         <div className={styles.scoreRow}>
           <div className={styles.scoreLabel}>Score</div>
-          <div className={styles.scoreValue}>{withCommas(userScore || 0)}</div>
+          <div className={styles.scoreValue}>{withCommas(userScore)}</div>
         </div>
         {/* ------ PRIZE POOL ------ */}
         {/* <div className={styles.scoreRow}>

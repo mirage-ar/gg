@@ -5,13 +5,12 @@ import Image from "next/image";
 import { signOut } from "next-auth/react";
 import styles from "./Profile.module.css";
 
-import { useLeaderboard, useScore, useUser } from "@/hooks";
+import { useLeaderboard, useUser } from "@/hooks";
 import { withCommas } from "@/utils";
 
 const Profile: React.FC = () => {
   const user = useUser();
-  const { score, boxes } = useScore(user?.id);
-  const { leaderboard, userRank } = useLeaderboard(user?.id);
+  const { leaderboard, userRank, userScore, userBoxes } = useLeaderboard(user?.id);
 
   return (
     <div className={styles.container}>
@@ -32,12 +31,12 @@ const Profile: React.FC = () => {
         {/* ------ USER SCORE ------ */}
         <div className={styles.scoreRow}>
           <div className={styles.scoreLabel}>Score</div>
-          <div className={styles.scoreValue}>{withCommas(score)}</div>
+          <div className={styles.scoreValue}>{withCommas(userScore)}</div>
         </div>
         {/* ------ USER BOXES ------ */}
         <div className={styles.scoreRow}>
           <div className={styles.scoreLabel}>Boxes</div>
-          <div className={styles.scoreValue}>{boxes}</div>
+          <div className={styles.scoreValue}>{userBoxes}</div>
         </div>
       </div>
       <button className={styles.button} onClick={() => signOut()}>Logout</button>

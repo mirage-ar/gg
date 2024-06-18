@@ -33,7 +33,7 @@ const Leaderboard: React.FC = () => {
 
               <div className={styles.playerName}>@{user?.username}</div>
             </div>
-            <div className={styles.playerScore}>{withCommas(userScore || 0)}</div>
+            <div className={styles.playerScore}>{withCommas(userScore)}</div>
           </div>
 
           {/* ------ OTHER PLAYERS ROWS ------ */}

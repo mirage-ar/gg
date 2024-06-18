@@ -5,9 +5,9 @@ import { GAME_API, POLLING_TIME } from "@/utils/constants";
 
 export default function useLeaderboard(id: string | undefined) {
   const [leaderboard, setLeaderboard] = useState<LeaderboardItem[]>([]);
-  const [userRank, setUserRank] = useState<number | null>(null);
-  const [userScore, setUserScore] = useState<number | null>(null);
-  const [userBoxes, setUserBoxes] = useState<number | null>(null);
+  const [userRank, setUserRank] = useState<number>(0);
+  const [userScore, setUserScore] = useState<number>(0);
+  const [userBoxes, setUserBoxes] = useState<number>(0);
 
   useEffect(() => {
     if (!id) return;

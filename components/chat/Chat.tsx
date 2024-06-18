@@ -54,6 +54,7 @@ const Chat: React.FC = () => {
         timestamp: Date.now(),
         username: user?.username || "Anonymous",
         image: user?.image || "",
+        source: "hunter",
       };
       webSocket.current.send(JSON.stringify({ action: "sendmessage", data: messageData }));
       setInputMessage("");

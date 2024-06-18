@@ -16,16 +16,12 @@ export type LocationData = {
   timestamp: number;
 };
 
-export type ScoreData = {
-  points: number;
-  boxes: number;
-};
-
 export type ChatMessage = {
   message: string;
   timestamp: number;
   username: string;
   image: string;
+  source: string;
 };
 
 export type LeaderboardItem = {
@@ -34,6 +30,7 @@ export type LeaderboardItem = {
   image: string;
   wallet: number;
   points: number;
+  boxes: number
 };
 
 export type GameDate = {
