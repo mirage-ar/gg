@@ -6,6 +6,11 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "uploads-1716480673109.s3.amazonaws.com",
+        port: "",
+      },
+      {
+        protocol: "https",
         hostname: "pbs.twimg.com",
         port: "",
       },

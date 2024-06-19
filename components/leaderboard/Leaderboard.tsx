@@ -20,7 +20,7 @@ const Leaderboard: React.FC = () => {
       <div className={styles.leaderboardContainer}>
         <div className={styles.leaderboardHeader}>
           Leaderboard
-          <Image src="/icons/24/g.svg" alt="G" width={24} height={24} />
+          <Image src="/icons/icons-24/g.svg" alt="G" width={24} height={24} />
         </div>
         <div className={styles.leaderboardScores}>
 

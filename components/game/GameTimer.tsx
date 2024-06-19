@@ -57,7 +57,7 @@ const GameTimer = () => {
           <div className={styles.timer}>
             <Timer timeRemaining={timeRemaining} />
           </div>
-          <Image src="/icons/24/timer.svg" alt="timer icon" width={24} height={24} />
+          <Image src="/icons/icons-16/timer.svg" alt="timer icon" width={16} height={16} />
         </div>
       </div>
     )

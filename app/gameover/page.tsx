@@ -30,7 +30,7 @@ const GameOverPage: React.FC = () => {
             <h3>Score</h3>
             <div className={styles.amount}>
               <span>{userScore}</span>
-              <Image src="/icons/24/g.svg" alt="Coin" width={24} height={24} />
+              <Image src="/icons/icons-24/g.svg" alt="Coin" width={24} height={24} />
             </div>
           </div>
 
@@ -38,7 +38,7 @@ const GameOverPage: React.FC = () => {
             <h3>Boxes</h3>
             <div className={styles.amount}>
               <span>{userBoxes}</span>
-              <Image src="/icons/24/box-opened.svg" alt="Coin" width={24} height={24} />
+              <Image src="/icons/icons-24/box-opened.svg" alt="Coin" width={24} height={24} />
             </div>
           </div>
 
@@ -46,7 +46,7 @@ const GameOverPage: React.FC = () => {
             <h3>Rank</h3>
             <div className={styles.amount}>
               <span>{userRank}</span>
-              <Image src="/icons/24/chart.svg" alt="Coin" width={24} height={24} />
+              <Image src="/icons/icons-24/chart.svg" alt="Coin" width={24} height={24} />
             </div>
           </div>
         </div>

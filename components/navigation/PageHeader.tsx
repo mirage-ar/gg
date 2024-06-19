@@ -9,7 +9,7 @@ const PageHeader: React.FC = () => {
 
   return (
     <button className={styles.header} onClick={() => router.push("/")}>
-      {/* <Image src="/icons/24/arrow-b.svg" alt="Back Button" width={24} height={24} /> */}
+      {/* <Image src="/icons/icons-24/arrow-b.svg" alt="Back Button" width={24} height={24} /> */}
       <h1 style={{color: "#fff", fontSize: "32px"}}>x</h1>
     </button>
   );

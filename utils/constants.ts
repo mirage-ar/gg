@@ -1,11 +1,9 @@
 // CONSTANTS
-export const COLLECT_SOCKET_URL = "wss://a40233o696.execute-api.us-east-1.amazonaws.com/dev";
-export const LOCATION_SOCKET_URL = "wss://s24f0pma67.execute-api.us-east-1.amazonaws.com/dev";
-export const CHAT_SOCKET_URL = "wss://khukqi1flb.execute-api.us-east-1.amazonaws.com/dev";
+export const LOCATION_SOCKET_URL = "wss://gox41kvhl2.execute-api.us-east-1.amazonaws.com/dev";
+export const CHAT_SOCKET_URL = "wss://x888tiut0h.execute-api.us-east-1.amazonaws.com/dev";
 
 export const GET_MESSAGES_URL = "https://messages.koji.im";
-
-export const GAME_API = "https://ybobrsrwn3.execute-api.us-east-1.amazonaws.com";
+export const GAME_API = "https://api.koji.im";
 
 export const POLLING_TIME = 5000;
 
