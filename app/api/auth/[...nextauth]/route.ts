@@ -38,21 +38,7 @@ const OPTIONS = {
         });
 
         if (!prismaUser) {
-          const response = await fetch(`${GAME_API}/user`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              data: {
-                id: user.id,
-                username: user.username,
-                image: user.image,
-                // wallet: prismaUser.wallet,
-              },
-            }),
-          });
-          // throw new Error("NO PRISMA USER");
+          throw new Error("NO PRISMA USER");
         }
 
         console.log("prismaUser", prismaUser);
