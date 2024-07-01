@@ -2,6 +2,7 @@ import prisma from "@/utils/prisma";
 
 import { GAME_API } from "@/utils/constants";
 
+// TODO: might need to move this to gg.zip
 export async function POST(request: Request) {
   const data = await request.json();
   const { username, image, twitterId } = data;
@@ -13,8 +14,8 @@ export async function POST(request: Request) {
       },
     });
 
-    if (!prismaUser) {
-        console.error("USER API: User not found");
+    if (!prismaUser || prismaUser.wallet === null) {
+        console.error("USER API: User not found or no wallet");
         return Response.json({ success: false, message: "User not found" });
     }
 
