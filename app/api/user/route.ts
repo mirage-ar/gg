@@ -40,14 +40,12 @@ export async function POST(request: Request) {
     // Fetch additional user details (e.g., wallet information)
     const result = await response.json();
     if (result.success === false) {
-        console.error("USER API: Could not create user");
         return Response.json({ success: false, message: "Could not create user" });
     }
 
 
     return Response.json({ success: true, message: "User created"});
   } catch (error) {
-    console.error("USER API: Error creating user", error);
     return Response.json({ success: false, message: "Could not create user" });
   }
 }
