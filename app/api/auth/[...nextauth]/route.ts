@@ -38,7 +38,7 @@ const OPTIONS = {
           },
         });
 
-        if (!prismaUser) {
+        if (!prismaUser || prismaUser.wallet === null) {
           throw new Error("NO PRISMA USER");
         }
 
