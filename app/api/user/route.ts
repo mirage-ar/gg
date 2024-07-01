@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     });
 
     if (!prismaUser || prismaUser.wallet === null) {
-        console.error("USER API: User not found or no wallet");
+        // console.error("USER API: User not found or no wallet");
         return Response.json({ success: false, message: "User not found" });
     }
 
