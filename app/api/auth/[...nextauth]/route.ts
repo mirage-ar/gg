@@ -31,7 +31,7 @@ const OPTIONS = {
 
     async signIn({ user, account, profile }: any) {
       try {
-        // TODO: there is a bunch of wrong twitterId in the database
+
         const prismaUser = await prisma.user.findUnique({
           where: {
             twitterId: user.id,
