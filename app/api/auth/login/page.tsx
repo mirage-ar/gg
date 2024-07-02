@@ -84,7 +84,6 @@ const LoginPage = () => {
     signIn("twitter", { callbackUrl: "/" });
   };
   
-  console.log(isStandalone);
   // ------ APP OVERLAY ------
   if (!isStandalone) {
     return (
