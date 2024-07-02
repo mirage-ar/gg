@@ -35,14 +35,23 @@ const LoginPage = () => {
     function isRunningStandaloneAndroid() {
       return window.matchMedia("(display-mode: standalone)").matches;
     }
-
+  
+    function isRunningStandaloneIOS() {
+      return (window.navigator as any).standalone === true;
+    }
+  
     function isAndroid() {
       return /Android/i.test(navigator.userAgent);
     }
-
-    const isStandalone = (window.navigator as any).standalone || isAndroid();
+  
+    function isIOS() {
+      return /iPad|iPhone|iPod/.test(navigator.userAgent);
+    }
+  
+    const isStandalone = isRunningStandaloneAndroid() || isRunningStandaloneIOS();
     setIsStandalone(isStandalone);
   }, [router]);
+  
 
   useEffect(() => {
     // console.log(timeRemaining);
@@ -74,7 +83,8 @@ const LoginPage = () => {
   const handleSignIn = async () => {
     signIn("twitter", { callbackUrl: "/" });
   };
-
+  
+  console.log(isStandalone);
   // ------ APP OVERLAY ------
   if (!isStandalone) {
     return (
