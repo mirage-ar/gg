@@ -19,7 +19,7 @@ const LoginPage = () => {
   const router = useRouter();
   const user = useUser();
 
-  const [isStandalone, setIsStandalone] = useState(false);
+  const [isStandalone, setIsStandalone] = useState(true);
   const [playerCount, setPlayerCount] = useState<number>(0);
 
   // Calculate initial time remaining immediately
@@ -31,26 +31,26 @@ const LoginPage = () => {
 
   const [timeRemaining, setTimeRemaining] = useState<number>(calculateTimeRemaining());
 
-  useEffect(() => {
-    function isRunningStandaloneAndroid() {
-      return window.matchMedia("(display-mode: standalone)").matches;
-    }
+  // useEffect(() => {
+  //   function isRunningStandaloneAndroid() {
+  //     return window.matchMedia("(display-mode: standalone)").matches;
+  //   }
   
-    function isRunningStandaloneIOS() {
-      return (window.navigator as any).standalone === true;
-    }
+  //   function isRunningStandaloneIOS() {
+  //     return (window.navigator as any).standalone === true;
+  //   }
   
-    function isAndroid() {
-      return /Android/i.test(navigator.userAgent);
-    }
+  //   function isAndroid() {
+  //     return /Android/i.test(navigator.userAgent);
+  //   }
   
-    function isIOS() {
-      return /iPad|iPhone|iPod/.test(navigator.userAgent);
-    }
+  //   function isIOS() {
+  //     return /iPad|iPhone|iPod/.test(navigator.userAgent);
+  //   }
   
-    const isStandalone = isRunningStandaloneAndroid() || isRunningStandaloneIOS();
-    setIsStandalone(isStandalone);
-  }, [router]);
+  //   const isStandalone = isRunningStandaloneAndroid() || isRunningStandaloneIOS();
+  //   setIsStandalone(isStandalone);
+  // }, [router]);
   
 
   useEffect(() => {
