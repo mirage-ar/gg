@@ -13,6 +13,7 @@ export const GAME_DATE = {
   day: 26,
 };
 
+// DELETE USERS BEFORE UPDATING GAME TIME
 export const GAME_TIME = 17;
 export const GAME_LENGTH = 60 * 60 * 1000;
 export const PLAYER_COUNT = 150;
