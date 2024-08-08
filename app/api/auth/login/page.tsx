@@ -14,6 +14,7 @@ import { GAME_API, GAME_DATE, PLAYER_COUNT } from "@/utils/constants";
 import { useUser } from "@/hooks";
 
 const FIVE_MINUTES = 5 * 60 * 1000;
+const TWO_MINUTES = 2 * 60 * 1000;
 
 const LoginPage = () => {
   const router = useRouter();
@@ -94,7 +95,7 @@ const LoginPage = () => {
   }
 
   // ------ TIMER OVERLAY ------
-  if (timeRemaining > FIVE_MINUTES) {
+  if (timeRemaining > TWO_MINUTES) {
     return (
       <>
         <div className={styles.container}>
