@@ -10,7 +10,7 @@ export const POLLING_TIME = 5000;
 export const GAME_DATE = {
   year: 2024,
   month: 8,
-  day: 8,
+  day: 10,
 };
 
 // DELETE USERS BEFORE UPDATING GAME TIME
