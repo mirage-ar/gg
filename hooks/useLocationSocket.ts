@@ -15,6 +15,8 @@ const useLocationSocket = (user: User | null, mapRef: React.RefObject<mapboxgl.M
   const userIdRef = useRef<string | null>(null);
   const mapCenteredRef = useRef(false);
 
+  const locationCount = useRef(0);
+
   const router = useRouter();
 
   const calculateTimeRemaining = () => {
@@ -109,9 +111,11 @@ const useLocationSocket = (user: User | null, mapRef: React.RefObject<mapboxgl.M
               mapCenteredRef.current = true;
             }
 
-            if (hasOnboarded && calculateTimeRemaining() > 0) {
+            if (hasOnboarded && calculateTimeRemaining() > 0 && locationCount.current > 5) {
               fetchAndUpdateBoxes(position.coords.latitude, position.coords.longitude);
             }
+
+            locationCount.current += 1;
 
             if (markersSocket.current && markersSocket.current.readyState === WebSocket.OPEN && user?.id) {
               const location = {
