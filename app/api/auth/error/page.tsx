@@ -11,6 +11,22 @@ const ErrorPage = () => {
   const searchParams = useSearchParams();
   const error = searchParams.get("error");
 
+  if (error === "BLACKLISTED") {
+    return (
+      <div className={styles.container}>
+        <Image src="/graphics/card.svg" alt="Logo" width={241} height={303} />
+        <div className={styles.subline}>
+          Your account has been
+          <br />
+          blacklisted.
+        </div>
+        <Link href="/">
+          <div className={styles.link}>Back to Login</div>
+        </Link>
+      </div>
+    );
+  }
+
   if (error === "NO PRISMA USER") {
     return (
       <div className={styles.container}>

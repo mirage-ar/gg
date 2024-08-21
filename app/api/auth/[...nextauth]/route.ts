@@ -4,6 +4,8 @@ import * as Sentry from "@sentry/nextjs";
 import { GAME_API } from "@/utils/constants";
 import prisma from "@/utils/prisma";
 
+import blacklist from "@/utils/blacklist";
+
 const OPTIONS = {
   session: {
     strategy: "jwt" as SessionStrategy,
@@ -40,6 +42,10 @@ const OPTIONS = {
 
         if (!prismaUser || prismaUser.wallet === null) {
           throw new Error("NO PRISMA USER");
+        }
+
+        if (blacklist.includes(user.id)) {
+          throw new Error("User is blacklisted");
         }
 
         console.log("prismaUser", prismaUser);
