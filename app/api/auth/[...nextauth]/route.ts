@@ -45,7 +45,7 @@ const OPTIONS = {
         }
 
         if (blacklist.includes(user.id)) {
-          throw new Error("User is blacklisted");
+          throw new Error("BLACKLISTED");
         }
 
         console.log("prismaUser", prismaUser);

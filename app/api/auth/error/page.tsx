@@ -14,15 +14,11 @@ const ErrorPage = () => {
   if (error === "BLACKLISTED") {
     return (
       <div className={styles.container}>
-        <Image src="/graphics/card.svg" alt="Logo" width={241} height={303} />
-        <div className={styles.subline}>
-          Your account has been
-          <br />
-          blacklisted.
+        <div className={styles.background} />
+        <div className={styles.errorContainer}>
+          <Image src="/icons/icons-24/error-box.svg" alt="Logo" width={96} height={96} />
+          <div className={`${styles.subline} ${styles.error}`}>You’ve been blacklisted</div>
         </div>
-        <Link href="/">
-          <div className={styles.link}>Back to Login</div>
-        </Link>
       </div>
     );
   }

@@ -14,12 +14,43 @@
   font-family: var(--diatype);
 }
 
+.background {
+  position: fixed;
+  top: calc(50% - (211px / 2));
+  left: calc(50% - (211px / 2));
+  width: 211px;
+  height: 211px;
+  flex-shrink: 0;
+  background-color: var(--r, #ff3030);
+  filter: blur(107px);
+  z-index: 1;
+}
+
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100dvh;
+  width: 100vw;
+  text-align: center;
+  gap: 24px;
+  z-index: 2;
+}
+
 .subline {
   color: var(--g, #42ff60);
   text-align: center;
   font-family: var(--connect);
   font-size: 32px;
   text-transform: uppercase;
+}
+
+.error {
+  color: var(--r, #ff3030);
+  text-align: center;
+  font-size: 28px;
+  text-transform: none;
 }
 
 .link {

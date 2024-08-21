@@ -41,6 +41,7 @@ const GameTimer = () => {
 
         router.push("/gameover");
       }
+      
     }, 1000);
 
     return () => clearInterval(interval);
