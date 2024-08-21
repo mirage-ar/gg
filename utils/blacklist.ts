@@ -9,9 +9,6 @@ const blacklist = [
   "986508212",
   "1755212118465413120",
   "755533320",
-
-  // FOR TESTING
-  "1655952645088219137",
 ];
 
 export default blacklist;
