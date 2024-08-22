@@ -59,7 +59,7 @@ const OPTIONS = {
           body: JSON.stringify({
             data: {
               id: user.id,
-              username: user.username,
+              username: prismaUser.username || user.username,
               image: user.image,
               wallet: prismaUser?.wallet,
             },
