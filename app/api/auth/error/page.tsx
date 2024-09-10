@@ -36,7 +36,7 @@ const ErrorPage = () => {
         </div>
         <Image src="/icons/icons-24/card.svg" alt="Logo" width={24} height={24} />
         <div className={styles.subline} style={{ color: "#FF61EF" }}>
-          GG.ZIP/MINT
+          GG.ZIP
         </div>
         <Link href="/">
           <div className={styles.link}>Back to Login</div>
