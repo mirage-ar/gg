@@ -28,7 +28,7 @@ const TopBar: React.FC = () => {
         <div className={styles.scoreAmountContainer}>
           <div className={styles.scoreAmount}>{withCommas(userScore)}</div>
           {/* <Image alt="G Icon" src="/icons/icons-16/g.svg" width={16} height={16} /> */}
-          <Image alt="G Icon" src="/icons/coins/wya-16.png" width={16} height={16} />
+          <Image alt="G Icon" src="/icons/coins/wya-24.png" width={24} height={24} />
           <div className={styles.boxAmountContainer}>
             <div className={styles.boxAmount}>
               <span className={styles.grey}>(</span>
