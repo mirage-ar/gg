@@ -30,7 +30,9 @@ const GameOverPage: React.FC = () => {
             <h3>Score</h3>
             <div className={styles.amount}>
               <span>{userScore}</span>
-              <Image src="/icons/icons-24/g.svg" alt="Coin" width={24} height={24} />
+              {/* <Image src="/icons/icons-24/g.svg" alt="Coin" width={24} height={24} /> */}
+              <Image src="/icons/coins/wya-24.png" alt="Coin" width={24} height={24} />
+
             </div>
           </div>
 

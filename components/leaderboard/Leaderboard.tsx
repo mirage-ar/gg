@@ -14,22 +14,26 @@ const Leaderboard: React.FC = () => {
 
   return (
     <div className={styles.container}>
-
-
       {/* ------ LEADERBOARD ------ */}
       <div className={styles.leaderboardContainer}>
         <div className={styles.leaderboardHeader}>
           Leaderboard
-          <Image src="/icons/icons-24/g.svg" alt="G" width={24} height={24} />
+          {/* <Image src="/icons/icons-24/g.svg" alt="G" width={24} height={24} /> */}
+          <Image src="/icons/coins/wya-24.png" alt="G" width={24} height={24} />
         </div>
         <div className={styles.leaderboardScores}>
-
           {/* ------ USER ROW ------ */}
           <div className={`${styles.leaderboardRow} ${styles.highlighted}`}>
             <div className={styles.playerInfo}>
               <div className={styles.playerRank}>{userRank}</div>
 
-              <Image className={styles.playerImage} src={user?.image || "/icons/koji.png"} alt="User Image" width={150} height={150} />
+              <Image
+                className={styles.playerImage}
+                src={user?.image || "/icons/koji.png"}
+                alt="User Image"
+                width={150}
+                height={150}
+              />
 
               <div className={styles.playerName}>@{user?.username}</div>
             </div>
