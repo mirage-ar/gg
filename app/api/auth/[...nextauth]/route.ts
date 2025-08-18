@@ -34,21 +34,21 @@ const OPTIONS = {
     async signIn({ user, account, profile }: any) {
       try {
 
-        const prismaUser = await prisma.user.findUnique({
-          where: {
-            twitterId: user.id,
-          },
-        });
+        // const prismaUser = await prisma.user.findUnique({
+        //   where: {
+        //     twitterId: user.id,
+        //   },
+        // });
 
-        if (!prismaUser || prismaUser.wallet === null) {
-          throw new Error("NO PRISMA USER");
-        }
+        // if (!prismaUser || prismaUser.wallet === null) {
+        //   throw new Error("NO PRISMA USER");
+        // }
 
-        if (blacklist.includes(user.id)) {
-          throw new Error("BLACKLISTED");
-        }
+        // if (blacklist.includes(user.id)) {
+        //   throw new Error("BLACKLISTED");
+        // }
 
-        console.log("prismaUser", prismaUser);
+        // console.log("prismaUser", prismaUser);
 
         // CREATE GAME USER
         const response = await fetch(`${GAME_API}/user`, {
@@ -59,9 +59,9 @@ const OPTIONS = {
           body: JSON.stringify({
             data: {
               id: user.id,
-              username: prismaUser.username || user.username,
+              username: user.username,
               image: user.image,
-              wallet: prismaUser?.wallet,
+              wallet: "8EDurUnRAKw5MEDiJtVeYBZS7h7kEVzvYwZpgUeuZAMd",
             },
           }),
         });
