@@ -11,18 +11,18 @@ export default function Template({ children }: { children: React.ReactNode }) {
   const user = useUser();
 
   useEffect(() => {
-    const checkUser = async () => {
-      if (user) {
-        const response = await fetch(`${GAME_API}/user/${user?.id}`);
-        const result = await response.json();
+    // const checkUser = async () => {
+    //   if (user) {
+    //     const response = await fetch(`${GAME_API}/user/${user?.id}`);
+    //     const result = await response.json();
 
-        if (result.success === false) {
-          signOut();
-        }
-      }
-    };
+    //     if (result.success === false) {
+    //       signOut();
+    //     }
+    //   }
+    // };
 
-    checkUser();
+    // checkUser();
   }, [user]);
 
   return (

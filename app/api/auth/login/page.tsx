@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
+// import { signIn } from "next-auth/react";
 import HomeScreenOverlay from "@/components/onboarding/HomeScreenOverlay";
 import Timer from "@/components/timer/TImer";
 
@@ -12,6 +12,7 @@ import styles from "./page.module.css";
 import { getGameStartTime } from "@/utils";
 import { GAME_API, GAME_DATE, PLAYER_COUNT } from "@/utils/constants";
 import { useUser } from "@/hooks";
+import { signIn } from "next-auth/react";
 
 const FIVE_MINUTES = 5 * 60 * 1000;
 const TWO_MINUTES = 2 * 60 * 1000;
