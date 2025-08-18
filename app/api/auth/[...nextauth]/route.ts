@@ -51,26 +51,33 @@ const OPTIONS = {
         // console.log("prismaUser", prismaUser);
 
         // CREATE GAME USER
-        const response = await fetch(`${GAME_API}/user`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            data: {
-              id: user.id,
-              username: user.username,
-              image: user.image,
-              wallet: "8EDurUnRAKw5MEDiJtVeYBZS7h7kEVzvYwZpgUeuZAMd",
-            },
-          }),
-        });
+        // const response = await fetch(`${GAME_API}/user`, {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: JSON.stringify({
+        //     data: {
+        //       id: user.id,
+        //       username: user.username,
+        //       image: user.image,
+        //       wallet: "8EDurUnRAKw5MEDiJtVeYBZS7h7kEVzvYwZpgUeuZAMd",
+        //     },
+        //   }),
+        // });
+
+        const response = {
+          id: "123",
+          username: "celia",
+          image: "https://pbs.twimg.com/profile_images/1564446865927593984/2dKVOZk7_400x400.jpg",
+          wallet: "8EDurUnRAKw5MEDiJtVeYBZS7h7kEVzvYwZpgUeuZAMd"
+        }
 
         // Fetch additional user details (e.g., wallet information)
-        const result = await response.json();
-        if (result.success === false) {
-          throw new Error(result.error);
-        }
+        // const result = response;
+        // if (result.success === false) {
+        //   throw new Error(result.error);
+        // }
         return true;
       } catch (error) {
         if (error instanceof Error) {
@@ -86,15 +93,15 @@ const OPTIONS = {
 
     async jwt({ token, user }: any) {
       if (user) {
-        const response = await fetch(`${GAME_API}/user/${user.id}`);
+        // const response = await fetch(`${GAME_API}/user/${user.id}`);
 
         // Fetch additional user details (e.g., wallet information)
-        const result = await response.json();
-        const userDetails = result.data;
+        // const result = await response.json();
+        // const userDetails = result.data;
 
         token.id = user.id;
         token.username = user.username;
-        token.wallet = userDetails.wallet;
+        token.wallet = "8EDurUnRAKw5MEDiJtVeYBZS7h7kEVzvYwZpgUeuZAMd";
       }
       return token;
     },

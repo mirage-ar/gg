@@ -69,17 +69,19 @@ const LoginPage = () => {
   }, [timeRemaining]);
 
   useEffect(() => {
-    const getPlayerCount = async () => {
-      try {
-        const response = await fetch(`${GAME_API}/players`);
-        const data = await response.json();
-        setPlayerCount(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    // const getPlayerCount = async () => {
+    //   try {
+    //     const response = await fetch(`${GAME_API}/players`);
+    //     const data = await response.json();
+    //     setPlayerCount(data);
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // };
 
-    getPlayerCount();
+    // getPlayerCount();
+
+    setPlayerCount(150);
   }, []);
 
   const handleSignIn = async () => {

@@ -26,53 +26,55 @@ const useLocationSocket = (user: User | null, mapRef: React.RefObject<mapboxgl.M
   const fetchAndUpdateBoxes = async (latitude: number, longitude: number) => {
     try {
       const userGeoHash = encodeGeoHash(latitude, longitude);
-      const response = await fetch(`${GAME_API}/collect`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: user?.id,
-          geoHash: userGeoHash,
-          latitude,
-          longitude,
-          collectorUsername: user?.username,
-          collectorImage: user?.image,
-          wallet: user?.wallet,
-        }),
-      });
-      const data = await response.json();
+      // const response = await fetch(`${GAME_API}/collect`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({
+      //     userId: user?.id,
+      //     geoHash: userGeoHash,
+      //     latitude,
+      //     longitude,
+      //     collectorUsername: user?.username,
+      //     collectorImage: user?.image,
+      //     wallet: user?.wallet,
+      //   }),
+      // });
+      // const data = await response.json();
 
-      if (data.collect) {
-        // send collect box message
-        const collectData = {
-          id: data.collect.id,
-          username: user?.username,
-          image: user?.image,
-          wallet: user?.wallet,
-          points: data.collect.points,
-          latitude: data.collect.latitude,
-          longitude: data.collect.longitude,
-          timestamp: Date.now(),
-        };
+      const data = null;
 
-        // Send a message to the collect socket
-        if (collectSocket.current && collectSocket.current.readyState === WebSocket.OPEN) {
-          console.log("sending collection", collectData);
-          collectSocket.current.send(JSON.stringify({ action: "sendmessage", data: collectData }));
-        }
+      // if (data.collect) {
+      //   // send collect box message
+      //   const collectData = {
+      //     id: data.collect.id,
+      //     username: user?.username,
+      //     image: user?.image,
+      //     wallet: user?.wallet,
+      //     points: data.collect.points,
+      //     latitude: data.collect.latitude,
+      //     longitude: data.collect.longitude,
+      //     timestamp: Date.now(),
+      //   };
 
-        // Redirect to claim page
-        router.push(`/claim/${data.collect.points}`);
-      }
+      //   // Send a message to the collect socket
+      //   if (collectSocket.current && collectSocket.current.readyState === WebSocket.OPEN) {
+      //     console.log("sending collection", collectData);
+      //     collectSocket.current.send(JSON.stringify({ action: "sendmessage", data: collectData }));
+      //   }
 
-      const map = mapRef.current;
-      if (map && map.getSource("boxes-source")) {
-        const boxesSource = map.getSource("boxes-source") as mapboxgl.GeoJSONSource;
-        if (boxesSource && data.boxes) {
-          boxesSource.setData(data.boxes);
-        }
-      }
+      //   // Redirect to claim page
+      //   router.push(`/claim/${data.collect.points}`);
+      // }
+
+      // const map = mapRef.current;
+      // if (map && map.getSource("boxes-source")) {
+      //   const boxesSource = map.getSource("boxes-source") as mapboxgl.GeoJSONSource;
+      //   if (boxesSource && data.boxes) {
+      //     boxesSource.setData(data.boxes);
+      //   }
+      // }
     } catch (error) {
       console.error("Error fetching boxes:", error);
     }
@@ -154,7 +156,7 @@ const useLocationSocket = (user: User | null, mapRef: React.RefObject<mapboxgl.M
       };
     };
 
-    connectWebSocket();
+    // connectWebSocket();
 
     return () => {
       markersSocket.current?.close();
