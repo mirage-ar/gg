@@ -19,7 +19,7 @@ const Chat: React.FC = () => {
 
   // Connect to WebSocket
   useEffect(() => {
-    // fetchInitialMessages();
+    fetchInitialMessages();
 
     webSocket.current = new WebSocket(CHAT_SOCKET_URL);
 
@@ -63,16 +63,16 @@ const Chat: React.FC = () => {
 
   // Fetch initial messages
   const fetchInitialMessages = async () => {
-    // try {
-    //   const response = await fetch(GET_MESSAGES_URL);
-    //   const data = await response.json();
+    try {
+      const response = await fetch(GET_MESSAGES_URL);
+      const data = await response.json();
 
-    //   if (data && Array.isArray(data)) {
-    //     setMessages(data.reverse());
-    //   }
-    // } catch (error) {
-    //   console.error("Failed to fetch initial messages:", error);
-    // }
+      if (data && Array.isArray(data)) {
+        setMessages(data.reverse());
+      }
+    } catch (error) {
+      console.error("Failed to fetch initial messages:", error);
+    }
   };
 
   const handleFormSubmit = (e: React.FormEvent) => {
