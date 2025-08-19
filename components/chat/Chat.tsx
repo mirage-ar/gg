@@ -21,24 +21,24 @@ const Chat: React.FC = () => {
   useEffect(() => {
     // fetchInitialMessages();
 
-    // webSocket.current = new WebSocket(CHAT_SOCKET_URL);
+    webSocket.current = new WebSocket(CHAT_SOCKET_URL);
 
-    // webSocket.current.onmessage = (event: MessageEvent) => {
-    //   const message: ChatMessage = JSON.parse(event.data);
+    webSocket.current.onmessage = (event: MessageEvent) => {
+      const message: ChatMessage = JSON.parse(event.data);
 
-    //   setMessages((prevMessages) => {
-    //     const newMessages = [...prevMessages, message];
-    //     return newMessages.slice(-20);
-    //   });
-    // };
+      setMessages((prevMessages) => {
+        const newMessages = [...prevMessages, message];
+        return newMessages.slice(-20);
+      });
+    };
 
-    // webSocket.current.onclose = () => {
-    //   console.log("WebSocket Disconnected");
-    // };
+    webSocket.current.onclose = () => {
+      console.log("WebSocket Disconnected");
+    };
 
-    // return () => {
-    //   webSocket.current?.close();
-    // };
+    return () => {
+      webSocket.current?.close();
+    };
   }, []);
 
   // Automatically scroll to the latest message
